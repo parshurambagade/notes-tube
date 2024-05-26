@@ -4,6 +4,7 @@ import MyNotes from "./pages/MyNotes"
 import Layout from "./components/Layout"
 import Login from "./pages/Login"
 import ProtectedRoute from "./components/ProtectedRoute"
+import { VideoContextProvider } from "./contexts/videoContext"
 
 
 const App: React.FC = () => {
@@ -34,9 +35,9 @@ const App: React.FC = () => {
   ])
 
   return (
-    <>
+    <VideoContextProvider>
       <RouterProvider router={router} />
-    </>
+    </VideoContextProvider>
   )
 }
 

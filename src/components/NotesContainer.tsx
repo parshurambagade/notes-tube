@@ -1,6 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useVideoContext } from '../contexts/videoContext'
+import { FETCH_VIDEO_DETAILS, YOUTUBE_IFRAME_URL } from '../constants';
+import { convertDateToRelative, convertDuration } from '../utils/youtubeUtils';
 
 const NotesContainer: React.FC = () => {
+    const [videoDetails, setVideoDetails] = useState<object>({});
+
+    const {videoId} = useVideoContext();
+
+    useEffect(() => {
+        fetchVideoDetails();
+    }, [videoId]);
+
+    const fetchVideoDetails = async () => {
+        if (!videoId) return;
+
+        try{
+            const data = await fetch(FETCH_VIDEO_DETAILS + videoId);
+        const json = await data.json();
+        setVideoDetails(json);
+        }catch(err) {
+            console.error(err);
+        }
+        
+    }
+    if(!Object.keys(videoDetails).length) return;
+
   return (
     <div className=' my-8 flex justify-center mx-20 gap-8'>
         {/* CONTAINER FOR VIDEO */}
@@ -9,24 +34,25 @@ const NotesContainer: React.FC = () => {
                 <p>YouTube Video</p>
             </div>
             <div className='w-full p-6'>   
-                <iframe className='w-full aspect-video' src="https://www.youtube.com/embed/K5Y4QoBR1tw?si=MIoTuAxHu4UgjPi0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+            <iframe className='w-full aspect-video' src={YOUTUBE_IFRAME_URL + videoId} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
             </div>
             <div className='px-6 flex flex-col gap-4'>
                 <div className='mb-4'>
-                    <h5 className='font-bold text-lg'>ChatGPT for Content Creation 2024 - Ansh Mehra at Nas Summit Singapore</h5>
+                    <h5 className='font-bold text-lg'>{videoDetails?.items[0]?.snippet?.title}</h5>
                 </div>
-                <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-8'>   
                     <div className='flex justify-between'>
                         <span>Author</span>
-                        <span>Ansh Mehra</span>
+                        <span>{videoDetails?.items[0]?.snippet?.channelTitle}</span>
                     </div>
                     <div className='flex justify-between'>
                         <span>Video Length</span>
-                        <span>12 mins 23 secs</span>
+                        <span>{convertDuration(videoDetails?.items[0]?.contentDetails?.duration)}</span>
                     </div>
                     <div className='flex justify-between'>
-                        <span>Read Time</span>
-                        <span>1 min 15 secs</span>
+                        <span>Published At</span>
+                        <span>{convertDateToRelative(videoDetails?.items[0]?.snippet?.publishedAt)}</span>
                     </div>
                 </div>
             </div>
