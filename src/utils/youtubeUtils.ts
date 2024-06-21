@@ -1,5 +1,6 @@
 export const parseYouTubeInput = (input: string) => {
     const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+
     const match = input.match(regex);
     if (match && match[2].length === 11) {
       return(match[2]); // Returns the YouTube video ID
