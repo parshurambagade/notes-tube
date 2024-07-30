@@ -50,7 +50,7 @@ export  const fetchVideoTranscript = async ({videoId, updateTranscript, updateCo
         return acc + cur.text;
       }, '');
 
-      updateCombinedTranscript(fullTranscript);
+      updateCombinedTranscript(fullTranscript);                                                                 
     } catch (err) {
       console.error(err);
     }
@@ -72,4 +72,5 @@ export const fetchVideoNotes = async ({combinedTranscript, videoNotes, updateVid
     } catch (err) {
       console.error(err);
     }
+    
   };
