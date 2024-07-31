@@ -1,22 +1,27 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
 import connectDB from './db.js';
-import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import notesRoutes from './routes/notes.routes.js';
 import sectionRoutes from './routes/section.routes.js';
-
+import cors from 'cors';
+import { PORT } from './constants.js';
 const app = express();
 
 connectDB();
+
+
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/notes', notesRoutes);
+app.use('/api/sections', sectionRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/notes', notesRoutes);
-app.use('/api/sections', sectionRoutes);
-
-app.listen(5000, () => {
-    console.log('Server started on port 5000');
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });

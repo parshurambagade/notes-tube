@@ -1,8 +1,9 @@
 // controllers/userController.js
 
 import User from '../models/user.model.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../constants.js';
 
 // Registration
 export const register = async (req, res) => {
@@ -16,11 +17,11 @@ export const register = async (req, res) => {
     }
 
     // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = bcrypt.genSaltSync(10);                                                                                   
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
     // Create a new user
-    user = new User({
+    user = new User({         
       name,
       email,
       password: hashedPassword,
@@ -31,7 +32,7 @@ export const register = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-};
+};  
 
 // Login
 export const login = async (req, res) => {
@@ -45,13 +46,13 @@ export const login = async (req, res) => {
     }
 
     // Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user });
   } catch (err) {
     res.status(500).json({ message: err.message });
