@@ -4,7 +4,7 @@ import Notes from "../components/Notes";
 import Transcript from "../components/Transcript";
 import Summary from "../components/Summary";
 import VideoDetailsContainer from "../components/VideoDetailsContainer";
-import { fetchVideoDetails, fetchVideoNotes, fetchVideoTranscript } from "../helpers/videoHelpers";
+import { fetchVideoDetails, fetchVideoNotes } from "../helpers/videoHelpers";
 
 enum contentEnum {
   NOTES = "Notes",
@@ -36,7 +36,7 @@ const GenerateNotes: React.FC = () => {
   useEffect(() => {
     if (videoId) {
       fetchVideoDetails({videoId, updateVideoDetails});
-      fetchVideoTranscript({videoId, updateTranscript, updateCombinedTranscript});
+      // fetchVideoTranscript({videoId, updateTranscript, updateCombinedTranscript});
     }
   }, [videoId]);
 
@@ -55,8 +55,8 @@ const GenerateNotes: React.FC = () => {
             <button onClick={() => handleContentChangeClick(contentEnum.NOTES)} className={content === contentEnum.NOTES ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>
               Notes
             </button>
-            <button onClick={() => handleContentChangeClick(contentEnum.SUMMARY)} className={content === contentEnum.SUMMARY ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Summary</button>
-            <button onClick={() => handleContentChangeClick(contentEnum.TRANSCRIPT)} className={content === contentEnum.TRANSCRIPT ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Transcript</button>
+            {/* <button onClick={() => handleContentChangeClick(contentEnum.SUMMARY)} className={content === contentEnum.SUMMARY ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Summary</button> */}
+            {/* <button onClick={() => handleContentChangeClick(contentEnum.TRANSCRIPT)} className={content === contentEnum.TRANSCRIPT ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Transcript</button> */}
           </div>
           <div>
             {/* TODO: add notes icon */}
@@ -67,8 +67,8 @@ const GenerateNotes: React.FC = () => {
         </div>
 
         {content===contentEnum.NOTES && <Notes />}
-        {content===contentEnum.TRANSCRIPT && <Transcript />}
-        {content===contentEnum.SUMMARY && <Summary />}
+        {/* {content===contentEnum.TRANSCRIPT && <Transcript />} */}
+        {/* {content===contentEnum.SUMMARY && <Summary />} */}
 
         {/* <TranscriptContainer /> */}
       </div>

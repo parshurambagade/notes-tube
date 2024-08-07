@@ -1,34 +1,12 @@
 import { ReactNode, createContext, useContext, useState } from "react";
+import { TranscriptItem, VideoContextType } from "../types";
 
-interface VideoContextType {
-    videoId: string,
-    updateVideoId: (newValue: string) => void,
-    transcript: TranscriptItem[],
-    updateTranscript: (newValue: TranscriptItem[]) => void,
-    combinedTranscript: string,
-    updateCombinedTranscript: (newValue: string) => void,
-    videoDetails: any,
-    updateVideoDetails: (newValue: any) => void,
-    videoNotes: string | unknown,
-    updateVideoNotes: (newValue: string) => void,
-    videoSummary: string,
-    updateVideoSummary: (newValue: string) => void
-}
 
-interface TranscriptItem {
-  offset: number;
-  duration: number;
-  text: string;
-  lang?: string | undefined;
-}
 
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
 
-interface VideoContextProviderProps {
-    children: ReactNode;
-}
 
-export const VideoContextProvider: React.FC<VideoContextProviderProps> = ({ children }) => {
+export const VideoContextProvider: React.FC<{children:ReactNode}> = ({ children }) => {
     const [videoId, setVideoId] = useState<string>('');
     const [transcript, setTranscript] = useState<TranscriptItem[]>([]);
     const [videoDetails, setVideoDetails] = useState(null);

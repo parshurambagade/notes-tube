@@ -50,4 +50,6 @@ Summary: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>
 
 Structure: Do not include <head> and <body> tags. Do not add classes for borders, shadows, margins, and paddings to the main parent container.
 
-Please ensure the Summary is comprehensive, short and simple. Here is the transcription:`
+Please ensure the Summary is comprehensive, short and simple. Here is the transcription:`;
+
+export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;

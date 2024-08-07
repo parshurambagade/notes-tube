@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose";
 import { DEFAULT_PROFILE_PIC } from "../constants.js";
 
 const userSchema = new Schema({
-    name: {
+    username: {
       type: String,
       required: true,
     },

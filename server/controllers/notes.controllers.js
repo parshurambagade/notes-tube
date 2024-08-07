@@ -1,23 +1,31 @@
 // controllers/noteController.js
 
-import Notes from '../models/notes.model.js';
+import Notes from "../models/notes.model.js";
+import { YoutubeTranscript } from "youtube-transcript";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 
 // Create Note
 export const generateNotes = async (req, res) => {
   try {
-    const { title, content, videoLink, sectionId } = req.body;
-    const userId = req.user._id; // Assuming the user ID is available in the request object
+    const { videoId } = req.body;
 
-    const newNotes = new Notes({
-      title,
-      content,
-      createdBy: userId,
-      videoLink,
-      section: sectionId,
+    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+    const combinedTranscript = transcript.reduce((acc, cur) => {
+      return acc + cur.text + " ";
     });
+    console.log(combinedTranscript);
 
-    await newNotes.save();
-    res.status(201).json(newNotes);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = PROMPT_FOR_NOTES_GENERATION + combinedTranscript;
+    console.log("Prompt length: ", prompt.length);
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    const text = response.text();
+    console.log(text);
+    res.json({ notes: text });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -36,7 +44,7 @@ export const updateNotes = async (req, res) => {
     );
 
     if (!notes) {
-      return res.status(404).json({ message: 'Notes not found' });
+      return res.status(404).json({ message: "Notes not found" });
     }
 
     res.json(notes);
@@ -52,10 +60,10 @@ export const deleteNotes = async (req, res) => {
 
     const notes = await Notes.findByIdAndDelete(id);
     if (!notes) {
-      return res.status(404).json({ message: 'Notes not found' });
+      return res.status(404).json({ message: "Notes not found" });
     }
 
-    res.json({ message: 'Notes deleted successfully' });
+    res.json({ message: "Notes deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -64,7 +72,9 @@ export const deleteNotes = async (req, res) => {
 // Get Notes
 export const getNotes = async (req, res) => {
   try {
-    const notes = await Notes.find().populate('createdBy', 'name').populate('section', 'name');
+    const notes = await Notes.find()
+      .populate("createdBy", "name")
+      .populate("section", "name");
     res.json(notes);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -72,10 +82,8 @@ export const getNotes = async (req, res) => {
 };
 
 export const getAllNotes = async (req, res) => {
-    try{
-
-    }catch(err){
-        res.status(500).json({ message: err.message });
-    }
-}
-
+  try {
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

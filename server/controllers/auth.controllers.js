@@ -8,8 +8,10 @@ import { JWT_SECRET } from '../constants.js';
 // Registration
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    console.log("Registering a user!");
 
+    const { username, email, password } = req.body;
+    
     // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
@@ -22,13 +24,17 @@ export const register = async (req, res) => {
 
     // Create a new user
     user = new User({         
-      name,
+      username,
       email,
       password: hashedPassword,
     });
 
     await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
+    
+    // const registeredUser = await User.findOne({ email });
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.status(201).json({ message: 'User registered successfully', user, token   });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -53,7 +59,7 @@ export const login = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user });
+    res.json({message: 'User logged in successfully', token, user });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

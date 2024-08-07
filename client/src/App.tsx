@@ -7,15 +7,9 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import { VideoContextProvider } from "./contexts/videoContext"
 import Register from "./pages/Register"
 import GenerateNotes from "./pages/GenerateNotes"
-import { Client } from 'appwrite';
+import { AuthContextProvider } from "./contexts/authContext"
 
 const App: React.FC = () => {
-
-  const client = new Client();
-
-client
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('6674507e001ebe2ee970');
     
   const router = createBrowserRouter([
     {
@@ -51,9 +45,11 @@ client
   ])
 
   return (
+    <AuthContextProvider>
     <VideoContextProvider>
       <RouterProvider router={router} />
     </VideoContextProvider>
+    </AuthContextProvider>
   )
 }
 
