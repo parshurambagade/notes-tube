@@ -30,7 +30,7 @@ Requirements:
 
 Format: Provide the notes in ".html" format.
 
-Content: Do not mention "this video covers" or "in this video, we will cover" these statements in the notes. Don't include anything rather than code examples in <pre> and <code> tags. If video is not related to coding, then only add code examples. <pre> tag should have "max-w-full" and "text-wrap" classes in its opening tag.
+Content: Do not mention "this video covers" or "in this video, we will cover" these type of statements in the notes. Don't include anything rather than code examples in <pre> and <code> tags. If video is not related to coding, then only add code examples. <pre> tag should have "max-w-full" and "text-wrap" classes in its opening tag.
 
 Notes: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>, <h2>, <h3>, <code>, <pre>, <strong>, <b>, <i>, etc. if the video is coding related then only include code examples. Add code examples in special containers with borders and padding if they are included. Do not include normal examples (without code) in special containers. 
 

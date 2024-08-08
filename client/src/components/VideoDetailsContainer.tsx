@@ -8,26 +8,26 @@ const VideoDetailsContainer: React.FC = () => {
   if(!videoDetails) return;
 
   return (
-    <div className="w-1/3 border shadow-md rounded-lg h-max pb-8">
-        <div className="bg-slate-100 py-2  text-center">
-          <p>YouTube Video</p>
-        </div>
-        <div className="w-full p-6">
-          <iframe
-            className="w-full aspect-video"
-            src={YOUTUBE_IFRAME_URL + videoId}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-        <div className="px-6 flex flex-col gap-4">
-          <div className="mb-4">
-            <h5 className="font-bold text-lg">
+    <div className="w-full flex flex-col items-center rounded-lg h-max pb-4">
+        <div className="w-full  pb-3">
+        <h5 className=" text-black font-black text-2xl">
               {videoDetails?.items[0]?.snippet?.title}
             </h5>
-          </div>
-          <div className="flex flex-col gap-8">
+        </div>
+        <div className="w-full flex items-center justify-center">
+          <iframe
+            className="h-[60vh] w-full"
+            src={YOUTUBE_IFRAME_URL + videoId}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="YouTube video"
+          ></iframe>
+        </div>
+        {/* <div className=" flex flex-col gap-4"> */}
+          {/* <div className="mb-4"> */}
+            
+          {/* </div> */}
+          {/* <div className="flex flex-col gap-8">
             <div className="flex justify-between">
               <span>Author</span>
               <span>{videoDetails?.items[0]?.snippet?.channelTitle}</span>
@@ -48,8 +48,8 @@ const VideoDetailsContainer: React.FC = () => {
                 )}
               </span>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
   )
 }

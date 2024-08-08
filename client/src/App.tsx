@@ -34,11 +34,7 @@ const App: React.FC = () => {
           <ProtectedRoute>
             <MyNotes />
           </ProtectedRoute>
-        },{
-          path: "/generate-notes",
-          element: <GenerateNotes />
-        },
-
+        }
       ]
     },
     
