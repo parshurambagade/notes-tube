@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../constants";
-import { AuthContextType, RegisterFormDataType, User } from "../types";
+import { AuthContextType, RegisterFormDataType, User, UserContextType } from "../types";
 import { useAuthContext } from "../contexts/authContext";
+import { useUserContext } from "../contexts/userContext";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<RegisterFormDataType>({
@@ -12,15 +13,16 @@ const Register: React.FC = () => {
     username: "",
   });
 
-  const {authToken, setAuthToken, loggedInUser, setLoggedInUser} = useAuthContext() as AuthContextType;
+  const {authToken, setAuthToken, userId, setUserId} = useAuthContext() as AuthContextType;
+  const { setUser } = useUserContext() as UserContextType;
 
   useEffect(() => {
     if(authToken) navigate('/');
   }, [])
 
   useEffect(() => {
-    console.log(`Logged in user: ${JSON.stringify(loggedInUser)}`);
-  }, [loggedInUser]);
+    console.log(`Logged in user: ${JSON.stringify(userId)}`);
+  }, [userId]);
 
   const navigate = useNavigate();
   const { email, username, password } = formData;
@@ -42,9 +44,10 @@ const Register: React.FC = () => {
       console.log(response);
       const { user, token, message } = response.data;
       localStorage.setItem("authToken", token);
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-      setLoggedInUser(user);
+      localStorage.setItem("userId",user._id);
+      setUserId(user._id);
       setAuthToken(token);
+      setUser(user);
       navigate("/");
     } catch (err) {
       alert(err.message);
@@ -55,8 +58,8 @@ const Register: React.FC = () => {
   return (
     <div className="flex flex-col justify-center items-center py-20">
       <p>
-        {loggedInUser
-          ? `Logged in as ${loggedInUser?.username}`
+        {userId
+          ? `Logged in as ${userId?.username}`
           : "Not logged in"}
       </p>
 

@@ -8,55 +8,70 @@ import { fetchVideoNotes } from "../helpers/videoHelpers";
 import axios from "axios";
 import { API_ENDPOINT, YOUTUBE_IFRAME_URL } from "../constants";
 import DOMPurify from 'isomorphic-dompurify';
-import VideoDetailsContainer from "./VideoDetailsContainer";
+import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 
-const Notes: React.FC<{ videoId: string }> = ({ videoId }) => {
-  const { videoNotes, updateVideoNotes, combinedTranscript } =
-    useVideoContext();
+const Notes: React.FC<{videoId: string}> = ({videoId}) => {
+
+    const {setVideoTitle, notesContent, setNotesContent, setThumbnail} = useCurrentNotesContext();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
-    // console.log( `Combined Transcript: ${combinedTranscript.length}`);
-    // if (combinedTranscript.length) {
-    // fetchVideoNotes({combinedTranscript, videoNotes, updateVideoNotes});
-    // }
-
-    const fetchNotes = async () => {
-      try {
-        updateVideoNotes("");
-        const response = await axios.post(`${API_ENDPOINT}/notes/generate`, {
-          videoId,
-        });
-
-        const sanitizedHTML = DOMPurify.sanitize(response?.data?.notes);
-        updateVideoNotes(sanitizedHTML);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    videoId && fetchNotes();
+    fetchNotes();
   }, [videoId]);
 
-  if (typeof videoNotes !== "string")
+  const fetchNotes = async () => {
+    try {
+      if(!videoId.length) return;
+      setIsLoading(true);
+      setThumbnail("");
+      setVideoTitle("");
+      setNotesContent("");
+      const response = await axios.post(`${API_ENDPOINT}/notes/generate`, {
+        videoId,
+      });
+      const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
+      setNotesContent(sanitizedHTML);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.error(err);
+    }
+  };
+
+  if (typeof notesContent !== "string")
     return (
       <div className="text-red-500 font-bold text-2xl">
         Something went wront!
       </div>
     );
 
-  return videoNotes.length > 0 ? (
+  if(notesContent.length > 0) {
+    return (
     <div className="h-full  max-w-full">
       <ReactQuill
         theme="snow"
-        value={videoNotes}
-        onChange={updateVideoNotes}
+        value={notesContent}
+        onChange={setNotesContent}
         readOnly={true} // Make the editor read-only
         modules={{ toolbar: false }} // Hide the toolbar
       />
     </div>
+    );
+  }else{
+    return isLoading ? (
+    <LoadingSpinner content="Notes"  /> 
   ) : (
-    <LoadingSpinner content="Notes" />
-  );
-};
+    <div className="text-center">
+      <h2 className="text-red-500 font-black text-2xl">Notes can't be generated!!!</h2>
+      <ul>
+        <li className="text-gray-800 text-base">Video should be in English language.</li>
+        <li className="text-gray-800 text-base">Video should not be more than 40 minutes.</li>
+      </ul>
+    </div>
+  )
+  }
+};  
 
 export default Notes;

@@ -4,6 +4,7 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../constants.js';
+import Section from '../models/section.model.js';
 
 // Registration
 export const register = async (req, res) => {
@@ -29,12 +30,33 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    await user.save();
+     // Save the user
+     const savedUser = await user.save();
+
+     // Check if the user has sections; if not, create a default section
+     if (savedUser.sections.length === 0) {
+      const defaultSection = new Section({
+        name: 'Default Section',
+        createdBy: savedUser._id,
+      });
+
+      // Save the default section
+      const savedSection = await defaultSection.save();
+
+      // Update the user's sections array with the new section ID
+      await User.findByIdAndUpdate(
+        savedUser._id,
+        { $push: { sections: savedSection._id } },
+        { new: true }
+      );
+    }
+
+   
     
     // const registeredUser = await User.findOne({ email });
     // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(201).json({ message: 'User registered successfully', user, token   });
+    const token = jwt.sign({ userId: savedUser._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.status(201).json({ message: 'User registered successfully', savedUser, token   });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

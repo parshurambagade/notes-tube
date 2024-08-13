@@ -1,4 +1,4 @@
-export const YOUTUBE_IFRAME_URL = "https://www.youtube.com/embed/";
+export const YOUTUBE_IFRAME_URL = "https://www.youtube-nocookie.com/embed/";
 
 export const FETCH_VIDEO_DETAILS = `https://www.googleapis.com/youtube/v3/videos?&part=snippet,contentDetails,statistics&key=${import.meta.env.VITE_YOUTUBE_API_KEY}&id=`;
 
@@ -32,7 +32,7 @@ Format: Provide the notes in ".html" format.
 
 Content: Do not mention "this video covers" or "in this video, we will cover" these type of statements in the notes. Don't include anything rather than code examples in <pre> and <code> tags. If video is not related to coding, then only add code examples. <pre> tag should have "max-w-full" and "text-wrap" classes in its opening tag.
 
-Notes: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>, <h2>, <h3>, <code>, <pre>, <strong>, <b>, <i>, etc. if the video is coding related then only include code examples. Add code examples in special containers with borders and padding if they are included. Do not include normal examples (without code) in special containers. 
+Notes: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>, <h2>, <h3>, <code>, <pre>, <strong>, <b>, <i>, etc. In main heading tag, add a class "text-center". Add code examples in special containers with borders and padding if they are included. Do not include normal examples (without code) in special containers. 
 
 Structure: Do not include <head> and <body> tags. Do not add classes for borders, shadows, margins, and paddings to the main parent container.
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContextType, LoginFormDataType } from "../types";
+import { AuthContextType, LoginFormDataType, UserContextType } from "../types";
 import { useAuthContext } from "../contexts/authContext";
 import { API_ENDPOINT } from "../constants";
+import { useUserContext } from "../contexts/userContext";
 
 const Login: React.FC = () => {
 
@@ -12,8 +13,8 @@ const Login: React.FC = () => {
     password: "",
   });
 
-  const { loggedInUser, setLoggedInUser, authToken, setAuthToken } = useAuthContext() as AuthContextType;
-
+  const { userId, setUserId, authToken, setAuthToken } = useAuthContext() as AuthContextType;
+  const { setUser } = useUserContext() as UserContextType;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,18 +38,19 @@ const Login: React.FC = () => {
       const response = await axios.post(`${API_ENDPOINT}/auth/login`, formData);
       const { user, token } = response.data;
       localStorage.setItem("authToken", token);
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      localStorage.setItem("userId",user._id);
       setAuthToken(token);
-      setLoggedInUser(user);
+      setUserId(user._id);
+      setUser(user);    
       navigate("/");
-      console.log("Logged in user: ", loggedInUser);
+      console.log("Logged in user: ", userId);
     } catch (error) {
       alert(error.message);
       throw error;
     }
   };
 
-  return (
+  return (  
     <div className="flex flex-col justify-center items-center py-20">
 
       <div>

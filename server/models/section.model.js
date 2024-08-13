@@ -4,17 +4,17 @@ import mongoose, { Schema } from 'mongoose';
 const sectionSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true, // Ensures that each section must have a name
   },
   createdBy: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    ref: 'User', // Reference to the User model
+    required: true, // Ensures that each section must be associated with a creator
   },
   notes: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Notes',
+      ref: 'Notes', // Reference to the Notes model
     },
   ],
 }, {

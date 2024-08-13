@@ -9,7 +9,8 @@ const userSchema = new Schema({
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true, // Ensure that emails are unique
+      match: /.+\@.+\..+/, // Basic email format validation
     },
     password: {
       type: String,

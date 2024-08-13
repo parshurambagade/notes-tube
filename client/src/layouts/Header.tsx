@@ -5,13 +5,13 @@ import { AuthContextType } from "../types";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const {authToken, setAuthToken, setLoggedInUser} = useAuthContext() as AuthContextType;
+  const {authToken, setAuthToken, setUserId} = useAuthContext() as AuthContextType;
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('userId');
     setAuthToken(null);
-    setLoggedInUser(null);
+    setUserId(null);
     navigate('/login');
   }
   

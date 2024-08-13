@@ -3,12 +3,6 @@ import { useVideoContext } from '../contexts/videoContext';
 import { YoutubeTranscript } from 'youtube-transcript';
 import LoadingSpinner from './LoadingSpinner';
 
-interface TranscriptItem {
-    offset: number;
-    duration: number;
-    text: string;
-    lang?: string | undefined;
-}
 
 
 const Transcript: React.FC = () => {

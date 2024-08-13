@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthContextType, User } from "../types";
+import { AuthContextType} from "../types";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -10,21 +10,21 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   children,
 }) => {
   const [authToken, setAuthToken] = useState<string | null>(null);
-  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+  const [userId, setUserId] = useState<string | null>("");
 
   useEffect(() => {
     if(localStorage.getItem('authToken')){
       setAuthToken(localStorage.getItem('authToken'));
     }
 
-    if(localStorage.getItem('loggedInUser')){
-      setLoggedInUser(JSON.parse(localStorage.getItem('loggedInUser')!));
+    if(localStorage.getItem('userId')){
+      setUserId(localStorage.getItem('userId'));
     }
   }, [])
   
   return (
     <AuthContext.Provider
-      value={{ authToken, setAuthToken, loggedInUser, setLoggedInUser }}
+      value={{ authToken, setAuthToken, userId, setUserId }}
     >
       {children}
     </AuthContext.Provider>

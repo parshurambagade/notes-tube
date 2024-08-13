@@ -8,6 +8,8 @@ import { VideoContextProvider } from "./contexts/videoContext"
 import Register from "./pages/Register"
 import GenerateNotes from "./pages/GenerateNotes"
 import { AuthContextProvider } from "./contexts/authContext"
+import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
+import { UserContextProvider } from "./contexts/userContext"
 
 const App: React.FC = () => {
     
@@ -42,9 +44,11 @@ const App: React.FC = () => {
 
   return (
     <AuthContextProvider>
-    <VideoContextProvider>
+      <UserContextProvider>
+    <CurrentNotesContextProvider>
       <RouterProvider router={router} />
-    </VideoContextProvider>
+    </CurrentNotesContextProvider>
+    </UserContextProvider>
     </AuthContextProvider>
   )
 }

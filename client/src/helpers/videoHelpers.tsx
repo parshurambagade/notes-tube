@@ -6,21 +6,9 @@ import {
   FetchVideoNotesProps,
   FetchVideoTranscriptProps,
 } from "../types";
+import currentNotesContext, { useCurrentNotesContext } from "../contexts/currentNotesContext";
 
-export const fetchVideoDetails = async ({
-  videoId,
-  updateVideoDetails,
-}: FetchVideoDetailsProps) => {
-  if (!videoId) return;
 
-  try {
-    const data = await fetch(FETCH_VIDEO_DETAILS + videoId);
-    const json = await data.json();
-    updateVideoDetails(json);
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 // export const fetchVideoTranscript = async ({
 //   videoId,

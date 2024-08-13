@@ -5,6 +5,10 @@ const notesSchema = new Schema({
     type: String,
     required: true,
   },
+  thumbnail: {
+    type: String,
+    required: true,
+  },
   content: {
     type: String,
     required: true,
@@ -14,14 +18,9 @@ const notesSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  videoLink: {
+  videoId: {
     type: String,
-    validate: {
-      validator: function(v) {
-        return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(v);
-      },
-      message: props => `${props.value} is not a valid YouTube link!`,
-    },
+    required: true,
   },
   section: {
     type: Schema.Types.ObjectId,

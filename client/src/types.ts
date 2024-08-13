@@ -5,20 +5,6 @@ export interface TranscriptItem {
     lang?: string | undefined;
 }
 
-export interface VideoContextType {
-    videoId: string,
-    updateVideoId: (newValue: string) => void,
-    transcript: TranscriptItem[],
-    updateTranscript: (newValue: TranscriptItem[]) => void,
-    combinedTranscript: string,
-    updateCombinedTranscript: (newValue: string) => void,
-    videoDetails: any,
-    updateVideoDetails: (newValue: any) => void,
-    videoNotes: string | unknown,
-    updateVideoNotes: (newValue: string) => void,
-    videoSummary: string,
-    updateVideoSummary: (newValue: string) => void
-}
 
 export interface FetchVideoTranscriptProps {
     videoId: string;
@@ -48,6 +34,8 @@ export interface RegisterFormDataType {
     username: string
 }
 
+/*********************** DATABASE TYPES *********************** */
+
 export interface User {
     _id: string; // MongoDB ObjectId as a string
     username: string;
@@ -61,9 +49,54 @@ export interface User {
     __v: number; // Version key automatically added by Mongoose
 }
 
+export interface Notes {
+    _id: string; // MongoDB ObjectId as a string
+    title: string;
+    thumbnail: string;
+    content: string;
+    videoId: string;
+    section: string;
+    createdBy: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;  // Version key automatically added by Mongoose
+}
+
+
+/*********************** CONTEXTS TYPES *********************** */
 export interface AuthContextType {
     authToken: string | null,
     setAuthToken: (newValue: string | null) => void,
-    loggedInUser: User | null,
-    setLoggedInUser: (newValue: User | null) => void
+    userId: string | null,
+    setUserId: (newValue: string | null) => void
+}
+
+export interface UserContextType {
+    user: User | null,
+    setUser: (newValue: User | null) => void
+}   
+export interface CurrentNotesContextType {
+    notesContent: string,
+    setNotesContent: (newValue: string) => void,
+    videoTitle: string,
+    setVideoTitle: (newValue: string) => void,
+    videoId: string,
+    setVideoId: (newValue: string) => void,
+    thumbnail: string,
+    setThumbnail: (newValue: string) => void
+}
+
+export interface VideoContextType {
+    videoId: string,
+    updateVideoId: (newValue: string) => void,
+    transcript: TranscriptItem[],
+    updateTranscript: (newValue: TranscriptItem[]) => void,
+    combinedTranscript: string,
+    updateCombinedTranscript: (newValue: string) => void,
+    videoDetails: any,
+    updateVideoDetails: (newValue: any) => void,
+    videoNotes: string | unknown,
+    updateVideoNotes: (newValue: string) => void,
+    videoSummary: string,
+    updateVideoSummary: (newValue: string) => void
 }

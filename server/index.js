@@ -3,6 +3,7 @@ import connectDB from './db.js';
 import authRoutes from './routes/auth.routes.js';
 import notesRoutes from './routes/notes.routes.js';
 import sectionRoutes from './routes/section.routes.js';
+import userRoutes from './routes/user.routes.js';
 // import videoRoutes from './routes/video.routes.js';
 import cors from 'cors';
 import { PORT } from './constants.js';
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', notesRoutes);
 app.use('/api/sections', sectionRoutes);
+app.use('/api/user', userRoutes);
 // app.use('/api/video', videoRoutes);
 
 app.get('/', (req, res) => {
