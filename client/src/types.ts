@@ -5,7 +5,15 @@ export interface TranscriptItem {
     lang?: string | undefined;
 }
 
-
+export interface SaveNotesPopupProps {
+    sections: {
+        _id: string;
+        name: string;
+    }[];
+    onSave: ({notesName, selectedSection}: {notesName: string, selectedSection: string}) => Promise<void>;
+    onClose: () => void;
+    videoTitle: string;
+}
 export interface FetchVideoTranscriptProps {
     videoId: string;
     updateTranscript: (newValue: TranscriptItem[]) => void,
