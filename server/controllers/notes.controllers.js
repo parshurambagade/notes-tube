@@ -38,44 +38,28 @@ export const generateNotes = async (req, res) => {
   }
 };
 
-export const saveNotes = async (req,res) => {
-  try{
-    const { title, thumbnail, content, videoId, createdBy, section } = req.body;
+export const saveNotes = async (req, res) => {
+  try {
+    const { title, thumbnail, content, videoId, createdBy } = req.body;
 
-    const notes = new Notes({
+    // Now save the note with the correct sectionId
+    const newNotes = new Notes({
       title,
       thumbnail,
       content,
       videoId,
-      createdBy,
-      section
+      createdBy
     });
 
-    // Save the note
-    const newNotes = await notes.save();
+    const savedNotes = await newNotes.save();
 
-    // Update the user's notes array
-    await User.findByIdAndUpdate(
-      createdBy,
-      { $push: { notes: newNotes._id } }, // Push the new note's ID into the user's notes array
-      { new: true } // Return the updated user document
-    );
+    res.status(200).json({ message: 'Notes saved successfully', note: savedNotes });
+  } catch (error) {
+    console.error('Error saving note:', error);
+    res.status(500).json({ message: 'Error saving note', error: error.message });
+  }
+};
 
-     // Update the section' notes array
-     await Section.findByIdAndUpdate(
-      section,
-      { $push: { notes: newNotes._id } }, // Push the new note's ID into the user's notes array
-      { new: true } // Return the updated user document
-    );
-
-
-    // Respond with the new note
-    res.status(201).json({newNotes, message:"Notes saved successfully"});
-
-  }catch(err){
-    res.status(500).json({ message: err.message });
-  }       
-}
 
 // Update Note
 export const updateNotes = async (req, res) => {

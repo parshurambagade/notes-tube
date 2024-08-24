@@ -21,12 +21,7 @@ const notesSchema = new Schema({
   videoId: {
     type: String,
     required: true,
-  },
-  section: {
-    type: Schema.Types.ObjectId,
-    ref: 'Section',
-    required: true,
-  },
+  }
 }, {
   timestamps: true, 
 }); 

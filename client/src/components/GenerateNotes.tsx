@@ -18,18 +18,20 @@ import { FETCH_VIDEO_DETAILS } from "../constants";
 const GenerateNotes: React.FC = () => {
   // const [content, setContent] = useState<contentEnum>(contentEnum.NOTES);
 
-  const {videoId, setNotesContent, notesContent, setVideoTitle, setThumbnail} = useCurrentNotesContext();
+  const { videoId, setNotesContent, setVideoTitle, setThumbnail } =
+    useCurrentNotesContext();
 
-
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     if (videoId) {
+      setIsError(false);
       fetchVideoDetails();
       // fetchVideoTranscript({videoId, updateTranscript, updateCombinedTranscript});
     }
   }, [videoId]);
 
- const fetchVideoDetails = async () => {
+  const fetchVideoDetails = async () => {
     try {
       setNotesContent("");
       setThumbnail("");
@@ -37,45 +39,35 @@ const GenerateNotes: React.FC = () => {
       const data = await fetch(FETCH_VIDEO_DETAILS + videoId);
       const json = await data.json();
       console.log(json);
-     setVideoTitle(json?.items[0]?.snippet?.title);
-     setThumbnail(json?.items[0]?.snippet?.thumbnails?.medium?.url);
+      setVideoTitle(json?.items[0]?.snippet?.title);
+      setThumbnail(json?.items[0]?.snippet?.thumbnails?.medium?.url);
     } catch (err) {
       console.error(err);
     }
   };
 
+  if(isError){
+      return (
+        <div className="border border-red-300 p-6 my-6 rounded-lg">
+        <h3 className="text-2xl text-red-500 font-bold">🤧 Unable to Generate Notes!</h3>
+        <ul className="list-disc list-inside">
+          <li>The video length must not exceed 40 minutes.</li>
+          <li>Only English-language videos are supported.</li>
+          <li>If the video is in another language, it should be no longer than 10 minutes.</li>
+        </ul>
+      </div>
+      
+      )}
+
   return (
     <div className=" my-4 flex h-max justify-center mx-20 gap-8">
       {/* CONTAINER FOR NOTES AND SUMMARY  */}
       <div className="w-[75vw] h-full overflow-hidden  rounded-lg px-8 py-4 ">
-        
-        {/* <div className="flex justify-end "> */}
-          {/* <div className="flex gap-4 bg-slate-100 px-4 py-2"> */}
-              {/* <button
-                onClick={() => handleContentChangeClick(contentEnum.NOTES)}
-                className={
-                  content === contentEnum.NOTES
-                    ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm`
-                    : ""
-                }
-              >
-                Notes
-              </button> */}
-            {/* <button onClick={() => handleContentChangeClick(contentEnum.SUMMARY)} className={content === contentEnum.SUMMARY ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Summary</button> */}
-            {/* <button onClick={() => handleContentChangeClick(contentEnum.TRANSCRIPT)} className={content === contentEnum.TRANSCRIPT ? `px-4 py-2 rounded text-blue-500 bg-white hover:bg-blue-400 hover:text-white focus:outline-none shadow-sm` : ''}>Transcript</button> */}
-          {/* </div> */}
-          {/* <div> */}
-            {/* TODO: add notes icon */}
-            {/* <button className="px-4 py-2 rounded text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:bg-blue-600" disabled={!notesContent.length}> */}
-              {/* Save as Note */}
-            {/* </button> */}
-          {/* </div> */}
-        {/* </div> */}
-
+      
         {/* CONTAINER FOR VIDEO */}
         <VideoDetailsContainer />
-        
-        <Notes videoId={videoId} />
+
+        <Notes videoId={videoId} errorState={{ isError, setIsError }} />
 
         {/* {content === contentEnum.NOTES && <Notes videoId={videoId} />} */}
         {/* {content===contentEnum.TRANSCRIPT && <Transcript />} */}

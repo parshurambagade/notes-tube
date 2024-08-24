@@ -6,11 +6,7 @@ export interface TranscriptItem {
 }
 
 export interface SaveNotesPopupProps {
-    sections: {
-        _id: string;
-        name: string;
-    }[];
-    onSave: ({notesName, selectedSection}: {notesName: string, selectedSection: string}) => Promise<void>;
+    onSave: ({notesName}: {notesName: string}) => Promise<void>;
     onClose: () => void;
     videoTitle: string;
 }
@@ -50,7 +46,6 @@ export interface User {
     email: string;
     password: string;
     profilePic: string; // URL to the profile picture
-    sections: string[]; // Array of section IDs as strings
     notes: string[]; // Array of note IDs as strings
     createdAt: Date;
     updatedAt: Date;
@@ -63,7 +58,6 @@ export interface Notes {
     thumbnail: string;
     content: string;
     videoId: string;
-    section: string;
     createdBy: string;
     createdAt: Date;
     updatedAt: Date;

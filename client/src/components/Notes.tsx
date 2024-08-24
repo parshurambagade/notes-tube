@@ -10,11 +10,13 @@ import { API_ENDPOINT, YOUTUBE_IFRAME_URL } from "../constants";
 import DOMPurify from 'isomorphic-dompurify';
 import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 
-const Notes: React.FC<{videoId: string}> = ({videoId}) => {
+const Notes: React.FC<{videoId: string, errorState: {isError: boolean, setIsError: React.Dispatch<React.SetStateAction<boolean>>}}> = ({videoId, errorState}) => {
 
     const {setVideoTitle, notesContent, setNotesContent, setThumbnail} = useCurrentNotesContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const {isError, setIsError} = errorState;
 
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const Notes: React.FC<{videoId: string}> = ({videoId}) => {
   const fetchNotes = async () => {
     try {
       if(!videoId.length) return;
+      setIsError(false);
       setIsLoading(true);
       setThumbnail("");
       setVideoTitle("");
@@ -36,17 +39,12 @@ const Notes: React.FC<{videoId: string}> = ({videoId}) => {
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
+      setIsError(true);
       console.error(err);
     }
   };
 
-  if (typeof notesContent !== "string")
-    return (
-      <div className="text-red-500 font-bold text-2xl">
-        Something went wront!
-      </div>
-    );
-
+  
   if(notesContent.length > 0) {
     return (
     <div className="h-full  max-w-full">

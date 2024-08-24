@@ -20,12 +20,6 @@ const userSchema = new Schema({
       type: String, 
       default: DEFAULT_PROFILE_PIC,
     },
-    sections: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Section',
-      },
-    ],
     notes: [
       {
         type: Schema.Types.ObjectId,

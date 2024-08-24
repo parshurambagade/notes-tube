@@ -1,7 +1,7 @@
 import {useState } from "react";
 import { parseYouTubeInput } from "../utils/youtubeUtils";
-import { useVideoContext } from "../contexts/videoContext";
-import { useNavigate } from "react-router-dom";
+// import { useVideoContext } from "../contexts/videoContext.tsx";
+// import { useNavigate } from "react-router-dom";
 import GenerateNotes from "../components/GenerateNotes";
 import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 
@@ -38,7 +38,7 @@ const Home = () => {
         <form onSubmit={handleFormSubmit} className='flex items-center border border-dotted border-blue-400 rounded-lg p-3 gap-3'>
           <input className="w-full px-3 py-2 border rounded-lg border-blue-300 text-gray-900 focus:outline-none focus:border-blue-500" type="text" name="video-link" value={input} onChange={handleInputChange} placeholder='Paste youtube video link here...' required={true} />
           <button type='submit' className="px-4 py-2 rounded-lg text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:bg-blue-600" disabled={!input.length}>Generate</button>
-        </form>
+        </form>       
       </div>
       {showGenerateNotes && <GenerateNotes />}
 
