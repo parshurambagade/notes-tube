@@ -6,12 +6,12 @@ import { useUserContext } from '../contexts/userContext';
 import { UserContextType } from '../types';
 import { MouseEvent, useState } from 'react';
 import SaveNotesPopup from './SaveNotesPopup';
-import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 
 
 const VideoDetailsContainer: React.FC = () => {
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
-  const { videoId, videoTitle, notesContent, thumbnail, } = useCurrentNotesContext();
+  const { videoId, videoTitle, notesContent, thumbnail, isSaved, setIsSaved } = useCurrentNotesContext();
   const { user } = useUserContext() as UserContextType;
   const {userId} = useAuthContext() as {userId: string};
 
@@ -21,6 +21,15 @@ const VideoDetailsContainer: React.FC = () => {
     // Backend : { title, thumbnail, content, videoId, createdBy}
     try{
     console.log(notesName);
+
+    //TODO: write logic to delete notes if they are already saved. 
+    
+    if(isSaved){
+      const response = await axios.delete(`${API_ENDPOINT}/${videoId}/${userId}`);
+      console.log(response);
+    }
+
+
     const response = await axios.post(`${API_ENDPOINT}/notes/save`,{
     title: notesName, 
       thumbnail: thumbnail, 
@@ -30,6 +39,7 @@ const VideoDetailsContainer: React.FC = () => {
     })
 
     console.log(JSON.stringify(response.data));
+    setIsSaved(true);
     setIsPopupVisible(false);
     // alert(response.data.message);
   }catch(err){
@@ -38,18 +48,20 @@ const VideoDetailsContainer: React.FC = () => {
 
   }
 
+
 if(!videoId || !videoTitle) return;
 
   return (
     <div className="w-full flex flex-col items-center rounded-lg h-max  pb-[.2rem]">
         <div className="w-full border px-4  py-1 flex justify-between  items-center">
-        <h5 className=" text-black font-black text-xl mt-1">
+        <h5 className=" text-black font-black text-xl">
               {videoTitle}
             </h5>
-            <button className="mx-2 text-2xl text-yellow-400 font-thin" disabled={!notesContent.length} onClick={() => setIsPopupVisible(true)}>
-            <FaRegStar />
-
-            <FaStar className='text-yellow-400' />
+            <button className="mx-2 text-base bg-green-400 items-center  text-white flex gap-1  py-1 px-2 rounded-lg" disabled={!notesContent.length} onClick={() => setIsPopupVisible(true)}>
+              <span>
+              {!isSaved ? <FaRegBookmark /> : <FaBookmark className='text-white' />}  
+              </span>
+              <span>{!isSaved ? "Save" : "Saved"} </span>
             </button>
         </div>
         <div className="w-full flex items-center justify-center">

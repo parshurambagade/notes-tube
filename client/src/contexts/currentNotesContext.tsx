@@ -10,6 +10,8 @@ const currentNotesContext = createContext<CurrentNotesContextType>({
     setVideoTitle: () => {},
     videoId: "",
     setVideoId: () => {},
+    isSaved: false,
+    setIsSaved: () => {}
 });
 
 export const useCurrentNotesContext = () => {
@@ -21,6 +23,7 @@ export const CurrentNotesContextProvider: React.FC<{ children: JSX.Element }> = 
     const [videoTitle, setVideoTitle] = useState<string>("");
     const [videoId, setVideoId] = useState<string>("");
     const [thumbnail, setThumbnail] = useState<string>("");
+    const [isSaved, setIsSaved] = useState<boolean>(false);
 
     return (
         <currentNotesContext.Provider
@@ -32,7 +35,9 @@ export const CurrentNotesContextProvider: React.FC<{ children: JSX.Element }> = 
                 setThumbnail,
                 setVideoTitle,
                 videoId,
-                setVideoId
+                setVideoId,
+                isSaved,
+                setIsSaved
             }}
         >
             {children}

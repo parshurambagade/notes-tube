@@ -5,7 +5,7 @@ import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 import User from '../models/user.model.js';
-import Section from '../models/section.model.js';
+// import Section from '../models/section.model.js';
 
 // Create Note
 export const generateNotes = async (req, res) => {
@@ -60,6 +60,32 @@ export const saveNotes = async (req, res) => {
   }
 };
 
+export const deleteNotes = async (req, res) => {
+  try {
+    const { videoId, userId } = req.params;
+
+    const notes = await Notes.findOne({ videoId, createdBy: userId });
+
+    if (!notes) {
+      return res.status(404).json({ message: 'Notes not found.' });
+    }
+
+    // Remove the note ID from the user's notes array
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { notes: notes._id } }
+    );
+
+     // Delete the note itself
+     await notes.remove();
+
+     return res.status(200).json({ message: 'Notes deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting notes:', error);
+    res.status(500).json({ message: 'Failed to delete notes' });
+  }
+};
+
 
 // Update Note
 export const updateNotes = async (req, res) => {
@@ -83,21 +109,6 @@ export const updateNotes = async (req, res) => {
   }
 };
 
-// Delete Notes
-export const deleteNotes = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const notes = await Notes.findByIdAndDelete(id);
-    if (!notes) {
-      return res.status(404).json({ message: "Notes not found" });
-    }
-
-    res.json({ message: "Notes deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
 // Get Notes
 export const getNotes = async (req, res) => {

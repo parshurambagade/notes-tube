@@ -85,7 +85,9 @@ export interface CurrentNotesContextType {
     videoId: string,
     setVideoId: (newValue: string) => void,
     thumbnail: string,
-    setThumbnail: (newValue: string) => void
+    setThumbnail: (newValue: string) => void,
+    isSaved: boolean,
+    setIsSaved: (newValue: boolean) => void,
 }
 
 export interface VideoContextType {

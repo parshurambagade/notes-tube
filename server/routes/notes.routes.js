@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/generate', generateNotes);
 router.post('/save', saveNotes);
 router.put('/:id', updateNotes);
-router.delete('/:id', deleteNotes);
+router.delete('/:videoId/:userId', deleteNotes);
 router.get('/', getNotes);
 
 export default router;
