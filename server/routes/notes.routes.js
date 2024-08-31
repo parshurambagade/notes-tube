@@ -13,6 +13,6 @@ router.post('/generate', generateNotes);
 router.post('/save', saveNotes);
 router.put('/:id', updateNotes);
 router.delete('/:videoId/:userId', deleteNotes);
-router.get('/', getNotes);
+router.get('/:videoId/:userId', getNotes);
 
 export default router;

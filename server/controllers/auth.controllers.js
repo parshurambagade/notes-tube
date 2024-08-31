@@ -4,7 +4,7 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../constants.js';
-import Section from '../models/section.model.js';
+// import Section from '../models/section.model.js';
 
 // Registration
 export const register = async (req, res) => {
@@ -34,22 +34,22 @@ export const register = async (req, res) => {
      const savedUser = await user.save();
 
      // Check if the user has sections; if not, create a default section
-     if (savedUser.sections.length === 0) {
-      const defaultSection = new Section({
-        name: 'Default Section',
-        createdBy: savedUser._id,
-      });
+    //  if (savedUser.sections.length === 0) {
+    //   const defaultSection = new Section({
+    //     name: 'Default Section',
+    //     createdBy: savedUser._id,
+    //   });
 
       // Save the default section
-      const savedSection = await defaultSection.save();
+      // const savedSection = await defaultSection.save();
 
       // Update the user's sections array with the new section ID
-      await User.findByIdAndUpdate(
-        savedUser._id,
-        { $push: { sections: savedSection._id } },
-        { new: true }
-      );
-    }
+      // await User.findByIdAndUpdate(
+      //   savedUser._id,
+      //   { $push: { sections: savedSection._id } },
+      //   { new: true }
+      // );
+    // }
 
    
     

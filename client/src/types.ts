@@ -70,9 +70,9 @@ export interface AuthContextType {
     authToken: string | null,
     setAuthToken: (newValue: string | null) => void,
     userId: string | null,
-    setUserId: (newValue: string | null) => void
+    setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
-
+    
 export interface UserContextType {
     user: User | null,
     setUser: (newValue: User | null) => void

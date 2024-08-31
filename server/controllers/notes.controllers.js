@@ -50,8 +50,30 @@ export const saveNotes = async (req, res) => {
       videoId,
       createdBy
     });
+    
+    // Check if notes with the same videoId already exist
+    const existingNotes = await Notes.findOne({ videoId, createdBy });
+
+    if (existingNotes) {
+      return res.status(400).json({ message: 'Notes for this video already exist' });
+    }
+
+
+    // Update the user's notes array to include the newly created note's ID
+    await User.findByIdAndUpdate(
+      createdBy, 
+      { $push: { notes: savedNotes._id } },
+      { new: true }  // Optionally return the updated document if needed
+    );
 
     const savedNotes = await newNotes.save();
+
+    // Update the user's notes array to include the newly created note's ID
+    await User.findByIdAndUpdate(
+      createdBy, 
+      { $push: { notes: savedNotes._id } },
+      { new: true }  // Optionally return the updated document if needed
+    );
 
     res.status(200).json({ message: 'Notes saved successfully', note: savedNotes });
   } catch (error) {
@@ -64,10 +86,12 @@ export const deleteNotes = async (req, res) => {
   try {
     const { videoId, userId } = req.params;
 
+    // Find the note with the specified videoId and createdBy userId
     const notes = await Notes.findOne({ videoId, createdBy: userId });
 
+    // If no note is found, return a 404 response
     if (!notes) {
-      return res.status(404).json({ message: 'Notes not found.' });
+      return res.status(404).json({ message: 'Notes not found or you are not authorized to delete this note.' });
     }
 
     // Remove the note ID from the user's notes array
@@ -76,15 +100,16 @@ export const deleteNotes = async (req, res) => {
       { $pull: { notes: notes._id } }
     );
 
-     // Delete the note itself
-     await notes.remove();
+    // Delete the note itself
+    await notes.deleteOne();
 
-     return res.status(200).json({ message: 'Notes deleted successfully.' });
+    return res.status(200).json({ message: 'Notes deleted successfully.' });
   } catch (error) {
     console.error('Error deleting notes:', error);
     res.status(500).json({ message: 'Failed to delete notes' });
   }
 };
+
 
 
 // Update Note
@@ -108,19 +133,28 @@ export const updateNotes = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
+//TODO: fix the logic of getNotes controller
 // Get Notes
-export const getNotes = async (req, res) => {
+export const getNotes = async (req, res) => { 
   try {
-    const notes = await Notes.find()
-      .populate("createdBy", "name")
-      .populate("section", "name");
-    res.json(notes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const { videoId, userId} = req.body;
+
+    // Find the notes with the specified videoId and createdBy userId
+    const notes = await Notes.findOne({ videoId, createdBy: userId });
+
+    // If no notes are found, return a 404 response
+    if (!notes) {
+      return res.status(404).json({ message: 'Notes not found or you are not authorized to view these notes!' });
+    }
+
+    // Return the found notes
+    res.status(200).json(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    res.status(500).json({ message: 'Failed to fetch notes', error: error.message });
   }
 };
+
 
 export const getAllNotes = async (req, res) => {
   try {

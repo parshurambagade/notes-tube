@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide scrollbars but still allow scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  .ql-container.ql-snow{
+    border: 1px solid #52525B;
+    background-color: #27272A;
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .ql-snow .ql-editor pre.ql-syntax {
+    background-color: #1b1b1e;
+    border: 1px solid #52525B;
+  }
+
+  .ql-snow .ql-editor code {
+    background-color: #1e1919;
+    color:rgb(250, 149, 149);
+  }
+
+  .ql-snow .ql-editor h1{
+    font: bolder;
+    color: white;
+  }
+
+  .ql-snow .ql-editor h2{
+    font: bold;
+    color:#dadae0;
+  }
+
+  .ql-editor p, .ql-editor ol, .ql-editor ul, .ql-editor pre, .ql-editor blockquote, .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6 {
+    color: rgb(176, 176, 176);
+  }

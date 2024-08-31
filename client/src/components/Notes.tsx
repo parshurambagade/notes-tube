@@ -47,19 +47,20 @@ const Notes: React.FC<{videoId: string, errorState: {isError: boolean, setIsErro
   
   if(notesContent.length > 0) {
     return (
-    <div className="h-full  max-w-full">
+    <div className="h-full bg-zinc-900 border-zinc-600 max-w-full">
       <ReactQuill
         theme="snow"
         value={notesContent}
         onChange={setNotesContent}
         readOnly={true} // Make the editor read-only
+        style={{border:"none"}}
         modules={{ toolbar: false }} // Hide the toolbar
       />
     </div>
     );
   }else{
     return isLoading ? (
-    <LoadingSpinner content="Notes"  /> 
+    <LoadingSpinner content="Notes" /> 
   ) : (
     <div className="text-center">
       <h2 className="text-red-500 font-black text-2xl">Notes can't be generated!!!</h2>
