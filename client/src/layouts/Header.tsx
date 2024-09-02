@@ -25,8 +25,8 @@ const Header: React.FC = () => {
         <Link to="/my-notes" className="">My Notes</Link>
         <div className="">
           { authToken?.length ?
-        (<button onClick={() => handleLogout()} className="px-[.6rem] py-[.4rem] rounded-md text-gray-100 bg-red-500 hover:bg-red-600">Logout</button>) : 
-        (<Link to="/login" className="px-[.6rem] py-[.4rem] rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Login</Link>)}
+        (<button onClick={() => handleLogout()} className="px-3 py-2 rounded-md text-gray-100 bg-red-600 hover:bg-red-700">Logout</button>) : 
+        (<Link to="/login" className="px-3 py-2 rounded text-white bg-blue-600 hover:bg-blue-700">Login</Link>)}
         </div>
     </nav>
 </header>

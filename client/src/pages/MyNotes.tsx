@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { RiAddLargeFill } from "react-icons/ri";
 import NotesCard from "../components/NotesCard";
+import { IoMdArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 interface Notes {
   id: string;
@@ -74,19 +76,23 @@ export default function DarkThemedSavedNotes() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <div className="container mx-auto p-4 pt-8 max-w-6xl">
+    <div className="min-h-screen bg-gray-900 text-gray-100 pt-8">
+      <Link to="/" className="mx-14 w-max p-4 pb-0  text-gray-400 hover:text-gray-500 flex gap-1 items-center ">
+        <span className="text-sm"><IoMdArrowBack /></span>
+        <p className="text-xs">Back home</p>
+      </Link>
+      <div className="container mx-auto p-4 max-w-6xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold tracking-tight">Saved Notes</h2>
-          <button
-            onClick={handleNewNote}
-            className="flex items-center gap-1 text-sm px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+          <Link
+            to={'/'}
+            className="flex items-center gap-1 text-xs px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
           >
-            <span className="text-lg">
+            <span className="text-md">
               <RiAddLargeFill />
             </span>
             <span>New Notes</span>
-          </button>
+          </Link>
         </div>
         <div className="mb-6">
           <div className="relative">
@@ -95,7 +101,7 @@ export default function DarkThemedSavedNotes() {
               placeholder="Search notes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 pl-10 bg-gray-800 border border-gray-700 rounded text-gray-100 placeholder-gray-400 outline-none text-sm"
+              className="w-full p-2 pl-10 bg-gray-800 border border-gray-700 rounded text-gray-100 placeholder-gray-400 outline-none text-sm max-w-md"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +120,7 @@ export default function DarkThemedSavedNotes() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-          {filteredNotes.map((notes) => (
+          {filteredNotes.map((notes) => (  
             <NotesCard
               key={notes.id}
               notes={notes}

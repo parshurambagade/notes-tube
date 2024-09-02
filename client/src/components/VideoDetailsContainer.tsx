@@ -52,12 +52,12 @@ const VideoDetailsContainer: React.FC = () => {
 if(!videoId || !videoTitle) return;
 
   return (
-    <div className="w-full flex flex-col items-center rounded-lg h-max bg-zinc-800 pb-[.2rem]">
-        <div className="w-full border rounded-t-lg border-zinc-700 border-b-0 px-4  py-1 flex justify-between  items-center">
-        <h5 className=" text-zinc-300 font-black text-xl">
+    <div className="w-full flex flex-col items-center rounded-lg h-max bg-gray-800 pb-[.2rem]">
+        <div className="w-full border rounded-t-lg border-gray-700 border-b-0 px-4  py-1 flex justify-between  items-center">
+        <h5 className=" text-gray-300 font-black text-xl">
               {videoTitle}
             </h5>
-            <button className="mx-2 text-base bg-zinc-700 items-center  text-white flex gap-1  py-1 px-2 rounded-lg" disabled={!notesContent.length} onClick={() => setIsPopupVisible(true)}>
+            <button className="mx-2 text-base bg-gray-700 items-center  text-white flex gap-1  py-1 px-2 rounded-lg" disabled={!notesContent.length} onClick={() => setIsPopupVisible(true)}>
               <span>
               {!isSaved ? <FaRegBookmark /> : <FaBookmark className='text-white' />}  
               </span>

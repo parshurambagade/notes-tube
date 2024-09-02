@@ -10,6 +10,7 @@ import GenerateNotes from "./pages/GenerateNotes"
 import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
 import { UserContextProvider } from "./contexts/userContext"
+import NotesPage from "./pages/Notes"
 
 const App: React.FC = () => {
     
@@ -29,6 +30,10 @@ const App: React.FC = () => {
         {
           path: "/register",
           element: <Register />
+        },
+        {
+          path: "/notes/:id",
+          element: <NotesPage />
         },
         {
           path: "/my-notes",

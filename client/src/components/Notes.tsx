@@ -47,7 +47,7 @@ const Notes: React.FC<{videoId: string, errorState: {isError: boolean, setIsErro
   
   if(notesContent.length > 0) {
     return (
-    <div className="h-full bg-zinc-900 border-zinc-600 max-w-full">
+    <div className="h-full bg-gray-900 border-gray-600 max-w-full">
       <ReactQuill
         theme="snow"
         value={notesContent}
