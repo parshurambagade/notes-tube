@@ -1,7 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContextType} from "../types";
+import Cookies from 'js-cookie';
+import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+interface DecodedUser {
+  userId: string
+}
 
 const useAuthContext = () => {
   return useContext(AuthContext);
@@ -13,12 +19,17 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   const [userId, setUserId] = useState<string | null>("");
 
   useEffect(() => {
-    if(localStorage.getItem('authToken')){
-      setAuthToken(localStorage.getItem('authToken'));
-    }
+    const token = Cookies.get('authToken');
+    if (token) {
+      try {
+        setAuthToken(token);
+        // Decode the token and set the user state
+        const decodedUser = jwtDecode<DecodedUser>(token);
+        setUserId(decodedUser.userId);
 
-    if(localStorage.getItem('userId')){
-      setUserId(localStorage.getItem('userId'));
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
     }
   }, [])
   
