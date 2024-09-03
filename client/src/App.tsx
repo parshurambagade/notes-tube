@@ -11,6 +11,7 @@ import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
 import { UserContextProvider } from "./contexts/userContext"
 import NotesPage from "./pages/Notes"
+import EditNotes from "./pages/EditNotes"
 
 const App: React.FC = () => {
     
@@ -33,11 +34,11 @@ const App: React.FC = () => {
         },
         {
           path: "/notes/:id",
-          element: <NotesPage allowEditing={false} />
+          element: <NotesPage />
         },
         {
           path: "/edit-notes/:id",
-          element: <NotesPage allowEditing={true} />
+          element: <EditNotes  />
         },
         {
           path: "/my-notes",

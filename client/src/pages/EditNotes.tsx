@@ -10,9 +10,11 @@ import VideoDetailsContainer from "../components/VideoDetailsContainer";
 import { DUMMY_VIDEO_ID, DUMMY_NOTES_CONTENT, DUMMY_NOTES_TITLE } from "../utils/dummy-data.ts";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegBookmark } from "react-icons/fa6";
+import { MdSaveAs } from "react-icons/md";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 
-const NotesPage: React.FC = () => {
+const EditNotes: React.FC = () => {
   const [notes, setNotes] = useState<Notes>({
     _id: "",
     title: "",
@@ -33,7 +35,8 @@ const NotesPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // const [allowEditing, setAllowEditing] = useState(false);
+//   const [allowEditing, setAllowEditing] = useState(false);
+
   const navigate = useNavigate();
 
   // TODO: add api call to fetch saved notes
@@ -70,11 +73,11 @@ const NotesPage: React.FC = () => {
 
         {/* card buttons  */}
         <div className="flex w-max justify-between gap-4">
-          <button onClick={() => {navigate('/edit-notes/' + notesId)}} className="flex items-center gap-1 text-xs px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+          <button onClick={() => {navigate('/notes/' + notesId)}} className="flex items-center gap-1 text-xs px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
             <span>
-              <FaRegEdit />
+              <FaRegBookmark />
             </span>
-            <span>Edit</span>
+            <span>Save</span>
           </button>
           <button onClick={() => confirm("Delete notes?")} className="text-xs flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors">
             <span>
@@ -103,13 +106,13 @@ const NotesPage: React.FC = () => {
           theme="snow"
           value={DUMMY_NOTES_CONTENT}
           onChange={setNotesContent}
-          readOnly={true} // Make the editor read-only
+          readOnly={false} // Make the editor read-only
           style={{ border: "none" }}
-          modules={{ toolbar: false }} // Hide the toolbar
+          modules={{ toolbar: true }} // Hide the toolbar
         />
       </div>
     </div>
   );
 };
 
-export default NotesPage;
+export default EditNotes;
