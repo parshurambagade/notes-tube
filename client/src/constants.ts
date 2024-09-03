@@ -53,3 +53,6 @@ Structure: Do not include <head> and <body> tags. Do not add classes for borders
 Please ensure the Summary is comprehensive, short and simple. Here is the transcription:`;
 
 export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
+
+
+

@@ -1,38 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { useVideoContext } from "../contexts/videoContext";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // include styles
 import "../NotesContainerStyles.css";
-import { fetchVideoNotes } from "../helpers/videoHelpers";
 import axios from "axios";
 import { API_ENDPOINT, YOUTUBE_IFRAME_URL } from "../constants";
-import DOMPurify from 'isomorphic-dompurify';
-import { useCurrentNotesContext } from "../contexts/currentNotesContext";
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from "../components/LoadingSpinner";
+import { Notes } from "../types";
+import VideoDetailsContainer from "../components/VideoDetailsContainer";
+import { DUMMY_VIDEO_ID, DUMMY_NOTES_CONTENT, DUMMY_NOTES_TITLE } from "../utils/dummy-data.ts";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 
-const NotesPage: React.FC<{videoId: string, errorState: {isError: boolean, setIsError: React.Dispatch<React.SetStateAction<boolean>>}}> = ({videoId}) => {
+const NotesPage: React.FC<{allowEditing: boolean}> = ({ allowEditing }) => {
+  const [notes, setNotes] = useState<Notes>({
+    _id: "",
+    title: "",
+    thumbnail: "",
+    content: "",
+    videoId: "",
+    createdBy: "",
+    createdAt: new Date(0),
+    updatedAt: new Date(0),
+    __v: 0,
+  });
 
-    const {setVideoTitle, notesContent, setNotesContent, setThumbnail} = useCurrentNotesContext();
+  const {notesId} = useParams();
+
+  const { title, content, videoId } = notes;
+
+  const [notesContent, setNotesContent] = useState(content);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
+  // TODO: add api call to fetch saved notes
+  // useEffect(() => {
+  //   fetchNotes();
+  // }, [notesId]);
 
   useEffect(() => {
-    fetchNotes();
-  }, [videoId]);
+    setNotesContent(notes.content);
+  }, [notes]);
 
   const fetchNotes = async () => {
     try {
-      if(!videoId.length) return;
-      setIsLoading(true);
-      setThumbnail("");
-      setVideoTitle("");
-      setNotesContent("");
-      const response = await axios.post(`${API_ENDPOINT}/notes/generate`, {
-        videoId,
-      });
-      const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
-      setNotesContent(sanitizedHTML);
+      if (!notesId.length) return;
+      // TODO: add parameter notes id in the url.
+      const response = await axios.post(`${API_ENDPOINT}/notes/1`);
+      setNotes(response.data);
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -40,33 +57,58 @@ const NotesPage: React.FC<{videoId: string, errorState: {isError: boolean, setIs
     }
   };
 
-  
-  if(notesContent.length > 0) {
-    return (
-    <div className="h-full bg-gray-900 border-gray-600 max-w-full">
-      <ReactQuill
-        theme="snow"
-        value={notesContent}
-        onChange={setNotesContent}
-        readOnly={true} // Make the editor read-only
-        style={{border:"none"}}
-        modules={{ toolbar: false }} // Hide the toolbar
-      />
+  return (
+    <div className="parent lg:px-48 py-8 w-full  h-max bg-gray-900">
+      {/* header of notes */}
+      <div className="notes-header bg-gray-800 py-2 px-4 rounded-t-lg border-gray-700 w-full flex justify-between items-center">
+
+        <div className="flex gap-2 items-center">
+        <p className="text-gray-300 font-bold text-xl">{DUMMY_NOTES_TITLE}</p>
+        <span className="text-gray-400 text-xs">- Updated 2 Days Ago</span>
+        </div>
+
+        {/* card buttons  */}
+        <div className="flex w-max justify-between gap-4">
+          <button onClick={() => {navigate('/edit-notes/' + notesId)}} className="flex items-center gap-1 text-xs px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+            <span>
+              <FaRegEdit />
+            </span>
+            <span>Edit</span>
+          </button>
+          <button onClick={() => confirm("Delete notes?")} className="text-xs flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors">
+            <span>
+              <RiDeleteBin6Line />
+            </span>
+            <span>Delete</span>
+          </button>
+        </div>
+      </div>
+      {/* VIDEO  */}
+      <div className="video">
+        <iframe
+          className="h-[60vh] w-full aspect-video"
+          src={YOUTUBE_IFRAME_URL + DUMMY_VIDEO_ID} // TODO: add videoId here
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+          title="YouTube video"
+          sandbox="allow-same-origin allow-scripts allow-popups allow-presentation"
+        ></iframe>
+      </div>
+
+      {/* NOTES CONTENT  */}
+      <div className="h-full bg-gray-900 border-gray-600 max-w-full">
+        <ReactQuill
+          theme="snow"
+          value={DUMMY_NOTES_CONTENT}
+          onChange={setNotesContent}
+          readOnly={!allowEditing} // Make the editor read-only
+          style={{ border: "none" }}
+          modules={{ toolbar: allowEditing }} // Hide the toolbar
+        />
+      </div>
     </div>
-    );
-  }else{
-    return isLoading ? (
-    <LoadingSpinner content="Notes" /> 
-  ) : (
-    <div className="text-center">
-      <h2 className="text-red-500 font-black text-2xl">Notes can't be generated!!!</h2>
-      <ul>
-        <li className="text-gray-800 text-base">Video should be in English language.</li>
-        <li className="text-gray-800 text-base">Video should not be more than 40 minutes.</li>
-      </ul>
-    </div>
-  )
-  }
-};  
+  );
+};
 
 export default NotesPage;

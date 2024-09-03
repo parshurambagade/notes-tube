@@ -36,6 +36,7 @@ const Notes: React.FC<{videoId: string, errorState: {isError: boolean, setIsErro
       });
       const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
       setNotesContent(sanitizedHTML);
+      console.log(notesContent);
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);

@@ -33,7 +33,11 @@ const App: React.FC = () => {
         },
         {
           path: "/notes/:id",
-          element: <NotesPage />
+          element: <NotesPage allowEditing={false} />
+        },
+        {
+          path: "/edit-notes/:id",
+          element: <NotesPage allowEditing={true} />
         },
         {
           path: "/my-notes",
