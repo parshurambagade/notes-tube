@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface TranscriptItem {
     offset: number;
     duration: number;
@@ -67,16 +69,15 @@ export interface Notes {
 
 /*********************** CONTEXTS TYPES *********************** */
 export interface AuthContextType {
-    authToken: string | null,
-    setAuthToken: (newValue: string | null) => void,
-    userId: string | null,
-    setUserId: React.Dispatch<React.SetStateAction<string | null>>;
-}
-    
-export interface UserContextType {
-    user: User | null,
-    setUser: (newValue: User | null) => void
+    userId: string;
+    isAuthenticated: boolean;
+    user: User | null;
+    setUser: (newValue: User | null) => void;
+    setUserId: React.Dispatch<React.SetStateAction<string>>;
+    logout: () => void;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }   
+    
 export interface CurrentNotesContextType {
     notesContent: string,
     setNotesContent: (newValue: string) => void,

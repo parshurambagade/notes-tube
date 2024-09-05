@@ -9,7 +9,6 @@ import Register from "./pages/Register"
 import GenerateNotes from "./pages/GenerateNotes"
 import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
-import { UserContextProvider } from "./contexts/userContext"
 import NotesPage from "./pages/Notes"
 import EditNotes from "./pages/EditNotes"
 
@@ -54,11 +53,9 @@ const App: React.FC = () => {
 
   return (
     <AuthContextProvider>
-      <UserContextProvider>
     <CurrentNotesContextProvider>
       <RouterProvider router={router} />
     </CurrentNotesContextProvider>
-    </UserContextProvider>
     </AuthContextProvider>
   )
 }

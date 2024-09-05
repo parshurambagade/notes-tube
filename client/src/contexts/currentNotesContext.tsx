@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { CurrentNotesContextType } from "../types";
 import { API_ENDPOINT } from "../constants";
-import { useUserContext } from "./userContext";
 import AuthContext, { useAuthContext } from "./authContext";
 import axios from "axios";
 

@@ -1,13 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthContextType} from "../types";
-import Cookies from 'js-cookie';
-import {jwtDecode} from 'jwt-decode';
+import { AuthContextType, User} from "../types";
+import axios from "axios";
+import { API_ENDPOINT } from "../constants";
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-interface DecodedUser {
-  userId: string
-}
 
 const useAuthContext = () => {
   return useContext(AuthContext);
@@ -15,27 +11,45 @@ const useAuthContext = () => {
 const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   children,
 }) => {
-  const [authToken, setAuthToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>("");
+  const [user, setUser] = useState<User | null>(null);
+  const [userId, setUserId] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = Cookies.get('authToken');
-    if (token) {
-      try {
-        setAuthToken(token);
-        // Decode the token and set the user state
-        const decodedUser = jwtDecode<DecodedUser>(token);
-        setUserId(decodedUser.userId);
+    // Check if the cookie exists to determine authentication status
 
-      } catch (error) {
-        console.error('Error decoding token:', error);
+    const checkAuthStatus = async () => {
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/auth/status`, {
+          withCredentials: true,
+        });
+        console.log("Check is Authenticated", response);  
+        setUser(response.data.user);
+        setUserId(response.data.user._id);
+        setIsAuthenticated(true); 
+      } catch (err) {
+        console.error("User is not authenticated", err);
+        setIsAuthenticated(false);
+        setUser(null);
       }
-    }
-  }, [])
+    };
+
+    checkAuthStatus();
+  }, []);
   
+  const logout = async () => {
+    try {
+      await axios.post(`${API_ENDPOINT}/auth/logout`, {}, { withCredentials: true });
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (err) {
+      console.error("Failed to logout", err);
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ authToken, setAuthToken, userId, setUserId }}
+      value={{ userId, isAuthenticated, user,setUserId, setIsAuthenticated, setUser, logout }}
     >
       {children}
     </AuthContext.Provider>

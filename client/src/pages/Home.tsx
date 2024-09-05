@@ -37,7 +37,7 @@ const Home = () => {
         </div>
         <form onSubmit={handleFormSubmit} className='flex items-center border border-dotted border-gray-600 rounded-lg p-3 gap-3'>
           <input className="w-full px-3 py-2 border text-sm rounded-lg border-gray-700 bg-gray-800 outline-none focus:outline-none" type="text" name="video-link" value={input} onChange={handleInputChange} placeholder='Paste youtube video link here...' required={true} />
-          <button type='submit' className="px-[.6rem] py-[.4rem] rounded-lg border-gray-800 border text-gray-900 bg-gray-100 hover:bg-gray-300 text-sm hover:text-gray-800 hover:cursor-pointer hover:" disabled={!input.length}>Generate</button>
+          <button type='submit' className="px-[.6rem] py-[.4rem] rounded-lg border-gray-800 border text-gray-200 bg-purple-600 hover:bg-purple-700 text-sm  hover:cursor-pointer hover:" disabled={!input.length}>Generate</button>
         </form>       
       </div>
       {showGenerateNotes && <GenerateNotes />}

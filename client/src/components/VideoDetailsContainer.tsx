@@ -2,25 +2,48 @@ import axios from 'axios';
 import { API_ENDPOINT, YOUTUBE_IFRAME_URL } from '../constants';
 import { useCurrentNotesContext } from '../contexts/currentNotesContext';
 import { useAuthContext } from '../contexts/authContext';
-import { useUserContext } from '../contexts/userContext';
-import { UserContextType } from '../types';
-import { MouseEvent, useState } from 'react';
+import { User} from '../types';
+import {useState } from 'react';
 import SaveNotesPopup from './SaveNotesPopup';
-import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import { FaRegBookmark } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
+// import { RiDeleteBin6Line } from 'react-icons/ri';
+import { FaRegEdit } from 'react-icons/fa';
+import SaveRequiredModal from './modals/SaveRequiredModal';
+import LoginRequiredModal from './modals/LoginRequiredModal';
 
 
 const VideoDetailsContainer: React.FC = () => {
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedInModalOpen, setIsLoggedInModalOpen] = useState(false)
+  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false)
   const { videoId, videoTitle, notesContent, thumbnail, isSaved, setIsSaved } = useCurrentNotesContext();
-  const { user } = useUserContext() as UserContextType;
-  const {userId} = useAuthContext() as {userId: string};
+  const {userId, user} = useAuthContext() as {userId: string | null, user: User};
 
+  const navigate = useNavigate();
 
   console.log(JSON.stringify(user));
+
+
+  const handleEditClicked = () => {
+    setIsSavedModalOpen(true);
+  }
+
+  const handleSaveAndEdit = () => {
+    setIsSavedModalOpen(false);
+  }
+
+  const handleLogin = () => {
+    setIsLoggedIn(true) //FIXME: 
+    setIsLoggedInModalOpen(false);
+  }
   const handleSaveNotes  = async ({notesName}: {notesName: string}) => {
     // Backend : { title, thumbnail, content, videoId, createdBy}
     try{
     console.log(notesName);
+    
+    if(!isLoggedIn) setIsLoggedInModalOpen(true);
 
     //TODO: write logic to delete notes if they are already saved. 
     
@@ -53,17 +76,29 @@ if(!videoId || !videoTitle) return;
 
   return (
     <div className="w-full flex flex-col items-center rounded-lg h-max bg-gray-800 pb-[.2rem]">
-        <div className="w-full border rounded-t-lg border-gray-700 border-b-0 px-4  py-1 flex justify-between  items-center">
-        <h5 className=" text-gray-300 font-black text-xl">
-              {videoTitle}
-            </h5>
-            <button className="mx-2 text-base bg-gray-700 items-center  text-white flex gap-1  py-1 px-2 rounded-lg" disabled={!notesContent.length} onClick={() => setIsPopupVisible(true)}>
-              <span>
-              {!isSaved ? <FaRegBookmark /> : <FaBookmark className='text-white' />}  
-              </span>
-              <span>{!isSaved ? "Save" : "Saved"} </span>
-            </button>
+      {/* header of notes */}
+      <div className="notes-header bg-gray-800 py-2 px-4 rounded-t-lg border-gray-600 w-full flex justify-between items-center">
+
+        <div className="flex gap-2 items-center">
+        <p className="text-gray-300 font-bold text-xl my-2">{videoTitle}</p>
         </div>
+
+        {/* card buttons  */}
+        <div className="flex flex-row-reverse w-max justify-between gap-4">
+        <button onClick={() => handleSaveNotes(videoTitle)} className="flex items-center gap-1 text-xs px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+            <span>
+              <FaRegBookmark />
+            </span>
+            <span>Save</span>
+          </button>
+          <button onClick={() => handleEditClicked()} className="flex items-center gap-1 text-xs px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+            <span>
+              <FaRegEdit />
+            </span>
+            <span>Edit</span>
+          </button>
+        </div>
+      </div>
         <div className="w-full flex items-center justify-center">
           <iframe
             className="h-[60vh] w-full"
@@ -82,6 +117,18 @@ if(!videoId || !videoTitle) return;
           videoTitle={videoTitle}
         />
       )}
+
+<SaveRequiredModal
+isOpen={isSavedModalOpen}
+onClose={() => setIsSavedModalOpen(false)}
+onSaveAndEdit={handleSaveAndEdit}
+/>
+
+<LoginRequiredModal 
+isOpen={isLoggedInModalOpen}
+onClose={() => setIsLoggedInModalOpen(false)}
+onLogin={handleLogin}
+/>
       </div>
   )
 }

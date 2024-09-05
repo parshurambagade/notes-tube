@@ -6,6 +6,7 @@ import sectionRoutes from './routes/section.routes.js';
 import userRoutes from './routes/user.routes.js';
 // import videoRoutes from './routes/video.routes.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { PORT } from './constants.js';
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE']        
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContextType, LoginFormDataType, UserContextType } from "../types";
+import { AuthContextType, LoginFormDataType } from "../types";
 import { useAuthContext } from "../contexts/authContext";
 import { API_ENDPOINT } from "../constants";
-import { useUserContext } from "../contexts/userContext";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormDataType>({
@@ -12,14 +11,16 @@ const Login: React.FC = () => {
     password: "",
   });
 
-  const { userId, setUserId, authToken, setAuthToken } =
+  //TODO: 
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { setUserId, setUser, isAuthenticated, setIsAuthenticated } =
     useAuthContext() as AuthContextType;
-  const { setUser } = useUserContext() as UserContextType;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authToken) navigate("/");
-  }, []);
+    isAuthenticated && navigate('/');
+  }, [navigate, isAuthenticated]);
 
   const { email, password } = formData;
 
@@ -33,18 +34,22 @@ const Login: React.FC = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_ENDPOINT}/auth/login`, formData);
-      const { user, token } = response.data;
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userId", user._id);
-      setAuthToken(token);
+      const response = await axios.post(
+        `${API_ENDPOINT}/auth/login`,
+        formData,
+        { withCredentials: true }
+      );
+      const { user } = response.data;
+
       setUserId(user._id);
       setUser(user);
+      setIsAuthenticated(true);
       navigate("/");
-      console.log("Logged in user: ", userId);
-    } catch (error) {
-      alert(error.message);
-      throw error;
+      console.log("Logged in user: ", user);
+    } catch (error: any) {
+      // Handle errors based on the status code
+      setErrorMessage(error?.response?.data?.message || "something went wrong!");
+      console.error(error?.message)
     }
   };
 
@@ -70,6 +75,8 @@ const Login: React.FC = () => {
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-2xl font-bold text-gray-100 mb-6">Login</h2>
           <form onSubmit={handleFormSubmit} className="space-y-6">
+            {/* ERROR MESSAGES  */}
+            {errorMessage && <p className="text-red-500 text-xs select-none">{errorMessage}!</p>}
             <div>
               <label
                 htmlFor="email"
@@ -80,8 +87,9 @@ const Login: React.FC = () => {
               <input
                 id="email"
                 type="email"
+                name="email"
                 required
-                className="mt-1 outline-none block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
+                className="text-sm mt-1 outline-none block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
                 placeholder="Enter your email"
                 value={email}
                 onChange={handleInputChange}
@@ -97,8 +105,9 @@ const Login: React.FC = () => {
               <input
                 id="password"
                 type="password"
+                name="password"
                 required
-                className="mt-1 outline-none block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
+                className="text-sm mt-1 outline-none block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
                 placeholder="Enter your password"
                 value={password}
                 onChange={handleInputChange}

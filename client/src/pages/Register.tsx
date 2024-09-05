@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../constants";
-import {
-  AuthContextType,
-  RegisterFormDataType,
-  User,
-  UserContextType,
-} from "../types";
+import { AuthContextType, RegisterFormDataType } from "../types";
 import { useAuthContext } from "../contexts/authContext";
-import { useUserContext } from "../contexts/userContext";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<RegisterFormDataType>({
@@ -17,21 +11,17 @@ const Register: React.FC = () => {
     password: "",
     username: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { authToken, setAuthToken, userId, setUserId } =
-    useAuthContext() as AuthContextType;
-  const { setUser } = useUserContext() as UserContextType;
-
-  useEffect(() => {
-    if (authToken) navigate("/");
-  }, []);
-
-  useEffect(() => {
-    console.log(`Logged in user: ${JSON.stringify(userId)}`);
-  }, [userId]);
-
+  const { setUser, setUserId, setIsAuthenticated, isAuthenticated} = useAuthContext() as AuthContextType;
   const navigate = useNavigate();
+  
   const { email, username, password } = formData;
+
+  useEffect(() => {
+    // Redirect if the user is already authenticated (logic for checking can be more robust)
+    isAuthenticated && navigate('/');
+  }, [navigate, isAuthenticated]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -43,21 +33,17 @@ const Register: React.FC = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${API_ENDPOINT}/auth/register`,
-        formData
-      );
-      console.log(response);
-      const { user, token, message } = response.data;
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userId", user._id);
+      const response = await axios.post(`${API_ENDPOINT}/auth/register`, formData, { withCredentials: true });
+      const { user } = response.data; 
+      console.log("Response in handleFormSubmit (Register): ", response);
+      setUser(user); 
       setUserId(user._id);
-      setAuthToken(token);
-      setUser(user);
+      setIsAuthenticated(true);    // Save user details in context
       navigate("/");
-    } catch (err) {
-      alert(err.message);
-      throw err;
+    } catch (error:any) {
+      // Handle errors based on the status code
+      setErrorMessage(error?.response?.data?.message || "something went wrong!");
+      console.error(error?.message)
     }
   };
 
@@ -81,8 +67,10 @@ const Register: React.FC = () => {
 
         {/* Right side - Login Form */}
         <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-gray-100 mb-6">Register</h2>
-          <form onSubmit={handleFormSubmit} className="space-y-6">
+          <h2 className="text-2xl font-bold text-gray-100 mb-4">Register</h2>
+          {/* ERROR MESSAGES  */}
+          {errorMessage && <p className="text-red-500 text-xs select-none my-4">{errorMessage}!</p>}
+          <form onSubmit={handleFormSubmit} className="space-y-6 ">
             <div>
               <label
                 htmlFor="username"
@@ -93,8 +81,9 @@ const Register: React.FC = () => {
               <input
                 id="username"
                 type="text"
+                name="username"
                 required
-                className="outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400  focus:border-transparent"
+                className="text-sm outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
                 placeholder="Enter your username"
                 value={username}
                 onChange={handleInputChange}
@@ -110,8 +99,9 @@ const Register: React.FC = () => {
               <input
                 id="email"
                 type="email"
+                name="email"
                 required
-                className="outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
+                className="text-sm outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
                 placeholder="Enter your email"
                 value={email}
                 onChange={handleInputChange}
@@ -127,8 +117,9 @@ const Register: React.FC = () => {
               <input
                 id="password"
                 type="password"
+                name="password"
                 required
-                className="outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
+                className="text-sm outline-none mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:border-transparent"
                 placeholder="Enter your password"
                 value={password}
                 onChange={handleInputChange}
