@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbars but still allow scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    scrollbar-width: none; /* For Firefox */
+  }
+
+
+  /* NOTES CONTAINER  */
+  
+  .ql-container.ql-snow{
+    border: 1px solid #111827;
+    background-color: #1F2937;
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .ql-snow .ql-editor pre.ql-syntax {
+    background-color: #111827;
+    border: 1px solid #1F2937;
+  }
+
+  .ql-snow .ql-editor code {
+    background-color: #111827;
+    color:rgb(250, 149, 149);
+  }
+
+  .ql-snow .ql-editor h1{
+    font: bolder;
+    color: white;
+    margin:.5rem 0 .7rem;
+  }
+
+  .ql-snow .ql-editor h2{
+    font: bold;
+    color:#dadae0;
+    margin: 1rem 0 .5rem;
+  }
+
+  .ql-editor ol li, .ql-editor ul li{
+    margin: .5rem 0 .5rem;
+  }
+
+  .ql-editor p{
+    margin:.5rem 0;
+  }
+  .ql-editor strong{
+    color: rgb(218, 218, 218);
+  }
+
+  .ql-editor p, .ql-editor ol, .ql-editor ul, .ql-editor pre, .ql-editor blockquote, .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6 {
+    color: rgb(184, 181, 181);
+    font-size: .85rem;
+  }
+
+  .ql-editor h3{
+    color: rgb(227, 227, 227);
+  }
+  .ql-toolbar.ql-snow{
+    background: #111827;
+    border: 1px solid #2e2d2d;
+  }     
+
+  .ql-snow .ql-picker, .ql-formats button svg{
+    color:rgb(240, 240, 240);
+  }
