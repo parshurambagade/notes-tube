@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RiAddLargeFill } from "react-icons/ri";
-import NotesCard from "../components/NotesCard";
+import NotesCard from "./components/NotesCard"
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 

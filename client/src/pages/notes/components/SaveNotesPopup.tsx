@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SaveNotesPopupProps } from '../types';
+import { SaveNotesPopupProps } from '../../../types';
 
 const SaveNotesPopup: React.FC<SaveNotesPopupProps> = ({  onSave, onClose, videoTitle }) => {
   const [notesName, setnotesName] = useState(videoTitle || "");

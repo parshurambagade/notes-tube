@@ -1,16 +1,17 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import Home from "./pages/Home"
-import MyNotes from "./pages/MyNotes"
-import Layout from "./components/Layout"
-import Login from "./pages/Login"
-import ProtectedRoute from "./components/ProtectedRoute"
+import Home from "./pages/home/Home"
+import Dashboard from "./pages/dashboard/Dashboard"
+import Layout from "./components/layouts/Layout"
+import Login from "./pages/auth/Login"
+import ProtectedRoute from "./components/common/ProtectedRoute"
 import { VideoContextProvider } from "./contexts/videoContext"
-import Register from "./pages/Register"
+import Register from "./pages/auth/Register"
 import GenerateNotes from "./pages/GenerateNotes"
 import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
-import NotesPage from "./pages/Notes"
-import EditNotes from "./pages/EditNotes"
+import EditNotes from "./pages/notes/EditNotes"
+import NotesPage from "./pages/notes/Notes"
+
 
 const App: React.FC = () => {
     
@@ -37,13 +38,13 @@ const App: React.FC = () => {
         },
         {
           path: "/edit-notes/:id",
-          element: <EditNotes  />
+          element: <NotesPage  />
         },
         {
           path: "/my-notes",
           element: 
           <ProtectedRoute>
-            <MyNotes />
+            <Dashboard />
           </ProtectedRoute>
         }
       ]

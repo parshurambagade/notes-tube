@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../contexts/authContext";
-import { AuthContextType } from "../types";
+import { useAuthContext } from "../../contexts/authContext";
+import { AuthContextType } from "../../types";
 
 const Header: React.FC = () => {
   const { isAuthenticated, logout } = useAuthContext() as AuthContextType;

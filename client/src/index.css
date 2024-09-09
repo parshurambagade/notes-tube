@@ -71,3 +71,11 @@
   .ql-snow .ql-picker, .ql-formats button svg{
     color:rgb(240, 240, 240);
   }
+
+  .ql-syntax {
+    padding: 1.5rem 1rem !important;
+}
+
+.ql-editor ul {
+  padding-left: .5rem !important;
+}
