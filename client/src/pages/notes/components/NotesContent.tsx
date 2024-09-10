@@ -13,7 +13,7 @@ const NotesContent:React.FC<{allowEdit?: boolean}> = ({allowEdit}) => {
           style={{ border: "none" }}
           modules={{ toolbar: false }} // Hide the toolbar
         />
-      </div>
+      </div>  
   )
 }
 

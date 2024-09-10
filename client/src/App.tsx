@@ -11,6 +11,7 @@ import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
 import EditNotes from "./pages/notes/EditNotes"
 import NotesPage from "./pages/notes/Notes"
+import HomePage from "./pages/home/HomePage2"
 
 
 const App: React.FC = () => {

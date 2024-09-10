@@ -17,57 +17,86 @@
   
   .ql-container.ql-snow{
     border: 1px solid #111827;
-    background-color: #1F2937;
+    background-color: #1F2937; 
     border-bottom-right-radius: .5rem;
     border-bottom-left-radius: .5rem;
     padding:.5rem;
   }
 
   .ql-snow .ql-editor pre.ql-syntax {
-    background-color: #111827;
-    border: 1px solid #1F2937;
+    font-family: 'Courier New', monospace; /* font-mono */
+  font-size: 0.875rem; /* text-sm */
+  background-color: #374151; /* bg-gray-700 */
+  color: #f5f5f5; /* text-gray-300 */
+  padding: 1rem 2rem; /* px-1 py-0.5 */
+  border-radius: 0.375rem; /* rounded */
   }
 
-  .ql-snow .ql-editor code {
-    background-color: #111827;
-    color:rgb(250, 149, 149);
+  .ql-editor code{
+    color: #f78f8f !important; /* Equivalent to text-green-400 */
+    font-family: 'Courier New', monospace !important; /* Equivalent to font-mono */
+    font-size: 0.875rem !important; /* Equivalent to text-sm */
+    background-color: #1a1a1abc !important; /* Equivalent to bg-gray-800 */
   }
+
 
   .ql-snow .ql-editor h1{
-    font: bolder;
-    color: white;
-    margin:.5rem 0 .7rem;
+    font-size: 1.875rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+  color: #f5f5f5; /* text-gray-100 */
+  margin-bottom: 1.5rem; /* mb-6 */
   }
 
   .ql-snow .ql-editor h2{
-    font: bold !important;
-    color:#dddddd;
-    margin: 1rem 0 .5rem;
-    font-size: 1.1rem;
-  }
-
-  .ql-editor ol li, .ql-editor ul li{
-    margin: .5rem 0 .5rem;
-  }
-
-  .ql-editor p{
-    margin:.5rem 0;
-  }
-  .ql-editor strong{
-    color: rgb(218, 218, 218);
-  }
-
-  .ql-editor p, .ql-editor ol, .ql-editor ul, .ql-editor pre, .ql-editor blockquote, .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6 {
-    color: rgb(184, 181, 181);
-    font-size: .85rem;
+    font-size: 1.5rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  color: #e5e7eb; /* text-gray-200 */
+  margin-bottom: 1.25rem; /* mb-5 */
   }
 
   .ql-editor h3{
-    color: rgb(227, 227, 227);
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    color: #d1d5db; /* text-gray-300 */
+    margin-bottom: 1rem; /* mb-4 */
   }
+  .ql-editor h4{
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 500; /* font-medium */
+    color: #d1d5db; /* text-gray-300 */
+    margin-bottom: 0.75rem; /* mb-3 */
+  }
+
+  .ql-editor h5{
+    font-size: 1rem; /* text-base */
+  font-weight: 500; /* font-medium */
+  color: #9ca3af; /* text-gray-400 */
+  margin-bottom: 0.5rem; /* mb-2 */
+  }
+
+  .ql-editor h6{
+    font-size: 1rem; /* text-base */
+  font-weight: 500; /* font-medium */
+  color: #9ca3af; /* text-gray-400 */
+  margin-bottom: 0.5rem; /* mb-2 */ 
+  }
+
+  .ql-editor p{
+    color: #d1d5db; /* text-gray-300 */
+    margin-bottom: 1rem; /* mb-4 */
+    line-height: 1.625; /* leading-relaxed */
+  }
+
+  .ql-editor span{
+    color: #9ca3af; /* text-gray-400 */
+  }
+
+
+ 
   .ql-toolbar.ql-snow{
-    background: #111827;
-    border: 1px solid #2e2d2d;
+      background-color: #1a1a1a; /* Equivalent to bg-gray-900 */
+      color: #f5f5f5; /* Equivalent to text-gray-100 */
+      padding: 2rem; /* Equivalent to p-8 */
   }     
 
   .ql-snow .ql-picker, .ql-formats button svg{
@@ -75,9 +104,29 @@
   }
 
   .ql-syntax {
-    padding: 1.5rem 1rem !important;
+    background-color: #111827; /* bg-gray-900 */
+  color: #d1d5db; /* text-gray-300 */
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 1rem; /* p-4 */
+  margin-bottom: 1rem; /* mb-4 */
+  overflow-x: auto; /* overflow-x-auto */
 }
 
 .ql-editor ul {
-  padding-left: .5rem !important;
+  list-style-type: disc; /* list-disc */
+  padding-left: 1rem; /* list-inside */
+  color: #d1d5db; /* text-gray-300 */
+  margin-bottom: 1rem; /* mb-4 */
 }
+
+.ql-editor ol {
+  list-style-type: decimal; /* list-decimal */
+  padding-left: 1rem; /* list-inside */
+  color: #d1d5db; /* text-gray-300 */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.ql-editor ol li, .ql-editor ul li {
+  margin: 0.5rem 0; /* mb-2 */
+}
+

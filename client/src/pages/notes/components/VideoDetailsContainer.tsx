@@ -8,17 +8,9 @@ import { DUMMY_VIDEO_ID } from "../../../utils/dummy-data"
 const VideoDetailsContainer: React.FC = () => {
   
   return (
-    <div className="video">
-        <iframe
-          className="h-[60vh] w-full aspect-video"
-          src={YOUTUBE_IFRAME_URL + DUMMY_VIDEO_ID} // TODO: add videoId here
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-          title="YouTube video"
-          sandbox="allow-same-origin allow-scripts allow-popups allow-presentation"
-        ></iframe>
-      </div>);
+    <div className="aspect-w-16 aspect-h-9  border-b-gray-800 bg-gray-800">
+              <iframe className='w-full aspect-video' src="https://www.youtube.com/embed/2L9pr-2FwkQ?si=MAwdmiPaoCjmOZu4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>)
         {/* TODO: */}
         {/* {isPopupVisible && (
         <SaveNotesPopup
