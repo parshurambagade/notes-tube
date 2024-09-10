@@ -20,6 +20,7 @@
     background-color: #1F2937;
     border-bottom-right-radius: .5rem;
     border-bottom-left-radius: .5rem;
+    padding:.5rem;
   }
 
   .ql-snow .ql-editor pre.ql-syntax {
@@ -39,9 +40,10 @@
   }
 
   .ql-snow .ql-editor h2{
-    font: bold;
-    color:#dadae0;
+    font: bold !important;
+    color:#dddddd;
     margin: 1rem 0 .5rem;
+    font-size: 1.1rem;
   }
 
   .ql-editor ol li, .ql-editor ul li{

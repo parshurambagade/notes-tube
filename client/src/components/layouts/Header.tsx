@@ -10,33 +10,33 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="border border-gray-700  py-1 px-8 flex justify-between bg-gray-800 text-gray-300">
-      <div className="w-36 h-12">
+    <header className="bg-gray-800 p-4 flex justify-between items-center">
+      <div className="w-36 h-12 flex items-center space-x-4">
         <img
           src="src/assets/logo.png"
           alt="NotesTube Logo"
           className="h-full w-full"
         />
       </div>
-      <nav className="flex items-center text-sm my-2 justify-center gap-8 text-gray-300">
-        <Link to="/" className="">
+      <nav className="flex items-center space-x-6 text-gray-300">
+        <Link to="/" className="hover:text-blue-400 transition-colors">
           Home
         </Link>
-        <Link to="/my-notes" className="">
+        <Link to="/my-notes" className="hover:text-blue-400 transition-colors">
           My Notes
         </Link>
         <div className="">
           {isAuthenticated ? (
             <button
               onClick={() => handleLogout()}
-              className="px-3 py-2 rounded-md text-gray-100 bg-red-600 hover:bg-red-700"
+               className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="px-3 py-2 rounded text-white bg-blue-600 hover:bg-blue-700"
+               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
             >
               Login
             </Link>
