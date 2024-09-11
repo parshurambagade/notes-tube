@@ -5,12 +5,30 @@ import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 import User from '../models/user.model.js';
+import axios from "axios";
 // import Section from '../models/section.model.js';
 
 // Create Note
 export const generateNotes = async (req, res) => {
   try {
     const { videoId } = req.body;
+
+    if (!videoId) {
+      return res.status(400).json({ error: 'Video ID is required' });
+    }
+
+    // Make a request to the YouTube Data API to fetch video details
+    const response = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, {
+      params: {
+        part: 'snippet',
+        id: videoId,
+        key: process.env.YOUTUBE_API_KEY,
+      }
+    });
+
+    const videoDetails = response.data.items[0];
+
+    // console.log(videoDetails);
 
     const transcript = await YoutubeTranscript.fetchTranscript(videoId);
     const combinedTranscript = transcript.reduce((acc, cur) => {
@@ -31,7 +49,7 @@ export const generateNotes = async (req, res) => {
     const response = result.response;
     const text = response.text();
     console.log(text);
-    res.json({ content: text });
+    res.json({ content: text, videoDetails: videoDetails });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -5,11 +5,11 @@ import SaveRequiredModal from "../../../components/modals/SaveRequiredModal"
 import LoginRequiredModal from "../../../components/modals/LoginRequiredModal"
 import { DUMMY_VIDEO_ID } from "../../../utils/dummy-data"
 
-const VideoDetailsContainer: React.FC = () => {
+const VideoContainer: React.FC<{videoId?: string}> = ({videoId}) => {
   
   return (
     <div className="aspect-w-16 aspect-h-9  border-b-gray-800 bg-gray-800">
-              <iframe className='w-full aspect-video' src="https://www.youtube.com/embed/2L9pr-2FwkQ?si=MAwdmiPaoCjmOZu4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <iframe className='w-full aspect-video' src={YOUTUBE_IFRAME_URL + videoId} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>)
         {/* TODO: */}
         {/* {isPopupVisible && (
@@ -34,4 +34,4 @@ onLogin={handleLogin}
 /> */}
 }
 
-export default VideoDetailsContainer
+export default VideoContainer

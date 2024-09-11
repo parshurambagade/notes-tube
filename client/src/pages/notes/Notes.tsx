@@ -4,25 +4,25 @@ import "./NotesContainerStyles.css";
 
 import NotesHeader from "./components/NotesHeader.tsx";
 import NotesContent from "./components/NotesContent.tsx";
-import VideoDetailsContainer from "./components/VideoDetailsContainer.tsx";
-import ErrorComponent from "./components/ErrorComponent.tsx";
+import VideoContainer from "./components/VideoContainer.tsx";
+import axios from "axios";
+import { API_ENDPOINT } from "../../constants.ts";
+import DOMPurify from "isomorphic-dompurify";
+import { DUMMY_VIDEO_ID } from "../../utils/dummy-data.ts";
 
-const NotesPage: React.FC<{allowEdit?: boolean, isSaved?: boolean}> = ({allowEdit, isSaved}) => {
+const NotesPage: React.FC<{allowEdit?: boolean, isSaved?: boolean, setIsGenerating?: React.Dispatch<React.SetStateAction<boolean>>, videoId?: string, notesContent?: string, title?: string}> = ({allowEdit, isSaved, setIsGenerating, videoId, notesContent, title}) => {
 
-  const [error, setIsError] = useState<string>('');
 
   return (
     <div className="parent lg:px-0  pt-2 pb-8 w-full border-t-gray-800 h-max bg-gray-900">
-
-      {error && <ErrorComponent />}
       
       {/* header of notes */}
-      <NotesHeader isSaved={isSaved} />
+      <NotesHeader isSaved={isSaved} title={title ? title : "Dummy Title"} />
       {/* VIDEO  */}
-      <VideoDetailsContainer />
+      <VideoContainer videoId={videoId ? videoId : DUMMY_VIDEO_ID} />
 
       {/* NOTES CONTENT  */}
-      <NotesContent allowEdit={allowEdit} />
+      <NotesContent allowEdit={allowEdit} content={notesContent} />
     </div>
   );
 };

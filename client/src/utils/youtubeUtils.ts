@@ -1,4 +1,4 @@
-export const parseYouTubeInput = (input: string | Error) => {
+export const parseYouTubeInput = (input: string) => {
     const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
 
     const match = input.match(regex);
