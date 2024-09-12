@@ -1,20 +1,17 @@
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { Notes } from "../../../types";
 
-const thumbnail = `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWI34nEn31vZoTLiDsmv2Jt9KpjoMhwAkopA&s`;
-
-interface Notes {
-  id: string;
-  date: Date;
-  thumbnail: string;
+interface NotesType {
+  _id: string;
   title: string;
-  content: string;
+  thumbnail: string;
 }
 
 const NotesCard: React.FC<{
-  notes: Notes;
-  onEdit: (notes: Notes) => void;
+  notes: NotesType;
+  onEdit: (notes: NotesType) => void;
   onDelete: (id: string) => void;
 }> = ({ notes, onEdit, onDelete }) => (
   <div className="card-body shadow-md shadow-gray-800 border border-gray-700 flex flex-col w-full bg-gray-800 rounded-lg max-h-96 overflow-hidden">
@@ -22,7 +19,7 @@ const NotesCard: React.FC<{
     <div className="card-top h-[68%]">
       <Link to={"/notes/1"}>
         <img
-          src={thumbnail}
+          src={notes.thumbnail}
           alt={notes.title}
           className="w-full h-full  object-fit"
         />
@@ -30,17 +27,13 @@ const NotesCard: React.FC<{
     </div>
 
     {/* CARD BOTTOM  */}
-    <div className="card-bottom h-[32%] flex flex-col gap-2 p-4">
+    <div className="card-bottom min-h-[32%] flex flex-col gap-2 p-4">
       {/* card text  */}
       <Link to={"/notes/1"}>
         <div className=" flex justify-between items-center gap-1">
-          <h3 className="text-lg font-semibold  text-gray-100">
+          <h3 className="text-base font-semibold  text-gray-100">
             {notes.title}
           </h3>
-          <p className="text-xs text-gray-400 ">
-            {notes.date.toLocaleDateString()}
-          </p>
-          {/* <p className="text-sm text-gray-300 mb-0">{notes.content}</p> */}
         </div>
       </Link>
 
@@ -56,7 +49,7 @@ const NotesCard: React.FC<{
           <span>Edit</span>
         </button>
         <button
-          onClick={() => onDelete(notes.id)}
+          onClick={() => onDelete(notes._id)}
           className="text-xs flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
         >
           <span>

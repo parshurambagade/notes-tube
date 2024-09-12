@@ -3,10 +3,11 @@
 import Notes from "../models/notes.model.js";
 import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
+import { JWT_SECRET, PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 import User from '../models/user.model.js';
 import axios from "axios";
 // import Section from '../models/section.model.js';
+import jwt from 'jsonwebtoken';
 
 // Create Note
 export const generateNotes = async (req, res) => {
@@ -60,14 +61,20 @@ export const saveNotes = async (req, res) => {
   try {
     const { title, thumbnail, content, videoId, createdBy } = req.body;
 
-    // Now save the note with the correct sectionId
-    const newNotes = new Notes({
-      title,
-      thumbnail,
-      content,
-      videoId,
-      createdBy
-    });
+    if (!title || !thumbnail || !content || !videoId || !createdBy) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const token = req.cookies.authToken;
+   
+
+    const verified = jwt.verify(token, JWT_SECRET);
+    const userId = verified.userId;
+    console.log("user id", userId);
+
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
     
     // Check if notes with the same videoId already exist
     const existingNotes = await Notes.findOne({ videoId, createdBy });
@@ -76,13 +83,14 @@ export const saveNotes = async (req, res) => {
       return res.status(400).json({ message: 'Notes for this video already exist' });
     }
 
-
-    // Update the user's notes array to include the newly created note's ID
-    await User.findByIdAndUpdate(
-      createdBy, 
-      { $push: { notes: savedNotes._id } },
-      { new: true }  // Optionally return the updated document if needed
-    );
+     // Now save the note with the correct sectionId
+     const newNotes = new Notes({
+      title,
+      thumbnail,
+      content,
+      videoId,
+      createdBy
+    });
 
     const savedNotes = await newNotes.save();
 
@@ -93,7 +101,8 @@ export const saveNotes = async (req, res) => {
       { new: true }  // Optionally return the updated document if needed
     );
 
-    res.status(200).json({ message: 'Notes saved successfully', note: savedNotes });
+
+    res.status(200).json({ message: 'Notes saved successfully', notes: savedNotes });
   } catch (error) {
     console.error('Error saving note:', error);
     res.status(500).json({ message: 'Error saving note', error: error.message });
@@ -176,6 +185,17 @@ export const getNotes = async (req, res) => {
 
 export const getAllNotes = async (req, res) => {
   try {
+    const authToken = req.cookies.authToken;
+    const verified = jwt.verify(authToken, JWT_SECRET);
+    const userId = verified.userId;
+
+    if(!userId) return res.status(401).json({ message: 'Not authenticated' });
+
+    const notes = await Notes.find({ createdBy: userId });
+
+    if(!notes) return res.status(404).json({ message: 'Notes not found' });
+
+    res.status(200).json(notes);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

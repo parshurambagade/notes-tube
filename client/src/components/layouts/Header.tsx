@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/authContext";
 import { AuthContextType } from "../../types";
 
 const Header: React.FC = () => {
   const { isAuthenticated, logout } = useAuthContext() as AuthContextType;
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     logout();
+    navigate('/login');
   };
 
   return (
@@ -22,8 +23,8 @@ const Header: React.FC = () => {
         <Link to="/" className="hover:text-blue-400 transition-colors">
           Home
         </Link>
-        <Link to="/my-notes" className="hover:text-blue-400 transition-colors">
-          My Notes
+        <Link to="/dashboard" className="hover:text-blue-400 transition-colors">
+          Dashboard
         </Link>
         <div className="">
           {isAuthenticated ? (

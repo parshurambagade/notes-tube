@@ -4,6 +4,7 @@ import {
   updateNotes,
   deleteNotes,
   getNotes,
+  getAllNotes,
   saveNotes,
 } from '../controllers/notes.controllers.js';
 
@@ -14,5 +15,6 @@ router.post('/save', saveNotes);
 router.put('/:id', updateNotes);
 router.delete('/:videoId/:userId', deleteNotes);
 router.get('/:videoId/:userId', getNotes);
+router.get('/all', getAllNotes);
 
 export default router;

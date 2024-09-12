@@ -38,11 +38,11 @@ const App: React.FC = () => {
           element: <NotesPage />
         },
         {
-          path: "/notes/edit",
+          path: "/notes/edit/:id",
           element: <EditNotes />
         },
         {
-          path: "/my-notes",
+          path: "/dashboard",
           element: 
           <ProtectedRoute>
             <Dashboard />
