@@ -8,7 +8,7 @@ export interface TranscriptItem {
 }
 
 export interface SaveNotesPopupProps {
-    onSave: ({notesName}: {notesName: string}) => Promise<void>;
+    onSave: ({ notesName }: { notesName: string }) => Promise<void>;
     onClose: () => void;
     videoTitle: string;
 }
@@ -55,15 +55,15 @@ export interface User {
 }
 
 export interface Notes {
-    _id: string; // MongoDB ObjectId as a string
+    _id?: string; // MongoDB ObjectId as a string
     title: string;
     thumbnail: string;
     content: string;
     videoId: string;
-    createdBy: string;
-    createdAt: Date;
-    updatedAt: Date;
-    __v: number;  // Version key automatically added by Mongoose
+    createdBy?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    __v?: number;  // Version key automatically added by Mongoose
 }
 
 
@@ -76,19 +76,15 @@ export interface AuthContextType {
     setUserId: React.Dispatch<React.SetStateAction<string>>;
     logout: () => void;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}   
-    
+}
+
 export interface CurrentNotesContextType {
-    notesContent: string,
-    setNotesContent: (newValue: string) => void,
-    videoTitle: string,
-    setVideoTitle: (newValue: string) => void,
+    notes: Notes,
+    setNotes: React.Dispatch<React.SetStateAction<Notes>>,
     videoId: string,
-    setVideoId: (newValue: string) => void,
-    thumbnail: string,
-    setThumbnail: (newValue: string) => void,
+    setVideoId: React.Dispatch<React.SetStateAction<string>>,
     isSaved: boolean,
-    setIsSaved: (newValue: boolean) => void,
+    setIsSaved: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface VideoContextType {

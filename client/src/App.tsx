@@ -9,7 +9,7 @@ import Register from "./pages/auth/Register"
 import GenerateNotes from "./pages/GenerateNotes"
 import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
-import EditNotes from "./pages/notes/EditNotes"
+import EditNotes from "./pages/notes/EditNotes.tsx"
 import NotesPage from "./pages/notes/Notes"
 import HomePage from "./pages/home/HomePage2"
 
@@ -38,8 +38,8 @@ const App: React.FC = () => {
           element: <NotesPage />
         },
         {
-          path: "/edit-notes/:id",
-          element: <NotesPage  />
+          path: "/notes/edit",
+          element: <EditNotes />
         },
         {
           path: "/my-notes",

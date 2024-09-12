@@ -26,7 +26,7 @@
   .ql-snow .ql-editor pre.ql-syntax {
     font-family: 'Courier New', monospace; /* font-mono */
   font-size: 0.875rem; /* text-sm */
-  background-color: #374151; /* bg-gray-700 */
+  background-color: #111827; /* bg-gray-700 */
   color: #93C5FD; /* text-gray-300 */
   padding: 1rem 2rem; /* px-1 py-0.5 */
   border-radius: 0.375rem; /* rounded */
@@ -94,15 +94,26 @@
 
  
   .ql-toolbar.ql-snow{
-      background-color: #1a1a1a; /* Equivalent to bg-gray-900 */
-      color: #f5f5f5; /* Equivalent to text-gray-100 */
-      padding: 2rem; /* Equivalent to p-8 */
+      background-color: #374151; /* Equivalent to bg-gray-900 */
+      color: #f5f5f5 !important; /* Equivalent to text-gray-100 */
+      padding:1rem 2rem; /* Equivalent to p-8 */
+      border: none;
   }     
 
-  .ql-snow .ql-picker, .ql-formats button svg{
-    color:rgb(240, 240, 240);
+  .ql-formats {
+    color:white !important;
   }
 
+  .ql-snow .ql-stroke, .ql-toolbar.ql-snow .ql-picker-label{
+    stroke:#9ca3af;
+    color:#9ca3af
+  }
+
+  .ql-snow .ql-stroke:hover, .ql-toolbar.ql-snow .ql-picker-label:hover{
+    stroke:#9ca3af;
+    color:#9ca3af
+  }
+  
   .ql-syntax {
     background-color: #111827; /* bg-gray-900 */
   color: #d1d5db; /* text-gray-300 */
@@ -130,3 +141,15 @@
   margin: 0.5rem 0; /* mb-2 */
 }
 
+.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected{
+  color:#d1d5db !important; /* text-gray-300 */
+}
+
+.ql-snow .ql-picker-options .ql-picker-item{
+  color:#838892 !important;
+  background-color: #f5f5f5;
+}
+
+.ql-snow .ql-picker-options .ql-picker-item:hover{
+  color:#374151 !important; /* text-gray-300 */
+}
