@@ -1,58 +1,9 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import Home from "./pages/home/Home"
-import Dashboard from "./pages/dashboard/Dashboard"
-import Layout from "./components/layouts/Layout"
-import Login from "./pages/auth/Login"
-import ProtectedRoute from "./components/common/ProtectedRoute"
-import { VideoContextProvider } from "./contexts/videoContext"
-import Register from "./pages/auth/Register"
-import GenerateNotes from "./pages/GenerateNotes"
+import { RouterProvider } from "react-router-dom"
 import { AuthContextProvider } from "./contexts/authContext"
 import { CurrentNotesContextProvider } from "./contexts/currentNotesContext"
-import EditNotes from "./pages/notes/EditNotes.tsx"
-import NotesPage from "./pages/notes/Notes"
-import HomePage from "./pages/home/HomePage2"
-
+import router from "./routes/Routes.tsx"
 
 const App: React.FC = () => {
-    
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/",
-          element: <Home />
-        },
-        {
-          path: "/login",
-          element: <Login />
-        },
-        {
-          path: "/register",
-          element: <Register />
-        },
-        {
-          path: "/notes/:id",
-          element: <NotesPage />
-        },
-        {
-          path: "/notes/edit/:id",
-          element: <EditNotes />
-        },
-        {
-          path: "/dashboard",
-          element: 
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      ]
-    },
-    
-  ])
-
   return (
     <AuthContextProvider>
     <CurrentNotesContextProvider>

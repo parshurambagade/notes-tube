@@ -1,7 +1,6 @@
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { Notes } from "../../../types";
 
 interface NotesType {
   _id: string;
@@ -14,20 +13,20 @@ const NotesCard: React.FC<{
   onEdit: (notes: NotesType) => void;
   onDelete: (id: string) => void;
 }> = ({ notes, onEdit, onDelete }) => (
-  <div className="card-body shadow-md shadow-gray-800 border border-gray-700 flex flex-col w-full bg-gray-800 rounded-lg max-h-96 overflow-hidden">
+  <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
     {/* CARD TOP  */}
     <div className="card-top h-[68%]">
       <Link to={"/notes/1"}>
         <img
           src={notes.thumbnail}
           alt={notes.title}
-          className="w-full h-full  object-fit"
+          className="w-full h-full object-fit"
         />
       </Link>
     </div>
 
     {/* CARD BOTTOM  */}
-    <div className="card-bottom min-h-[32%] flex flex-col gap-2 p-4">
+    <div className="card-bottom min-h-[32%] flex flex-col justify-between gap-2 p-4">
       {/* card text  */}
       <Link to={"/notes/1"}>
         <div className=" flex justify-between items-center gap-1">
@@ -41,7 +40,7 @@ const NotesCard: React.FC<{
       <div className="flex justify-between">
         <button
           onClick={() => onEdit(notes)}
-          className="flex items-center gap-1 text-xs px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors"
         >
           <span>
             <FaRegEdit />
@@ -50,7 +49,7 @@ const NotesCard: React.FC<{
         </button>
         <button
           onClick={() => onDelete(notes._id)}
-          className="text-xs flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          className="flex items-center gap-1 text-red-400 hover:text-red-300 transition-colors"
         >
           <span>
             <RiDeleteBin6Line />
