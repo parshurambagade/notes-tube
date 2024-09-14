@@ -19,7 +19,7 @@ const NotesHeader: React.FC<{
   title: string;
   setAllowEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   allowEditing?: boolean;
-}> = ({ isSaved, title, setAllowEditing, allowEditing }) => {
+}> = ({ title,isSaved, setAllowEditing, allowEditing }) => {
 
   const {notes, setIsSaved} = useCurrentNotesContext();
   const {isAuthenticated, userId} = useAuthContext();
@@ -29,7 +29,17 @@ const NotesHeader: React.FC<{
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`/notes/edit/current`);
+    if(isAuthenticated) {
+      if(isSaved) {
+        setAllowEditing && setAllowEditing(true)
+        navigate(`/notes/edit/${notes._id}`);
+      }else{
+        setSaveRequiredModal(true);
+      }
+    
+    }else{
+      setLoginRequiredModal(true);
+    }
   }
   const handleLogin = () => {
     setLoginRequiredModal(false);
@@ -45,6 +55,16 @@ const NotesHeader: React.FC<{
       setLoginRequiredModal(true);
     }
   }
+
+  const handleUpdate = () => {
+    setSaveRequiredModal(false);
+  }
+
+  const handleDelete = () => {
+
+  }
+
+
 
   const handleSaveNotes  = async () => {
      // Backend : { title, thumbnail, content, videoId, createdBy}
@@ -70,9 +90,6 @@ const NotesHeader: React.FC<{
   
   }
 
-  const handleView = () => {
-    navigate('/');
-  }
   return (
     <div className="flex justify-between items-center bg-gray-700 px-4 py-2">
       <h2 className="text-xl font-semibold">{notes?.title}</h2>
@@ -87,21 +104,30 @@ const NotesHeader: React.FC<{
         ) : !isAuthenticated ?(
           <button
             className="text-blue-400 hover:text-blue-300 mr-2"
-            onClick={handleView}
+            onClick={() => navigate(`/notes/${notes._id}`)}
           >
             <VscOpenPreview size={20} />
           </button>
         ) : null}
-
+        {!isSaved ?
         <button className="text-green-400 hover:text-green-300" onClick={handleSave}>
           <FiSave size={20} />
-        </button>
+        </button> : 
+        <button className="text-red-400 hover:text-red-300" onClick={handleDelete}>
+          <RiDeleteBin6Line size={20} />
+        </button>}
       </div>
 
       <LoginRequiredModal 
 isOpen={loginRequiredModal}
 onClose={() => setLoginRequiredModal(false)}
 onLogin={handleLogin}
+/>
+
+<SaveRequiredModal
+isOpen={saveRequiredModal}
+onClose={() => setSaveRequiredModal(false)}
+onSaveAndEdit={handleSaveNotes}
 />
 
     </div>

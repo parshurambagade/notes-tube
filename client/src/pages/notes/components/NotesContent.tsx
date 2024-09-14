@@ -1,9 +1,6 @@
-
 import { useEffect, useState } from 'react';
-import { DUMMY_NOTES_CONTENT } from '../../../utils/dummy-data'
 import ReactQuill from 'react-quill'
 import { useCurrentNotesContext } from '../../../contexts/currentNotesContext';
-import { Navigation } from 'lucide-react';
 
 const NotesContent:React.FC<{allowEditing?: boolean}> = ({allowEditing}) => { 
   const {notes, setNotes} = useCurrentNotesContext();

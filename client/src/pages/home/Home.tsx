@@ -3,11 +3,12 @@ import { parseYouTubeInput } from "../../utils/youtubeUtils";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
 import { useState } from "react";
 import GenerateNotesForm from "./components/GenerateNotesForm";
-import useGenerateNotes from "../../hooks/useGenerateNotes";
+import useNotes from "../../hooks/useNotes";
+
 
 const Home = () => {
   const [allowEditing, setAllowEditing] = useState<boolean>(false);
-  const { generateNotes,setIsGenerating, isGenerating, error, setError } = useGenerateNotes();
+  const { generateNotes, isGenerating, error } = useNotes();
   const { setVideoId } = useCurrentNotesContext();
 
   const handleGenerate = (videoUrl: string) => {
@@ -17,8 +18,6 @@ const Home = () => {
         setVideoId(videoId);
         generateNotes(videoId);
       }
-    } else {
-      setError(true);
     }
   };
 
@@ -34,11 +33,8 @@ const Home = () => {
       <div className="max-w-3xl mx-auto">
         <GenerateNotesForm onSubmit={handleGenerate} isGenerating={isGenerating} />
         <NotesPage
-          setIsGenerating={setIsGenerating}
           setAllowEditing={setAllowEditing}
           allowEditing={allowEditing}
-          setError={setError}
-          error={error}
         />
       </div>
     </div>

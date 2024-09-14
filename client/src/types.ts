@@ -55,7 +55,7 @@ export interface User {
 }
 
 export interface Notes {
-    _id?: string; // MongoDB ObjectId as a string
+    _id: string; // MongoDB ObjectId as a string
     title: string;
     thumbnail: string;
     content: string;
@@ -76,6 +76,8 @@ export interface AuthContextType {
     setUserId: React.Dispatch<React.SetStateAction<string>>;
     logout: () => void;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface CurrentNotesContextType {

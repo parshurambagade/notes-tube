@@ -12,9 +12,9 @@ const router = express.Router();
 
 router.post('/generate', generateNotes);
 router.post('/save', saveNotes);
-router.put('/:id', updateNotes);
+router.put('/update/:id', updateNotes);
 router.delete('/:videoId/:userId', deleteNotes);
-router.get('/:videoId/:userId', getNotes);
-router.get('/all', getAllNotes);
+router.get('/:notesId', getNotes);
+router.get('/all/:userId', getAllNotes);
 
 export default router;
