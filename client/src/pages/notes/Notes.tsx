@@ -34,7 +34,7 @@ const NotesPage: React.FC<NotesPageTypes> = ({setAllowEditing, allowEditing, isS
       <VideoContainer videoId={videoId} />
 
       {/* NOTES CONTENT  */}
-      <NotesContent allowEditing={allowEditing && allowEditing } />
+      <NotesContent allowEditing={allowEditing && allowEditing } content={notes.content} setContent={() => {}}/>
     </div>
   );
 };

@@ -11,6 +11,8 @@ import { Trash2 } from "lucide-react";
 
 const ViewNotes = () => {
 
+    const navigate = useNavigate();
+    
     const {notes} = useCurrentNotesContext();
 
 // get notesid from url 
@@ -34,8 +36,8 @@ useEffect(() => {
   } else {
     return (
       <div className="min-h-screen bg-gray-900 text-gray-100 p-8  w-full ">
-        <div className="flex max-w-4xl justify-between gap-0 mb-0 mx-auto">
-          <div className="flex items-center mb-6">
+        <div className="flex max-w-4xl justify-between gap-0 mb-3 mx-auto">
+          <div className="flex items-center">
             <Link
               to={`/dashboard`}
               className="flex items-center text-gray-400 hover:text-gray-300 transition-colors"
@@ -45,8 +47,8 @@ useEffect(() => {
             </Link>
           </div>
 
-          <div className="flex gap-4 items-center mb-6">
-            <button className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
+          <div className="flex gap-4 items-center">
+            <button className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2" onClick={() => navigate(`/notes/edit/${notesId}`)}>
               <span><FaRegEdit size={20} /></span>
               <span>Edit Notes</span>
               </button>

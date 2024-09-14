@@ -80,7 +80,7 @@ const NotesHeader: React.FC<{
       console.log(`Response in handleSaveNotes`, JSON.stringify(response.data));
       setIsSaved(true);
       alert(response.data.message);
-      navigate('/dashboard');
+      navigate(`/dashboard`);
     }catch(err: any){
       console.error(err);
       alert(err.response.data.message);
@@ -91,9 +91,13 @@ const NotesHeader: React.FC<{
   }
 
   return (
-    <div className="flex justify-between items-center bg-gray-700 px-4 py-4 rounded-t-lg">
-      <h2 className="text-xl font-semibold">{notes?.title}</h2>
-      <div className="flex gap-2">
+    <div className={`flex ${isSaved ? ' flex-col items-start justify-normal' : ''} justify-between items-center bg-gray-700 px-6 py-4 rounded-t-lg`}>
+      <h1 className="text-3xl font-bold mb-3 mt-1 text-left w-full">{notes.title}</h1>
+      <div className={`${!isSaved ? 'hidden ' : ''} w-full flex justify-between items-center text-sm text-gray-400 mb-0`}>
+      <span>Created: {notes.createdAt && new Date(notes.createdAt).toLocaleString()}</span>
+      <span>Updated: {notes.updatedAt && new Date(notes.updatedAt).toLocaleString()}</span>
+      </div>
+      <div className={`flex gap-2 ${isSaved ? ' hidden' : ''}`}>
         {!allowEditing ? (
           <button
             className="text-blue-400 hover:text-blue-300 mr-2"

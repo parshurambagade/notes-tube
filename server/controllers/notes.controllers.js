@@ -150,6 +150,7 @@ export const deleteNotes = async (req, res) => {
 export const updateNotes = async (req, res) => {
   try {
     const { notesId } = req.params;
+    console.log("notesId:", notesId);
     const { content } = req.body;
 
     const authToken = req.cookies.authToken;
@@ -164,7 +165,7 @@ export const updateNotes = async (req, res) => {
       return res.status(400).json({ message: "Notes ID is required" });
     }
 
-    if (!content) {
+    if (!content.length) {
       return res.status(400).json({ message: "Content is required" });
     }
 
