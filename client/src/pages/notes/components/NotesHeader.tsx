@@ -91,7 +91,7 @@ const NotesHeader: React.FC<{
   }
 
   return (
-    <div className="flex justify-between items-center bg-gray-700 px-4 py-2">
+    <div className="flex justify-between items-center bg-gray-700 px-4 py-4 rounded-t-lg">
       <h2 className="text-xl font-semibold">{notes?.title}</h2>
       <div className="flex gap-2">
         {!allowEditing ? (
