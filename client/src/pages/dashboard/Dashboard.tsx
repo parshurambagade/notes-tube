@@ -2,6 +2,7 @@ import { BsArrowLeft, BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NotesContainer from "./components/NotesContainer";
+import SearchBar from "./components/SearchBar";
 
 export default function Dashboard() {
 
@@ -31,7 +32,10 @@ export default function Dashboard() {
         </div>
 
         <div className="relative mb-6 w-full max-w-lg">
-          <input
+
+          <SearchBar />
+
+          {/* <input
             type="text"
             placeholder="Search notes..."
             className="w-full bg-gray-800 text-white border border-gray-700 rounded-md py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -39,7 +43,7 @@ export default function Dashboard() {
           <BsSearch
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             size={20}
-          />
+          /> */}
         </div>
 
         <NotesContainer />

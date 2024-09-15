@@ -198,8 +198,7 @@ export const updateNotes = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-//TODO: fix the logic of getNotes controller
-// Get Notes
+
 export const getNotes = async (req, res) => {
   try {
     const { notesId } = req.params;
@@ -263,3 +262,28 @@ export const getAllNotes = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const searchNotes = async (req, res) => {
+
+  const { query } = req.query;
+
+  const authToken = req.cookies.authToken;
+  const verified = jwt.verify(authToken, JWT_SECRET);
+  const userId = verified.userId; 
+
+  if (!userId) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  try {
+    const results = await Notes.find({
+      createdBy: userId,
+      title: { $regex: query, $options: "i" }, // Case-insensitive partial match
+    }).limit(5); // Limit results for autocomplete
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching search results" });
+  }
+};
+

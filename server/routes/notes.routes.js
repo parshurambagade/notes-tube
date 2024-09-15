@@ -6,10 +6,12 @@ import {
   getNotes,
   getAllNotes,
   saveNotes,
+  searchNotes,
 } from '../controllers/notes.controllers.js';
 
 const router = express.Router();
 
+router.get('/search', searchNotes);
 router.post('/generate', generateNotes);
 router.post('/save', saveNotes);
 router.put('/:notesId', updateNotes);
