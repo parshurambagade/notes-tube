@@ -29,6 +29,7 @@ const EditNotes = () => {
     }
   }, [notes]);
 
+  //TODO: move update notes logic to useNotes hook.
 
   const handleSaveChanges = async () => {
     try{

@@ -118,28 +118,40 @@ export const saveNotes = async (req, res) => {
 
 export const deleteNotes = async (req, res) => {
   try {
-    const { videoId, userId } = req.params;
+    const { notesId } = req.params;
 
-    // Find the note with the specified videoId and createdBy userId
-    const notes = await Notes.findOne({ videoId, createdBy: userId });
+    if(!notesId) {
+      return res.status(400).json({ message: "Notes ID is required" });
+    }
 
-    // If no note is found, return a 404 response
-    if (!notes) {
+    const authToken = req.cookies.authToken;
+    const verified = jwt.verify(authToken, JWT_SECRET);
+    const userId = verified.userId;
+
+    if(!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const notes = await Notes.findById(notesId);
+
+    if(!notes) {
+      return res.status(404).json({ message: "Notes not found" });
+    }
+
+    if(notes.createdBy.toString() !== userId) {
       return res
-        .status(404)
-        .json({
-          message:
-            "Notes not found or you are not authorized to delete this note.",
-        });
+        .status(403)
+        .json({ message: "You are not authorized to delete this note." });
     }
 
     // Remove the note ID from the user's notes array
-    await User.updateOne({ _id: userId }, { $pull: { notes: notes._id } });
+    await User.updateOne({ _id: userId }, { $pull: { notes: notesId } });
 
     // Delete the note itself
     await notes.deleteOne();
 
     return res.status(200).json({ message: "Notes deleted successfully." });
+   
   } catch (error) {
     console.error("Error deleting notes:", error);
     res.status(500).json({ message: "Failed to delete notes" });

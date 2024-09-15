@@ -9,7 +9,7 @@ import useNotes from "../../hooks/useNotes";
 const Home = () => {
   const [allowEditing, setAllowEditing] = useState<boolean>(false);
   const { generateNotes, isGenerating, error } = useNotes();
-  const { setVideoId } = useCurrentNotesContext();
+  const { setVideoId, isSaved } = useCurrentNotesContext();
 
   const handleGenerate = (videoUrl: string) => {
     if (videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be")) {
@@ -32,10 +32,10 @@ const Home = () => {
 
       <div className="max-w-3xl mx-auto">
         <GenerateNotesForm onSubmit={handleGenerate} isGenerating={isGenerating} />
-        <NotesPage
+        {!isSaved && <NotesPage
           setAllowEditing={setAllowEditing}
           allowEditing={allowEditing}
-        />
+        />}
       </div>
     </div>
   );

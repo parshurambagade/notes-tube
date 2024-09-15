@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/generate', generateNotes);
 router.post('/save', saveNotes);
 router.put('/:notesId', updateNotes);
-router.delete('/:videoId/:userId', deleteNotes);
+router.delete('/:notesId', deleteNotes);
 router.get('/:notesId', getNotes);
 router.get('/all/:userId', getAllNotes);
 

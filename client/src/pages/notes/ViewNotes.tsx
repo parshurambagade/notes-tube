@@ -18,7 +18,7 @@ const ViewNotes = () => {
 // get notesid from url 
 const {notesId} = useParams();
 
-const {fetchNotes} = useNotes();
+const {fetchNotes, deleteNotes} = useNotes();
 
 useEffect(() => {
   console.log("View Notes rendered!");
@@ -52,7 +52,7 @@ useEffect(() => {
               <span><FaRegEdit size={20} /></span>
               <span>Edit Notes</span>
               </button>
-              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
+              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2" onClick={() => deleteNotes(notesId)}>
               <span><Trash2 size={20} /></span>
               <span>Delete Notes</span>
               </button>

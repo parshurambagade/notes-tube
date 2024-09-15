@@ -69,11 +69,14 @@ const NotesHeader: React.FC<{
   const handleSaveNotes  = async () => {
      // Backend : { title, thumbnail, content, videoId, createdBy}
      try{
-      
+      console.log("Notes in handleSaveNotes", notes);
       if(!isAuthenticated) setLoginRequiredModal(true);
   
       const response = await axios.post(`${API_ENDPOINT}/notes/save`,{
-        ...notes,
+        title: notes.title,
+        thumbnail: notes.thumbnail,
+        content: notes.content,
+        videoId: notes.videoId,
         createdBy: userId,
       }, { withCredentials: true });
   

@@ -8,13 +8,13 @@ const NotesContainer = () => {
 
   const { userId } = useAuthContext();
 
-  const { savedNotes, loading, error,  fetchAllNotes } = useNotes();
+  const { savedNotes, loading, error,  fetchAllNotes, deleteNotes } = useNotes();
 
   useEffect(() => {
     if (userId) {
       fetchAllNotes();
     }
-  }, [userId])
+  }, [userId]);
 
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const NotesContainer = () => {
             key={notes._id}
             notes={notes}
             onEdit={() => { navigate(`/notes/edit/${notes._id}`)}}
-            onDelete={() => {}}
+            onDelete={() => deleteNotes(notes._id)}
           />
           </Link>
         ))

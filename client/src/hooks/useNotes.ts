@@ -103,19 +103,43 @@ const useNotes = () => {
         alert(response.data.message);
         navigate("/dashboard");
       } catch (err: any) {
-        console.error("Error updating note:", err);
-        alert(err.response?.data?.message || "Failed to update note.");
+        console.error("Error updating notes:", err);
+        alert(err.response?.data?.message || "Failed to update notes.");
         navigate("/dashboard");
       }
     },
     [isAuthenticated, navigate]
   );
 
-  useEffect(() => {
-    if (userId) {
-      fetchAllNotes();
-    }
-  }, [userId, fetchAllNotes]);
+    // delete notes by ID
+    const deleteNotes = useCallback(
+      async (notesId) => {
+        if (!isAuthenticated) {
+          alert("You need to log in to update notes.");
+          return;
+        }
+        try {
+          const response = await axios.delete(
+            `${API_ENDPOINT}/notes/${notesId}`,
+            { withCredentials: true }
+          );
+          alert(response.data.message);
+          fetchAllNotes();
+          navigate("/dashboard");
+        } catch (err: any) {
+          console.error("Error deleting notes:", err);
+          alert(err.response?.data?.message || "Failed to delete notes.");
+          navigate("/dashboard");
+        }
+      },
+      [isAuthenticated, navigate]
+    );
+
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchAllNotes();
+  //   }
+  // }, [userId, fetchAllNotes]);
 
   return {
     savedNotes,
@@ -126,6 +150,7 @@ const useNotes = () => {
     fetchNotes,
     generateNotes,
     updateNotes,
+    deleteNotes,
   };
 };
 
