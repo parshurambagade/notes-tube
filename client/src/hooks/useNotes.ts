@@ -77,6 +77,7 @@ const useNotes = () => {
           thumbnail:
             response?.data?.videoDetails?.snippet?.thumbnails?.medium?.url,
         });
+        setVideoId(videoId);
       } catch (err) {
         console.error("Error generating notes:", err);
         setError("Failed to generate notes. Please try again.");
@@ -113,7 +114,7 @@ const useNotes = () => {
 
     // delete notes by ID
     const deleteNotes = useCallback(
-      async (notesId) => {
+      async (notesId: string) => {
         if (!isAuthenticated) {
           alert("You need to log in to update notes.");
           return;

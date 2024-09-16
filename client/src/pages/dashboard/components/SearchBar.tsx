@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Notes } from "../../../types";
@@ -10,13 +10,36 @@ const SearchBar = () => {
   const [suggestions, setSuggestions] = useState<Notes[]>([]);
   const navigate = useNavigate();
 
+  const debounceTimeout = useRef<any>(null);
+
+  useEffect(() => {
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      handleSearch(query);
+    }, 300);
+
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, [query]);
+
   const handleSearch = async (value: string) => {
     setQuery(value);
-    
-    if (value.length > 2) {  // Start searching after 3 chars
-      const res = await axios.get(`${API_ENDPOINT}/notes/search?query=${value}`, {
-        withCredentials: true,
-      });
+    console.log(value);
+
+    if (value && value.length > 2) {
+      // Start searching after 3 chars
+      const res = await axios.get(
+        `${API_ENDPOINT}/notes/search?query=${value}`,
+        {
+          withCredentials: true,
+        }
+      );
       setSuggestions(res.data);
     } else {
       setSuggestions([]);
@@ -25,7 +48,7 @@ const SearchBar = () => {
 
   const handleSelect = (id: string) => {
     navigate(`/notes/${id}`);
-    setQuery(""); 
+    setQuery("");
     setSuggestions([]); // Clear suggestions
   };
 
@@ -35,7 +58,7 @@ const SearchBar = () => {
         <input
           type="text"
           value={query}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="Search notes..."
           className="w-full bg-gray-800 text-gray-100 placeholder-gray-400 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
         />
