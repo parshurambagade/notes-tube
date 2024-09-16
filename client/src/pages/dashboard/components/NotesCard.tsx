@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmationModal from "../../../components/modals/DeleteConfirmationModal";
-import { useState } from "react";
 
 interface NotesType {
   _id: string;
@@ -28,45 +28,37 @@ const NotesCard: React.FC<{
 
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-      {/* CARD TOP  */}
-      <div className="card-top h-[68%]">
+      <div className="card-top aspect-video">
         <img
           src={notes.thumbnail}
           alt={notes.title}
-          className="w-full h-full object-fit"
+          className="w-full h-full object-cover"
         />
       </div>
 
-      {/* CARD BOTTOM  */}
-      <div className="card-bottom min-h-[32%] flex flex-col justify-between gap-2 p-4">
-        {/* card text  */}
-        <div className=" flex justify-between items-center gap-1">
-          <h3 className="text-base font-semibold  text-gray-100">
+      <div className="card-bottom p-4 flex flex-col justify-between gap-2">
+        <div className="flex justify-between items-center gap-1">
+          <h3 className="text-sm sm:text-base font-semibold text-gray-100 line-clamp-2">
             {notes.title}
           </h3>
         </div>
 
-        {/* card buttons  */}
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-2">
           <button
             onClick={(e) => {
               e.preventDefault();
               onEdit();
             }}
-            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors"
+            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors text-sm"
           >
-            <span>
-              <FaRegEdit />
-            </span>
+            <FaRegEdit />
             <span>Edit</span>
           </button>
           <button
             onClick={handleDeleteClick}
-            className="flex items-center gap-1 text-red-400 hover:text-red-300 transition-colors"
+            className="flex items-center gap-1 text-red-400 hover:text-red-300 transition-colors text-sm"
           >
-            <span>
-              <RiDeleteBin6Line />
-            </span>
+            <RiDeleteBin6Line />
             <span>Delete</span>
           </button>
         </div>

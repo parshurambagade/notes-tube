@@ -4,7 +4,7 @@ import EditNotes from "../pages/notes/EditNotes";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import Dashboard from "../pages/dashboard/Dashboard";
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/layouts/Layout.tsx";
 import Home from "../pages/home/Home";
 import ViewNotes from "../pages/notes/ViewNotes";
 

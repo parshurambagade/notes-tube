@@ -1,12 +1,12 @@
-import "react-quill/dist/quill.snow.css"; // include styles
-import NotesHeader from "./components/NotesHeader.tsx";
-import NotesContent from "./components/NotesContent.tsx";
-import VideoContainer from "./components/VideoContainer.tsx";
-import { useCurrentNotesContext } from "../../contexts/currentNotesContext.tsx";
-import ErrorComponent from "./components/ErrorComponent.tsx";
-import useNotes from "../../hooks/useNotes.ts";
-import { useEffect, useState } from "react";
-import { Notes } from "../../types.ts";
+import React, { useEffect, useState } from "react";
+import "react-quill/dist/quill.snow.css";
+import NotesHeader from "./components/NotesHeader";
+import NotesContent from "./components/NotesContent";
+import VideoContainer from "./components/VideoContainer";
+import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
+import ErrorComponent from "./components/ErrorComponent";
+import useNotes from "../../hooks/useNotes";
+import { Notes } from "../../types";
 
 interface NotesPageTypes {
   setIsGenerating?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +15,7 @@ interface NotesPageTypes {
   setError?: React.Dispatch<React.SetStateAction<boolean>>;
   isSaved?: boolean;
 }
+
 const NotesPage: React.FC<NotesPageTypes> = ({
   setAllowEditing,
   allowEditing,
@@ -24,7 +25,6 @@ const NotesPage: React.FC<NotesPageTypes> = ({
   const [notesVideo, setNotesVideo] = useState<string>("");
 
   const { notes, videoId } = useCurrentNotesContext();
-
   const { error } = useNotes();
 
   useEffect(() => {
@@ -39,30 +39,25 @@ const NotesPage: React.FC<NotesPageTypes> = ({
     }
   }, [videoId]);
 
-  if (notesData && !notesData.content) return;
-
-  {
-    error && <ErrorComponent />;
-  }
+  if (notesData && !notesData.content) return null;
 
   return (
-    <div className="parent lg:px-0  pt-2 pb-8 w-full max-w-4xl border-t-gray-800 h-max bg-gray-900">
-      {/* header of notes */}
-      <NotesHeader
-        isSaved={isSaved}
-        title={notesData?.title}
-        setAllowEditing={setAllowEditing}
-        allowEditing={allowEditing}
-      />
-      {/* VIDEO  */}
-      <VideoContainer videoId={notesVideo} />
-
-      {/* NOTES CONTENT  */}
-      <NotesContent
-        allowEditing={allowEditing && allowEditing}
-        content={notesData.content}
-        setContent={() => {}}
-      />
+    <div className="w-full max-w-4xl mx-auto bg-gray-900 pt-2 pb-8">
+      {error && <ErrorComponent />}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <NotesHeader
+          isSaved={isSaved}
+          title={notesData?.title}
+          setAllowEditing={setAllowEditing}
+          allowEditing={allowEditing}
+        />
+        <VideoContainer videoId={notesVideo} />
+        <NotesContent
+          allowEditing={allowEditing}
+          content={notesData.content}
+          setContent={() => {}}
+        />
+      </div>
     </div>
   );
 };

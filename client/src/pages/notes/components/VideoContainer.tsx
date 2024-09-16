@@ -1,10 +1,17 @@
+import React from "react";
 import { YOUTUBE_IFRAME_URL } from "../../../constants";
 
-const VideoContainer: React.FC<{ videoId: string }> = ({ videoId }) => {
+interface VideoContainerProps {
+  videoId: string;
+}
+
+const VideoContainer: React.FC<VideoContainerProps> = ({ videoId }) => {
+  if (!videoId) return null;
+  
   return (
-    <div className="aspect-w-16 aspect-h-9  border-b-gray-800 bg-gray-800">
+    <div className="aspect-w-16 aspect-h-9 bg-gray-800 mb-4">
       <iframe
-        className="w-full aspect-video"
+        className="w-full h-full"
         src={YOUTUBE_IFRAME_URL + videoId}
         title="YouTube video player"
         frameBorder="0"

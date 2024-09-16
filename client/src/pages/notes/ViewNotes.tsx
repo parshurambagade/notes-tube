@@ -1,29 +1,25 @@
-import NotesPage from "./Notes";
-import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import useNotes from "../../hooks/useNotes";
-import { useEffect, useState } from "react";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { Trash2 } from "lucide-react";
+import NotesPage from "./Notes";
+import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
+import useNotes from "../../hooks/useNotes";
 import DeleteConfirmationModal from "../../components/modals/DeleteConfirmationModal";
 
-const ViewNotes = () => {
+const ViewNotes: React.FC = () => {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const { notes, videoId } = useCurrentNotesContext();
-
-  // get notesid from url
-  const { notesId } = useParams();
-
+  const { notesId } = useParams<{ notesId: string }>();
   const { fetchNotes, deleteNotes } = useNotes();
 
   useEffect(() => {
     if (notesId) {
       fetchNotes(notesId);
     }
-  }, [notesId, videoId]);
+  }, [notesId, videoId, fetchNotes]);
 
   const handleDeleteClick = () => {
     setIsDeleteModalOpen(true);
@@ -38,64 +34,57 @@ const ViewNotes = () => {
         console.error("Error deleting note:", error);
       }
     }
-
     setIsDeleteModalOpen(false);
   };
 
   if (!notes || !notes.content || notes.content.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-8 flex justify-center items-center">
+      <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-8 flex justify-center items-center">
         No notes found.
       </div>
     );
-  } else {
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-8  w-full ">
-        <div className="flex max-w-4xl justify-between gap-0 mb-3 mx-auto">
-          <div className="flex items-center">
-            <Link
-              to={`/dashboard`}
-              className="flex items-center text-gray-400 hover:text-gray-300 transition-colors"
-            >
-              <IoArrowBackSharp className="mr-2" size={20} />
-              Back to Dashboard
-            </Link>
-          </div>
+  }
 
-          <div className="flex gap-4 items-center">
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6 md:p-8 w-full">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <Link
+            to="/dashboard"
+            className="flex items-center text-gray-400 hover:text-gray-300 transition-colors text-sm sm:text-base"
+          >
+            <IoArrowBackSharp className="mr-2" size={20} />
+            Back to Dashboard
+          </Link>
+          <div className="flex gap-2 sm:gap-4">
             <button
-              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2"
+              className="bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-md transition-colors flex items-center gap-2 text-sm sm:text-base"
               onClick={() => navigate(`/notes/edit/${notesId}`)}
             >
-              <span>
-                <FaRegEdit size={20} />
-              </span>
-              <span>Edit Notes</span>
+              <FaRegEdit size={16} sm:size={20} />
+              <span className="hidden sm:inline">Edit Notes</span>
             </button>
             <button
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2"
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-md transition-colors flex items-center gap-2 text-sm sm:text-base"
               onClick={handleDeleteClick}
             >
-              <span>
-                <Trash2 size={20} />
-              </span>
-              <span>Delete Notes</span>
+              <Trash2 size={16} sm:size={20} />
+              <span className="hidden sm:inline">Delete Notes</span>
             </button>
           </div>
         </div>
         <div className="flex justify-center items-center">
           <NotesPage allowEditing={false} isSaved={true} />
         </div>
-
-        <DeleteConfirmationModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={handleConfirmDelete}
-          noteTitle={notes.title}
-        />
       </div>
-    );
-  }
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        noteTitle={notes.title}
+      />
+    </div>
+  );
 };
 
 export default ViewNotes;

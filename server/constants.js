@@ -20,4 +20,4 @@ Notes: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>, 
 
 Structure: Do not include <head> and <body> tags. Do not add classes for borders, shadows, margins, and paddings to the main parent container.
 
-Please ensure the notes are comprehensive, detailed, and cover all points discussed in the transcription. Here is the transcription:`;
+Please ensure the notes are comprehensive, detailed, and cover all points discussed in the transcription. Make notes in simple English language. Here is the transcription:`;

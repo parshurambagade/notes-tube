@@ -1,27 +1,28 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiSave } from "react-icons/fi";
-import { useCurrentNotesContext } from "../../../contexts/currentNotesContext";
 import { VscOpenPreview } from "react-icons/vsc";
-import LoginRequiredModal from "../../../components/modals/LoginRequiredModal";
-import { useState } from "react";
+import { useCurrentNotesContext } from "../../../contexts/currentNotesContext";
 import { useAuthContext } from "../../../contexts/authContext";
+import LoginRequiredModal from "../../../components/modals/LoginRequiredModal";
 import SaveRequiredModal from "../../../components/modals/SaveRequiredModal";
 import axios from "axios";
 import { API_ENDPOINT } from "../../../constants";
 
-const NotesHeader: React.FC<{
+interface NotesHeaderProps {
   isSaved?: boolean;
   title: string;
   setAllowEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   allowEditing?: boolean;
-}> = ({ isSaved, setAllowEditing, allowEditing }) => {
+}
+
+const NotesHeader: React.FC<NotesHeaderProps> = ({ isSaved, setAllowEditing, allowEditing }) => {
   const { notes, setIsSaved, setVideoId } = useCurrentNotesContext();
   const { isAuthenticated } = useAuthContext();
   const [loginRequiredModal, setLoginRequiredModal] = useState<boolean>(false);
   const [saveRequiredModal, setSaveRequiredModal] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   const handleEdit = () => {
@@ -36,6 +37,7 @@ const NotesHeader: React.FC<{
       setLoginRequiredModal(true);
     }
   };
+
   const handleLogin = () => {
     setLoginRequiredModal(false);
     navigate("/login");
@@ -76,49 +78,28 @@ const NotesHeader: React.FC<{
   };
 
   return (
-    <div
-      className={`flex ${
-        isSaved ? " flex-col items-start justify-normal" : ""
-      } justify-between items-center bg-gray-700 px-6 py-4 rounded-t-lg`}
-    >
-      <h1 className="text-3xl font-bold mb-3 mt-1 text-left w-full">
-        {notes.title}
-      </h1>
-      <div
-        className={`${
-          !isSaved ? "hidden " : ""
-        } w-full flex justify-between items-center text-sm text-gray-400 mb-0`}
-      >
-        <span>
-          Created:{" "}
-          {notes.createdAt && new Date(notes.createdAt).toLocaleString()}
-        </span>
-        <span>
-          Updated:{" "}
-          {notes.updatedAt && new Date(notes.updatedAt).toLocaleString()}
-        </span>
+    <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-700 px-4 sm:px-6 py-4 rounded-t-lg`}>
+      <div className="w-full sm:w-auto mb-4 sm:mb-0">
+        <h1 className="text-xl sm:text-3xl font-bold text-left">{notes.title}</h1>
+        {isSaved && (
+          <div className="flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-400 mt-2">
+            <span>Created: {notes.createdAt && new Date(notes.createdAt).toLocaleString()}</span>
+            <span className="mt-1 sm:mt-0 sm:ml-4">Updated: {notes.updatedAt && new Date(notes.updatedAt).toLocaleString()}</span>
+          </div>
+        )}
       </div>
-      <div className={`flex gap-2 ${isSaved ? " hidden" : ""}`}>
+      <div className={`flex gap-2 ${isSaved ? "hidden sm:flex" : ""}`}>
         {!allowEditing ? (
-          <button
-            className="text-blue-400 hover:text-blue-300 mr-2"
-            onClick={handleEdit}
-          >
+          <button className="text-blue-400 hover:text-blue-300 mr-2" onClick={handleEdit}>
             <FaRegEdit size={20} />
           </button>
         ) : !isAuthenticated ? (
-          <button
-            className="text-blue-400 hover:text-blue-300 mr-2"
-            onClick={() => navigate(`/notes/${notes._id}`)}
-          >
+          <button className="text-blue-400 hover:text-blue-300 mr-2" onClick={() => navigate(`/notes/${notes._id}`)}>
             <VscOpenPreview size={20} />
           </button>
         ) : null}
         {!isSaved ? (
-          <button
-            className="text-green-400 hover:text-green-300"
-            onClick={handleSave}
-          >
+          <button className="text-green-400 hover:text-green-300" onClick={handleSave}>
             <FiSave size={20} />
           </button>
         ) : (

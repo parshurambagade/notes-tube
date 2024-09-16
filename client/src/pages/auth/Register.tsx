@@ -20,7 +20,6 @@ const Register: React.FC = () => {
   const { email, username, password } = formData;
 
   useEffect(() => {
-    // Redirect if the user is already authenticated (logic for checking can be more robust)
     isAuthenticated && navigate("/");
   }, [navigate, isAuthenticated]);
 
@@ -42,10 +41,9 @@ const Register: React.FC = () => {
       const { user } = response.data;
       setUser(user);
       setUserId(user._id);
-      setIsAuthenticated(true); // Save user details in context
+      setIsAuthenticated(true);
       navigate("/");
     } catch (error: any) {
-      // Handle errors based on the status code
       setErrorMessage(
         error?.response?.data?.message || "something went wrong!"
       );
@@ -55,36 +53,33 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex">
-        {/* Left side - Image and Text */}
-        <div className="w-1/2 relative hidden md:block">
+      <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 relative hidden md:block">
           <img
             src={LOGIN_BACKGROUND_IMAGE}
             alt="Login background"
             className="object-cover h-full w-full max-h-[32rem]"
           />
-          <div className="absolute inset-0 bg-blue-600 bg-opacity-50 flex flex-col items-center justify-center gap-8">
-            <h1 className="text-white text-6xl font-black text-center text-wrap">
+          <div className="absolute inset-0 bg-blue-600 bg-opacity-50 flex flex-col items-center justify-center gap-4 md:gap-8 p-4">
+            <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-black text-center">
               Register to NotesTube
             </h1>
-            <p className="text-gray-200">From watching to understanding!!!</p>
+            <p className="text-gray-200 text-sm md:text-base">From watching to understanding!!!</p>
           </div>
         </div>
 
-        {/* Right side - Login Form */}
-        <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-gray-100 mb-4">Register</h2>
-          {/* ERROR MESSAGES  */}
+        <div className="w-full md:w-1/2 p-6 md:p-8">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-4">Register</h2>
           {errorMessage && (
-            <p className="text-red-500 text-xs select-none my-4">
+            <p className="text-red-500 text-xs md:text-sm select-none my-4">
               {errorMessage}!
             </p>
           )}
-          <form onSubmit={handleFormSubmit} className="space-y-6 ">
+          <form onSubmit={handleFormSubmit} className="space-y-4 md:space-y-6">
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-300"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Username
               </label>
@@ -102,7 +97,7 @@ const Register: React.FC = () => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-300"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Email
               </label>
@@ -120,7 +115,7 @@ const Register: React.FC = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-300"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Password
               </label>
@@ -138,13 +133,13 @@ const Register: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="outline-none w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                className="outline-none w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
               >
                 Register
               </button>
             </div>
           </form>
-          <p className="mt-4 text-center text-sm text-gray-400">
+          <p className="mt-4 text-center text-xs md:text-sm text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"

@@ -1,22 +1,22 @@
+import React, { useEffect, useState } from "react";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import useNotes from "../../hooks/useNotes";
 import NotesContent from "./components/NotesContent";
 import { FiSave } from "react-icons/fi";
 import { IoArrowBackSharp } from "react-icons/io5";
 
-const EditNotes = () => {
+const EditNotes: React.FC = () => {
   const { notes } = useCurrentNotesContext();
   const { fetchNotes, updateNotes } = useNotes();
-  const { notesId } = useParams();
+  const { notesId } = useParams<{ notesId: string }>();
   const [notesContent, setNotesContent] = useState("");
 
   useEffect(() => {
     if (notesId) {
       fetchNotes(notesId);
     }
-  }, [notesId]);
+  }, [notesId, fetchNotes]);
 
   useEffect(() => {
     if (notes.content) {
@@ -25,38 +25,35 @@ const EditNotes = () => {
   }, [notes]);
 
   const handleSaveChanges = async () => {
-    await updateNotes(notesId as string, notesContent);
+    if (notesId) {
+      await updateNotes(notesId, notesContent);
+    }
   };
 
   if (!notesContent.length) {
-    return;
-  } else {
-    return (
-      <div className="min-h-screen    bg-gray-900 text-gray-100 p-8  w-full ">
-        <div className="flex max-w-4xl justify-between gap-0 mb-0 mx-auto">
-          <div className="flex items-center mb-6">
-            <Link
-              to={`/dashboard`}
-              className="flex items-center text-gray-400 hover:text-gray-300 transition-colors"
-            >
-              <IoArrowBackSharp className="mr-2" size={20} />
-              Back to Dashboard
-            </Link>
-          </div>
+    return null;
+  }
 
-          <div className="flex items-center mb-6">
-            <button
-              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2"
-              onClick={handleSaveChanges}
-            >
-              <span>
-                <FiSave size={20} />
-              </span>
-              <span>Save Changes</span>
-            </button>
-          </div>
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6 md:p-8 w-full">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <Link
+            to="/dashboard"
+            className="flex items-center text-gray-400 hover:text-gray-300 transition-colors text-sm sm:text-base"
+          >
+            <IoArrowBackSharp className="mr-2" size={20} />
+            Back to Dashboard
+          </Link>
+          <button
+            className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2 text-sm sm:text-base"
+            onClick={handleSaveChanges}
+          >
+            <FiSave size={20} />
+            <span>Save Changes</span>
+          </button>
         </div>
-        <div className="max-w-4xl w-full flex justify-center items-center mx-auto">
+        <div className="w-full">
           <NotesContent
             allowEditing={true}
             content={notesContent}
@@ -64,8 +61,8 @@ const EditNotes = () => {
           />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default EditNotes;
