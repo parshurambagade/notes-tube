@@ -2,7 +2,6 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmationModal from "../../../components/modals/DeleteConfirmationModal";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface NotesType {
   _id: string;
@@ -15,10 +14,8 @@ const NotesCard: React.FC<{
   onEdit: () => void;
   onDelete: () => void;
 }> = ({ notes, onEdit, onDelete }) => {
-
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const navigate = useNavigate();
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsDeleteModalOpen(true);
@@ -74,7 +71,15 @@ const NotesCard: React.FC<{
           </button>
         </div>
       </div>
-      <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={(e) => { e.preventDefault(); setIsDeleteModalOpen(false)}} onConfirm={handleConfirmDelete} noteTitle={notes.title} />
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={(e) => {
+          e.preventDefault();
+          setIsDeleteModalOpen(false);
+        }}
+        onConfirm={handleConfirmDelete}
+        noteTitle={notes.title}
+      />
     </div>
   );
 };

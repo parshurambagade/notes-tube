@@ -11,7 +11,6 @@ const Login: React.FC = () => {
     password: "Pass123",
   });
 
-  //TODO: 
   const [errorMessage, setErrorMessage] = useState("");
 
   const { setUserId, setUser, isAuthenticated, setIsAuthenticated } =
@@ -19,7 +18,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isAuthenticated && navigate('/');
+    isAuthenticated && navigate("/");
   }, [navigate, isAuthenticated]);
 
   const { email, password } = formData;
@@ -45,11 +44,12 @@ const Login: React.FC = () => {
       setUser(user);
       setIsAuthenticated(true);
       navigate("/");
-      console.log("Logged in user: ", user);
     } catch (error: any) {
       // Handle errors based on the status code
-      setErrorMessage(error?.response?.data?.message || "something went wrong!");
-      console.error(error?.message)
+      setErrorMessage(
+        error?.response?.data?.message || "something went wrong!"
+      );
+      console.error(error?.message);
     }
   };
 
@@ -76,7 +76,11 @@ const Login: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-100 mb-6">Login</h2>
           <form onSubmit={handleFormSubmit} className="space-y-6">
             {/* ERROR MESSAGES  */}
-            {errorMessage && <p className="text-red-500 text-xs select-none">{errorMessage}!</p>}
+            {errorMessage && (
+              <p className="text-red-500 text-xs select-none">
+                {errorMessage}!
+              </p>
+            )}
             <div>
               <label
                 htmlFor="email"

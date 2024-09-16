@@ -1,6 +1,6 @@
 // controllers/sectionController.js
 
-import Section from '../models/section.model.js';
+import Section from "../models/section.model.js";
 
 // Create Section
 export const createSection = async (req, res) => {
@@ -33,7 +33,7 @@ export const updateSection = async (req, res) => {
     );
 
     if (!section) {
-      return res.status(404).json({ message: 'Section not found' });
+      return res.status(404).json({ message: "Section not found" });
     }
 
     res.json(section);
@@ -49,10 +49,10 @@ export const deleteSection = async (req, res) => {
 
     const section = await Section.findByIdAndDelete(id);
     if (!section) {
-      return res.status(404).json({ message: 'Section not found' });
+      return res.status(404).json({ message: "Section not found" });
     }
 
-    res.json({ message: 'Section deleted successfully' });
+    res.json({ message: "Section deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -61,7 +61,7 @@ export const deleteSection = async (req, res) => {
 // Get Sections
 export const getSections = async (req, res) => {
   try {
-    const sections = await Section.find().populate('createdBy', 'name');
+    const sections = await Section.find().populate("createdBy", "name");
     res.json(sections);
   } catch (err) {
     res.status(500).json({ message: err.message });

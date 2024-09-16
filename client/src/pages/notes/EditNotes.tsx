@@ -1,19 +1,14 @@
-import NotesPage from "./Notes";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useNotes from "../../hooks/useNotes";
 import NotesContent from "./components/NotesContent";
-import { FaRegEdit } from "react-icons/fa";
 import { FiSave } from "react-icons/fi";
 import { IoArrowBackSharp } from "react-icons/io5";
-import { API_ENDPOINT } from "../../constants";
-import axios from "axios";
 
 const EditNotes = () => {
   const { notes } = useCurrentNotesContext();
-  const { fetchNotes } = useNotes();
+  const { fetchNotes, updateNotes } = useNotes();
   const { notesId } = useParams();
   const [notesContent, setNotesContent] = useState("");
 
@@ -29,30 +24,9 @@ const EditNotes = () => {
     }
   }, [notes]);
 
-  //TODO: move update notes logic to useNotes hook.
-
   const handleSaveChanges = async () => {
-    try{
-      if (notesContent.length && notesId) {
-        const response = await axios.put(`${API_ENDPOINT}/notes/${notesId}`, {
-          content: notesContent,
-        }, {
-          withCredentials: true,
-        })
-
-        console.log("Response in handleSaveChanges", response);
-
-        if (response.status === 200) {
-          fetchNotes(notesId);
-          alert("Notes updated successfully");
-        }
-      }
-    }catch(err){
-      console.error(err);
-    }
-    
-
-  }; 
+    await updateNotes(notesId as string, notesContent);
+  };
 
   if (!notesContent.length) {
     return;
@@ -65,21 +39,29 @@ const EditNotes = () => {
               to={`/dashboard`}
               className="flex items-center text-gray-400 hover:text-gray-300 transition-colors"
             >
-              <IoArrowBackSharp  className="mr-2" size={20} />
+              <IoArrowBackSharp className="mr-2" size={20} />
               Back to Dashboard
             </Link>
           </div>
 
           <div className="flex items-center mb-6">
-            <button className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2" onClick={handleSaveChanges}>
-              <span><FiSave size={20} /></span>
+            <button
+              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2"
+              onClick={handleSaveChanges}
+            >
+              <span>
+                <FiSave size={20} />
+              </span>
               <span>Save Changes</span>
-              </button>
+            </button>
           </div>
         </div>
         <div className="max-w-4xl w-full flex justify-center items-center mx-auto">
-          {/* <NotesPage allowEditing={true} isSaved={false} /> */}
-          <NotesContent allowEditing={true} content={notesContent} setContent={setNotesContent} />
+          <NotesContent
+            allowEditing={true}
+            content={notesContent}
+            setContent={setNotesContent}
+          />
         </div>
       </div>
     );

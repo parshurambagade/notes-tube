@@ -1,7 +1,8 @@
 import { configDotenv } from "dotenv";
 configDotenv();
 
-export const DEFAULT_PROFILE_PIC = "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg";
+export const DEFAULT_PROFILE_PIC =
+  "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg";
 
 export const PORT = process.env.PORT;
 
@@ -19,4 +20,4 @@ Notes: Use appropriate HTML tags for elements like <li>, <ul>, <ol>, <p>, <h1>, 
 
 Structure: Do not include <head> and <body> tags. Do not add classes for borders, shadows, margins, and paddings to the main parent container.
 
-Please ensure the notes are comprehensive, detailed, and cover all points discussed in the transcription. Here is the transcription:`
+Please ensure the notes are comprehensive, detailed, and cover all points discussed in the transcription. Here is the transcription:`;

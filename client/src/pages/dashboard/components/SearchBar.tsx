@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Notes } from "../../../types";
@@ -30,7 +30,6 @@ const SearchBar = () => {
 
   const handleSearch = async (value: string) => {
     setQuery(value);
-    console.log(value);
 
     if (value && value.length > 2) {
       // Start searching after 3 chars

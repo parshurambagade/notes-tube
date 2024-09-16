@@ -1,8 +1,6 @@
 import { YOUTUBE_IFRAME_URL } from "../../../constants";
 
-const VideoContainer: React.FC<{videoId: string}> = ({videoId}) => {
-
-
+const VideoContainer: React.FC<{ videoId: string }> = ({ videoId }) => {
   return (
     <div className="aspect-w-16 aspect-h-9  border-b-gray-800 bg-gray-800">
       <iframe

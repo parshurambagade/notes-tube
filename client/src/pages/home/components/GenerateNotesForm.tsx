@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { INITIAL_VIDEO_URL } from "../../../constants";
 
 interface GenerateNotesFormProps {
   onSubmit: (videoUrl: string) => void;
   isGenerating: boolean;
 }
 
-const GenerateNotesForm: React.FC<GenerateNotesFormProps> = ({ onSubmit, isGenerating }) => {
-  const [videoUrl, setVideoUrl] = useState<string>("https://youtu.be/yEKtJGha3yM?si=Y4yRCmMA65E08e3o");
+const GenerateNotesForm: React.FC<GenerateNotesFormProps> = ({
+  onSubmit,
+  isGenerating,
+}) => {
+  const [videoUrl, setVideoUrl] = useState<string>(INITIAL_VIDEO_URL);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

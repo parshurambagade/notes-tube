@@ -1,20 +1,26 @@
-
 interface SaveRequiredModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSaveAndEdit: () => void
+  isOpen: boolean;
+  onClose: () => void;
+  onSaveAndEdit: () => void;
 }
 
-export default function SaveRequiredModal({ isOpen, onClose, onSaveAndEdit }: SaveRequiredModalProps) {
-  if (!isOpen) return null
+export default function SaveRequiredModal({
+  isOpen,
+  onClose,
+  onSaveAndEdit,
+}: SaveRequiredModalProps) {
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         <div className="p-6">
-          <h2 className="text-xl font-semibold text-gray-100 mb-4">Save Required</h2>
+          <h2 className="text-xl font-semibold text-gray-100 mb-4">
+            Save Required
+          </h2>
           <p className="text-gray-300 mb-6">
-            You need to save your notes before editing. Would you like to save now?
+            You need to save your notes before editing. Would you like to save
+            now?
           </p>
           <div className="flex justify-end space-x-4">
             <button
@@ -33,5 +39,5 @@ export default function SaveRequiredModal({ isOpen, onClose, onSaveAndEdit }: Sa
         </div>
       </div>
     </div>
-  )
+  );
 }

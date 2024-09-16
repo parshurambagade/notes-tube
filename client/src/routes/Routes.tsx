@@ -1,6 +1,5 @@
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import NotesPage from "../pages/notes/Notes";
 import EditNotes from "../pages/notes/EditNotes";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import Dashboard from "../pages/dashboard/Dashboard";

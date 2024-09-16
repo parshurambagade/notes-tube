@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -30,14 +30,14 @@ const Header: React.FC = () => {
           {isAuthenticated ? (
             <button
               onClick={() => handleLogout()}
-               className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors"
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
             >
               Login
             </Link>

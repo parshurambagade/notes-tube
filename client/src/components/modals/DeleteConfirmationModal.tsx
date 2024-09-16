@@ -1,19 +1,19 @@
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
 
 interface DeleteConfirmationModalProps {
-  isOpen: boolean
-  onClose: (e: React.MouseEvent) => void
-  onConfirm: () => void
-  noteTitle: string
+  isOpen: boolean;
+  onClose: (e: React.MouseEvent) => void;
+  onConfirm: () => void;
+  noteTitle: string;
 }
 
 export default function DeleteConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
-  noteTitle
+  noteTitle,
 }: DeleteConfirmationModalProps) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -40,8 +40,8 @@ export default function DeleteConfirmationModal({
           </button>
           <button
             onClick={(e) => {
-              onConfirm()
-              onClose(e)
+              onConfirm();
+              onClose(e);
             }}
             className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
           >
@@ -50,5 +50,5 @@ export default function DeleteConfirmationModal({
         </div>
       </div>
     </div>
-  )
+  );
 }

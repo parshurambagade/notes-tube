@@ -6,7 +6,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { JWT_SECRET, PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 import User from "../models/user.model.js";
 import axios from "axios";
-// import Section from '../models/section.model.js';
 import jwt from "jsonwebtoken";
 
 // Create Note
@@ -42,19 +41,15 @@ export const generateNotes = async (req, res) => {
 
     const videoDetails = response.data.items[0];
 
-    // console.log(videoDetails);
-
     const transcript = await YoutubeTranscript.fetchTranscript(videoId);
     const combinedTranscript = transcript.reduce((acc, cur) => {
       return acc + cur.text + " ";
     });
-    console.log(combinedTranscript);
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = PROMPT_FOR_NOTES_GENERATION + combinedTranscript;
-    console.log("Prompt length: ", prompt.length);
 
     if (prompt.length > 25000) {
       res.status(400).json({ message: "Video length is too long" });
@@ -62,7 +57,6 @@ export const generateNotes = async (req, res) => {
       const result = await model.generateContent(prompt);
       const response = result.response;
       const text = response.text();
-      console.log(text);
       res.json({ content: text, videoDetails: videoDetails });
     }
   } catch (err) {
@@ -72,7 +66,7 @@ export const generateNotes = async (req, res) => {
 
 export const saveNotes = async (req, res) => {
   try {
-    const { title, thumbnail, content, videoId} = req.body;
+    const { title, thumbnail, content, videoId } = req.body;
 
     if (!title || !thumbnail || !content || !videoId) {
       return res.status(400).json({ message: "All fields are required" });
@@ -82,7 +76,10 @@ export const saveNotes = async (req, res) => {
 
     const verified = jwt.verify(token, JWT_SECRET);
     const userId = verified.userId;
-    console.log("user id", userId);
+
+    if(!token){
+      return res.status(401).json({ message: "Not authenticated" });
+    }
 
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
@@ -110,10 +107,11 @@ export const saveNotes = async (req, res) => {
 
     // Update the user's notes array to include the newly created note's ID
     await User.findByIdAndUpdate(
-      {createdBy: userId},
+      userId,
       { $push: { notes: savedNotes._id } },
       { new: true } // Optionally return the updated document if needed
     );
+    
 
     res
       .status(200)
@@ -171,7 +169,6 @@ export const deleteNotes = async (req, res) => {
 export const updateNotes = async (req, res) => {
   try {
     const { notesId } = req.params;
-    console.log("notesId:", notesId);
     const { content } = req.body;
 
     const authToken = req.cookies.authToken;
@@ -214,6 +211,10 @@ export const getNotes = async (req, res) => {
     const authToken = req.cookies.authToken;
     const verified = jwt.verify(authToken, JWT_SECRET);
     const userId = verified.userId;
+
+    if (!authToken) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
 
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });

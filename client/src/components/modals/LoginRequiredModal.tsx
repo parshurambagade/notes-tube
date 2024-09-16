@@ -1,19 +1,26 @@
 interface LoginRequiredModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onLogin: () => void
+  isOpen: boolean;
+  onClose: () => void;
+  onLogin: () => void;
 }
 
-export default function LoginRequiredModal({ isOpen, onClose, onLogin }: LoginRequiredModalProps) {
-  if (!isOpen) return null
+export default function LoginRequiredModal({
+  isOpen,
+  onClose,
+  onLogin,
+}: LoginRequiredModalProps) {
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         <div className="p-6">
-          <h2 className="text-xl font-semibold text-gray-100 mb-4">Login Required</h2>
+          <h2 className="text-xl font-semibold text-gray-100 mb-4">
+            Login Required
+          </h2>
           <p className="text-gray-300 mb-6">
-            You need to be logged in to access this feature. Would you like to log in now?
+            You need to be logged in to access this feature. Would you like to
+            log in now?
           </p>
           <div className="flex justify-end space-x-4">
             <button
@@ -32,5 +39,5 @@ export default function LoginRequiredModal({ isOpen, onClose, onLogin }: LoginRe
         </div>
       </div>
     </div>
-  )
+  );
 }

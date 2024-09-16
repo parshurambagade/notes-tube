@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { SaveNotesPopupProps } from '../../../types';
+import React, { useState } from "react";
+import { SaveNotesPopupProps } from "../../../types";
 
-const SaveNotesPopup: React.FC<SaveNotesPopupProps> = ({  onSave, onClose, videoTitle }) => {
+const SaveNotesPopup: React.FC<SaveNotesPopupProps> = ({
+  onSave,
+  onClose,
+  videoTitle,
+}) => {
   const [notesName, setnotesName] = useState(videoTitle || "");
-
 
   const handleSave = async () => {
     if (notesName.trim()) {
-      
       onSave({
-        notesName
+        notesName,
       });
     } else {
-      alert('Please enter a name for the notes.');
+      alert("Please enter a name for the notes.");
     }
   };
-  
 
-  return (  
+  return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50 border border-zinc-600">
       <div className="bg-zinc-800 p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-bold mb-4">Save Note</h2>
@@ -32,7 +33,6 @@ const SaveNotesPopup: React.FC<SaveNotesPopupProps> = ({  onSave, onClose, video
           />
         </label>
 
-        
         <div className="flex justify-end">
           <button
             className="mr-2 hover:bg-zinc-700 bg-zinc-600 text-white px-4 py-2 rounded-md focus:outline-none"

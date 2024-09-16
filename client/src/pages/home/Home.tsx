@@ -5,10 +5,9 @@ import { useState } from "react";
 import GenerateNotesForm from "./components/GenerateNotesForm";
 import useNotes from "../../hooks/useNotes";
 
-
 const Home = () => {
   const [allowEditing, setAllowEditing] = useState<boolean>(false);
-  const { generateNotes, isGenerating, error } = useNotes();
+  const { generateNotes, isGenerating } = useNotes();
   const { setVideoId, isSaved } = useCurrentNotesContext();
 
   const handleGenerate = (videoUrl: string) => {
@@ -31,12 +30,17 @@ const Home = () => {
       </p>
 
       <div className="max-w-3xl mx-auto">
-        <GenerateNotesForm onSubmit={handleGenerate} isGenerating={isGenerating} />
-        
-        {!isSaved && <NotesPage
-          setAllowEditing={setAllowEditing}
-          allowEditing={allowEditing}
-        />}
+        <GenerateNotesForm
+          onSubmit={handleGenerate}
+          isGenerating={isGenerating}
+        />
+
+        {!isSaved && (
+          <NotesPage
+            setAllowEditing={setAllowEditing}
+            allowEditing={allowEditing}
+          />
+        )}
       </div>
     </div>
   );

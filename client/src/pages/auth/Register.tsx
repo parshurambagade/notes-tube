@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { API_ENDPOINT } from "../../constants";
+import { API_ENDPOINT, LOGIN_BACKGROUND_IMAGE } from "../../constants";
 import { AuthContextType, RegisterFormDataType } from "../../types";
 import { useAuthContext } from "../../contexts/authContext";
 
@@ -13,14 +13,15 @@ const Register: React.FC = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { setUser, setUserId, setIsAuthenticated, isAuthenticated} = useAuthContext() as AuthContextType;
+  const { setUser, setUserId, setIsAuthenticated, isAuthenticated } =
+    useAuthContext() as AuthContextType;
   const navigate = useNavigate();
-  
+
   const { email, username, password } = formData;
 
   useEffect(() => {
     // Redirect if the user is already authenticated (logic for checking can be more robust)
-    isAuthenticated && navigate('/');
+    isAuthenticated && navigate("/");
   }, [navigate, isAuthenticated]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,17 +34,22 @@ const Register: React.FC = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_ENDPOINT}/auth/register`, formData, { withCredentials: true });
-      const { user } = response.data; 
-      console.log("Response in handleFormSubmit (Register): ", response);
-      setUser(user); 
+      const response = await axios.post(
+        `${API_ENDPOINT}/auth/register`,
+        formData,
+        { withCredentials: true }
+      );
+      const { user } = response.data;
+      setUser(user);
       setUserId(user._id);
-      setIsAuthenticated(true);    // Save user details in context
+      setIsAuthenticated(true); // Save user details in context
       navigate("/");
-    } catch (error:any) {
+    } catch (error: any) {
       // Handle errors based on the status code
-      setErrorMessage(error?.response?.data?.message || "something went wrong!");
-      console.error(error?.message)
+      setErrorMessage(
+        error?.response?.data?.message || "something went wrong!"
+      );
+      console.error(error?.message);
     }
   };
 
@@ -53,7 +59,7 @@ const Register: React.FC = () => {
         {/* Left side - Image and Text */}
         <div className="w-1/2 relative hidden md:block">
           <img
-            src="https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3R1ZHl8ZW58MHx8MHx8fDA%3D"
+            src={LOGIN_BACKGROUND_IMAGE}
             alt="Login background"
             className="object-cover h-full w-full max-h-[32rem]"
           />
@@ -69,7 +75,11 @@ const Register: React.FC = () => {
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-2xl font-bold text-gray-100 mb-4">Register</h2>
           {/* ERROR MESSAGES  */}
-          {errorMessage && <p className="text-red-500 text-xs select-none my-4">{errorMessage}!</p>}
+          {errorMessage && (
+            <p className="text-red-500 text-xs select-none my-4">
+              {errorMessage}!
+            </p>
+          )}
           <form onSubmit={handleFormSubmit} className="space-y-6 ">
             <div>
               <label

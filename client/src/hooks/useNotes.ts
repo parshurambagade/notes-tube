@@ -13,7 +13,7 @@ const useNotes = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const { setNotes, setVideoId, setIsSaved} = useCurrentNotesContext();
+  const { setNotes, setVideoId, setIsSaved } = useCurrentNotesContext();
   const { userId, isAuthenticated } = useAuthContext();
   const navigate = useNavigate();
 
@@ -26,10 +26,9 @@ const useNotes = () => {
     setSavedNotes([]);
 
     try {
-      const response = await axios.get(`${API_ENDPOINT}/notes/all/${userId}`,{
+      const response = await axios.get(`${API_ENDPOINT}/notes/all/${userId}`, {
         withCredentials: true,
       });
-      console.log("Response in fetchAllNotes", response.data);
       setSavedNotes(response.data);
     } catch (err) {
       console.error("Error fetching all notes:", err);
@@ -37,7 +36,7 @@ const useNotes = () => {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, isAuthenticated]);
 
   // Fetch a single note by ID
   const fetchNotes = useCallback(async (notesId: string) => {
@@ -56,7 +55,7 @@ const useNotes = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setNotes, setVideoId, setIsSaved]);
 
   // Generate notes from a video
   const generateNotes = useCallback(
@@ -70,10 +69,11 @@ const useNotes = () => {
           userId,
         });
 
-        
+
 
         const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
-        setNotes({ _id: '1', //todo: fix this
+        setNotes({
+          _id: '1', //todo: fix this
           content: sanitizedHTML,
           videoId,
           title: response?.data?.videoDetails?.snippet?.title,
@@ -81,9 +81,10 @@ const useNotes = () => {
             response?.data?.videoDetails?.snippet?.thumbnails?.medium?.url,
         });
         setVideoId(videoId);
-      } catch (err:any) {
+        setIsSaved(false);
+      } catch (err: any) {
 
-        if(err.response.status == 400){
+        if (err.response.status == 400) {
           alert(err.response.data.message);
           navigate(`/notes/${err.response.data.notes._id}`);
         }
@@ -94,62 +95,62 @@ const useNotes = () => {
         setIsGenerating(false);
       }
     },
-    [setNotes]
+    [setNotes, setVideoId, setIsSaved, navigate, userId]
   );
 
-  // Update notes by ID
-  const updateNotes = useCallback(
-    async (id: string, content: string) => {
+
+  // delete notes by ID
+  const deleteNotes = useCallback(
+    async (notesId: string) => {
       if (!isAuthenticated) {
         alert("You need to log in to update notes.");
         return;
       }
       try {
-        const response = await axios.put(
-          `${API_ENDPOINT}/notes/update/${id}`,
-          { content },
+        const response = await axios.delete(
+          `${API_ENDPOINT}/notes/${notesId}`,
           { withCredentials: true }
         );
         alert(response.data.message);
         navigate("/dashboard");
       } catch (err: any) {
-        console.error("Error updating notes:", err);
-        alert(err.response?.data?.message || "Failed to update notes.");
+        console.error("Error deleting notes:", err);
+        alert(err.response?.data?.message || "Failed to delete notes.");
         navigate("/dashboard");
       }
     },
-    [isAuthenticated, navigate]
+    [fetchAllNotes, navigate, isAuthenticated]
   );
 
-    // delete notes by ID
-    const deleteNotes = useCallback(
-      async (notesId: string) => {
-        if (!isAuthenticated) {
-          alert("You need to log in to update notes.");
-          return;
-        }
-        try {
-          const response = await axios.delete(
+  const updateNotes = useCallback(
+    async (notesId: string, notesContent: string) => {
+      try {
+        if (notesContent.length && notesId) {
+          const response = await axios.put(
             `${API_ENDPOINT}/notes/${notesId}`,
-            { withCredentials: true }
+            {
+              content: notesContent,
+            },
+            {
+              withCredentials: true,
+            }
           );
-          alert(response.data.message);
-          fetchAllNotes();
-          navigate("/dashboard");
-        } catch (err: any) {
-          console.error("Error deleting notes:", err);
-          alert(err.response?.data?.message || "Failed to delete notes.");
-          navigate("/dashboard");
+
+          if (response.status === 200) {
+            fetchNotes(notesId);
+            alert("Notes updated successfully");
+          }
         }
-      },
-      [isAuthenticated, navigate]
-    );
+      } catch (err) {
+        console.error(err);
+      }
+    }, [fetchNotes]);
 
   // useEffect(() => {
-  //   if (userId) {
-  //     fetchAllNotes();
-  //   }
+  //   if (!userId) return;
+  //   fetchAllNotes();
   // }, [userId, fetchAllNotes]);
+
 
   return {
     savedNotes,

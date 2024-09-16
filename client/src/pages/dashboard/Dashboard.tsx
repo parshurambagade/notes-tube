@@ -1,10 +1,27 @@
-import { BsArrowLeft, BsSearch } from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NotesContainer from "./components/NotesContainer";
 import SearchBar from "./components/SearchBar";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../../contexts/authContext";
+import useNotes from "../../hooks/useNotes";
+import { Notes } from "../../types";
 
 export default function Dashboard() {
+  const [allNotes, setAllNotes] = useState<Notes[]>([]);
+
+  const { userId } = useAuthContext();
+
+  const { savedNotes, fetchAllNotes } = useNotes();
+
+  useEffect(() => {
+    fetchAllNotes();
+  }, [userId]);
+
+  useEffect(() => {
+    setAllNotes(savedNotes);
+  }, [savedNotes]);
 
   const navigate = useNavigate();
 
@@ -32,23 +49,10 @@ export default function Dashboard() {
         </div>
 
         <div className="relative mb-6 w-full max-w-lg">
-
           <SearchBar />
-
-          {/* <input
-            type="text"
-            placeholder="Search notes..."
-            className="w-full bg-gray-800 text-white border border-gray-700 rounded-md py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <BsSearch
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={20}
-          /> */}
         </div>
-
-        <NotesContainer />
+        {allNotes.length && <NotesContainer savedNotes={allNotes} setSavedNotes={setAllNotes} />}
       </main>
     </div>
   );
 }
-

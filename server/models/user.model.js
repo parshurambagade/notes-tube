@@ -1,7 +1,8 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { DEFAULT_PROFILE_PIC } from "../constants.js";
 
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     username: {
       type: String,
       required: true,
@@ -17,17 +18,19 @@ const userSchema = new Schema({
       required: true,
     },
     profilePic: {
-      type: String, 
+      type: String,
       default: DEFAULT_PROFILE_PIC,
     },
     notes: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Notes',
+        ref: "Notes",
       },
     ],
-  }, {
+  },
+  {
     timestamps: true,
-  });
-  
-export default mongoose.model('User', userSchema);
+  }
+);
+
+export default mongoose.model("User", userSchema);
