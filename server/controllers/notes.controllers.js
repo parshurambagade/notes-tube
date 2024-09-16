@@ -12,10 +12,20 @@ import jwt from "jsonwebtoken";
 // Create Note
 export const generateNotes = async (req, res) => {
   try {
-    const { videoId } = req.body;
+    const { videoId, userId } = req.body;
 
     if (!videoId) {
       return res.status(400).json({ error: "Video ID is required" });
+    }
+
+    if (userId) {
+      const existingNotes = await Notes.findOne({ videoId, createdBy: userId });
+      if (existingNotes) {
+        return res.status(400).json({
+          message: "Notes for this video already exist",
+          notes: existingNotes,
+        });
+      }
     }
 
     // Make a request to the YouTube Data API to fetch video details
@@ -62,9 +72,9 @@ export const generateNotes = async (req, res) => {
 
 export const saveNotes = async (req, res) => {
   try {
-    const { title, thumbnail, content, videoId, createdBy } = req.body;
+    const { title, thumbnail, content, videoId} = req.body;
 
-    if (!title || !thumbnail || !content || !videoId || !createdBy) {
+    if (!title || !thumbnail || !content || !videoId) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -79,7 +89,7 @@ export const saveNotes = async (req, res) => {
     }
 
     // Check if notes with the same videoId already exist
-    const existingNotes = await Notes.findOne({ videoId, createdBy });
+    const existingNotes = await Notes.findOne({ videoId, createdBy: userId });
 
     if (existingNotes) {
       return res
@@ -93,14 +103,14 @@ export const saveNotes = async (req, res) => {
       thumbnail,
       content,
       videoId,
-      createdBy,
+      createdBy: userId,
     });
 
     const savedNotes = await newNotes.save();
 
     // Update the user's notes array to include the newly created note's ID
     await User.findByIdAndUpdate(
-      createdBy,
+      {createdBy: userId},
       { $push: { notes: savedNotes._id } },
       { new: true } // Optionally return the updated document if needed
     );
@@ -120,7 +130,7 @@ export const deleteNotes = async (req, res) => {
   try {
     const { notesId } = req.params;
 
-    if(!notesId) {
+    if (!notesId) {
       return res.status(400).json({ message: "Notes ID is required" });
     }
 
@@ -128,17 +138,17 @@ export const deleteNotes = async (req, res) => {
     const verified = jwt.verify(authToken, JWT_SECRET);
     const userId = verified.userId;
 
-    if(!userId) {
+    if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
     const notes = await Notes.findById(notesId);
 
-    if(!notes) {
+    if (!notes) {
       return res.status(404).json({ message: "Notes not found" });
     }
 
-    if(notes.createdBy.toString() !== userId) {
+    if (notes.createdBy.toString() !== userId) {
       return res
         .status(403)
         .json({ message: "You are not authorized to delete this note." });
@@ -151,7 +161,6 @@ export const deleteNotes = async (req, res) => {
     await notes.deleteOne();
 
     return res.status(200).json({ message: "Notes deleted successfully." });
-   
   } catch (error) {
     console.error("Error deleting notes:", error);
     res.status(500).json({ message: "Failed to delete notes" });
@@ -219,12 +228,10 @@ export const getNotes = async (req, res) => {
 
     // If no notes are found, return a 404 response
     if (!notes) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "Notes not found or you are not authorized to view these notes!",
-        });
+      return res.status(404).json({
+        message:
+          "Notes not found or you are not authorized to view these notes!",
+      });
     }
 
     // Return the found notes
@@ -264,12 +271,11 @@ export const getAllNotes = async (req, res) => {
 };
 
 export const searchNotes = async (req, res) => {
-
   const { query } = req.query;
 
   const authToken = req.cookies.authToken;
   const verified = jwt.verify(authToken, JWT_SECRET);
-  const userId = verified.userId; 
+  const userId = verified.userId;
 
   if (!userId) {
     return res.status(401).json({ message: "Not authenticated" });
@@ -286,4 +292,3 @@ export const searchNotes = async (req, res) => {
     res.status(500).json({ error: "Error fetching search results" });
   }
 };
-

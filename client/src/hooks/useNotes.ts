@@ -67,7 +67,10 @@ const useNotes = () => {
       try {
         const response = await axios.post(`${API_ENDPOINT}/notes/generate`, {
           videoId,
+          userId,
         });
+
+        
 
         const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
         setNotes({ _id: '1', //todo: fix this
@@ -78,9 +81,15 @@ const useNotes = () => {
             response?.data?.videoDetails?.snippet?.thumbnails?.medium?.url,
         });
         setVideoId(videoId);
-      } catch (err) {
+      } catch (err:any) {
+
+        if(err.response.status == 400){
+          alert(err.response.data.message);
+          navigate(`/notes/${err.response.data.notes._id}`);
+        }
         console.error("Error generating notes:", err);
         setError("Failed to generate notes. Please try again.");
+        alert(err.response?.data?.message || "Failed to generate notes.");
       } finally {
         setIsGenerating(false);
       }

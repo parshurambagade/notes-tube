@@ -32,6 +32,7 @@ const Home = () => {
 
       <div className="max-w-3xl mx-auto">
         <GenerateNotesForm onSubmit={handleGenerate} isGenerating={isGenerating} />
+        
         {!isSaved && <NotesPage
           setAllowEditing={setAllowEditing}
           allowEditing={allowEditing}

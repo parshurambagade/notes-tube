@@ -7,8 +7,8 @@ import { API_ENDPOINT } from "../../constants";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormDataType>({
-    email: "",
-    password: "",
+    email: "test1@gmail.com",
+    password: "Pass123",
   });
 
   //TODO: 

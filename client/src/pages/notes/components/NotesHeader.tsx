@@ -21,7 +21,7 @@ const NotesHeader: React.FC<{
   allowEditing?: boolean;
 }> = ({ title,isSaved, setAllowEditing, allowEditing }) => {
 
-  const {notes, setIsSaved} = useCurrentNotesContext();
+  const {notes, setIsSaved, setVideoId} = useCurrentNotesContext();
   const {isAuthenticated, userId} = useAuthContext();
   const [loginRequiredModal, setLoginRequiredModal] = useState<boolean>(false);
   const [saveRequiredModal, setSaveRequiredModal] = useState<boolean>(false);
@@ -77,11 +77,11 @@ const NotesHeader: React.FC<{
         thumbnail: notes.thumbnail,
         content: notes.content,
         videoId: notes.videoId,
-        createdBy: userId,
       }, { withCredentials: true });
   
       console.log(`Response in handleSaveNotes`, JSON.stringify(response.data));
       setIsSaved(true);
+      setVideoId(notes.videoId);
       alert(response.data.message);
       navigate(`/dashboard`);
     }catch(err: any){

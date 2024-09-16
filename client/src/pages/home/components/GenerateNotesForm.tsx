@@ -6,7 +6,7 @@ interface GenerateNotesFormProps {
 }
 
 const GenerateNotesForm: React.FC<GenerateNotesFormProps> = ({ onSubmit, isGenerating }) => {
-  const [videoUrl, setVideoUrl] = useState<string>("");
+  const [videoUrl, setVideoUrl] = useState<string>("https://youtu.be/yEKtJGha3yM?si=Y4yRCmMA65E08e3o");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
