@@ -1,25 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useVideoContext } from "../contexts/videoContext";
 import Notes from "../components/Notes";
-import Transcript from "../components/Transcript";
-import Summary from "../components/Summary";
 import VideoDetailsContainer from "../components/VideoDetailsContainer";
-import { fetchVideoDetails, fetchVideoNotes } from "../helpers/videoHelpers";
-import { FetchVideoDetailsProps } from "../types";
-import { useCurrentNotesContext } from "../contexts/currentNotesContext";
-import { FETCH_VIDEO_DETAILS } from "../constants";
 
-// enum contentEnum {
-//   NOTES = "Notes",
-//   SUMMARY = "Summary",
-//   TRANSCRIPT = "Transcript",
-// }
+import { FETCH_VIDEO_DETAILS } from "../constants";
+import { useCurrentNotesContext } from "../contexts/currentNotesContext";
+
 
 const GenerateNotes: React.FC = () => {
   // const [content, setContent] = useState<contentEnum>(contentEnum.NOTES);
 
-  const { videoId, setNotesContent, setVideoTitle, setThumbnail } =
-    useCurrentNotesContext();
+  const { videoId, setNotesContent, setVideoTitle, setThumbnail } = useCurrentNotesContext();
 
   const [isError, setIsError] = useState<boolean>(false);
 
