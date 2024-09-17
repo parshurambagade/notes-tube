@@ -52,9 +52,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 relative hidden md:block">
+    <div className="min-h-screen bg-gray-900 flex lg:items-center justify-center p-4">
+      <div className="bg-gray-800 h-max rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row md:w-max  py-8 md:py-16 lg:py-6 md:px-12 lg:w-full mt-8 md:mt-16 lg:mt-0">
+        <div className="w-full md:w-1/2 relative hidden lg:block">
           <img
             src={LOGIN_BACKGROUND_IMAGE}
             alt="Login background"
@@ -68,14 +68,14 @@ const Register: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 p-6 md:p-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-4">Register</h2>
+        <div className="w-full p-6 md:p-0 lg:p-8 ">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-8 lg:mb-4">Register</h2>
           {errorMessage && (
             <p className="text-red-500 text-xs md:text-sm select-none my-4">
               {errorMessage}!
             </p>
           )}
-          <form onSubmit={handleFormSubmit} className="space-y-4 md:space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-8 md:space-y-6 w-full">
             <div>
               <label
                 htmlFor="username"
@@ -139,7 +139,7 @@ const Register: React.FC = () => {
               </button>
             </div>
           </form>
-          <p className="mt-4 text-center text-xs md:text-sm text-gray-400">
+          <p className="mt-8 lg:mt-4 text-center text-xs md:text-sm text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"

@@ -91,7 +91,7 @@ export const saveNotes = async (req, res) => {
     if (existingNotes) {
       return res
         .status(400)
-        .json({ message: "Notes for this video already exist" });
+        .json({ message: "Notes for this video already exist", notesId: existingNotes._id });
     }
 
     // Now save the note with the correct sectionId

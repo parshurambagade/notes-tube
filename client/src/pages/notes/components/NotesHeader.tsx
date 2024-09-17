@@ -69,42 +69,42 @@ const NotesHeader: React.FC<NotesHeaderProps> = ({ isSaved, setAllowEditing, all
       setIsSaved(true);
       setVideoId(notes.videoId);
       alert(response.data.message);
-      navigate(`/dashboard`);
+      navigate(`/notes/${notes._id}`);
     } catch (err: any) {
       console.error(err);
       alert(err.response.data.message);
-      navigate("/dashboard");
+      navigate(`/notes/${err.response.data.notesId}`);
     }
   };
 
   return (
     <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-700 px-4 sm:px-6 py-4 rounded-t-lg`}>
-      <div className="w-full sm:w-auto mb-4 sm:mb-0">
-        <h1 className="text-xl sm:text-3xl font-bold text-left">{notes.title}</h1>
+      <div className="w-full sm:w-auto md:my-4 lg:my-2 sm:mb-0">
+        <h1 className="text-xl  sm:text-3xl font-bold text-left">{notes.title}</h1>
         {isSaved && (
-          <div className="flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-400 mt-2">
+          <div className="hidden mg:flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-400 mt-2">
             <span>Created: {notes.createdAt && new Date(notes.createdAt).toLocaleString()}</span>
             <span className="mt-1 sm:mt-0 sm:ml-4">Updated: {notes.updatedAt && new Date(notes.updatedAt).toLocaleString()}</span>
           </div>
         )}
       </div>
-      <div className={`flex gap-2 ${isSaved ? "hidden sm:flex" : ""}`}>
+      <div className={` ${isSaved ? " hidden " : "flex items-center mt-2 justify-end w-full lg:justify-normal gap-4 lg:gap-2 text-xl lg:text-2xl"}`}>
         {!allowEditing ? (
           <button className="text-blue-400 hover:text-blue-300 mr-2" onClick={handleEdit}>
-            <FaRegEdit size={20} />
+            <FaRegEdit />
           </button>
         ) : !isAuthenticated ? (
           <button className="text-blue-400 hover:text-blue-300 mr-2" onClick={() => navigate(`/notes/${notes._id}`)}>
-            <VscOpenPreview size={20} />
+            <VscOpenPreview />
           </button>
         ) : null}
         {!isSaved ? (
           <button className="text-green-400 hover:text-green-300" onClick={handleSave}>
-            <FiSave size={20} />
+            <FiSave />
           </button>
         ) : (
           <button className="text-red-400 hover:text-red-300">
-            <RiDeleteBin6Line size={20} />
+            <RiDeleteBin6Line />
           </button>
         )}
       </div>

@@ -51,7 +51,7 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
+    <div className="relative w-full max-w-md">
       <div className="relative">
         <input
           type="text"

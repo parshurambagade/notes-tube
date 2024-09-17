@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NotesCard from "./NotesCard";
 import useNotes from "../../../hooks/useNotes";
 import { Notes } from "../../../types";
+import DeleteConfirmationModal from "../../../components/modals/DeleteConfirmationModal";
 
 const NotesContainer: React.FC<{
   savedNotes: Notes[];
   setSavedNotes: React.Dispatch<React.SetStateAction<Notes[]>>;
 }> = ({ savedNotes, setSavedNotes }) => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [noteToDelete, setNoteToDelete] = useState<Notes | null>(null);
   const { loading, error, deleteNotes } = useNotes();
   const navigate = useNavigate();
 
@@ -20,9 +23,17 @@ const NotesContainer: React.FC<{
   }
 
   const handleDeleteClick = (notes: Notes) => {
-    const notesId = notes._id;
-    setSavedNotes(savedNotes.filter((notes) => notes._id !== notesId));
-    deleteNotes(notes._id);
+    setNoteToDelete(notes);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (noteToDelete) {
+      setSavedNotes(savedNotes.filter((notes) => notes._id !== noteToDelete._id));
+      deleteNotes(noteToDelete._id);
+    }
+    setIsDeleteModalOpen(false);
+    setNoteToDelete(null);
   };
 
   return (
@@ -42,6 +53,13 @@ const NotesContainer: React.FC<{
       ) : (
         <p className="text-gray-400 text-xl sm:text-2xl col-span-full">No notes found.</p>
       )}
+
+      <DeleteConfirmationModal 
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        noteTitle={noteToDelete?.title || ""}
+      />
     </div>
   );
 };

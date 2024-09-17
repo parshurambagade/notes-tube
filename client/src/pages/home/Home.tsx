@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NotesPage from "../notes/Notes";
+import NotesPage from "../notes/NotesPage";
 import { parseYouTubeInput } from "../../utils/youtubeUtils";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
 import GenerateNotesForm from "./components/GenerateNotesForm";

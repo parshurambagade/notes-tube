@@ -9,21 +9,21 @@ import { Notes } from "../../types";
 
 export default function Dashboard() {
   const [allNotes, setAllNotes] = useState<Notes[]>([]);
-  const { userId } = useAuthContext();
+  const { userId, isAuthenticated } = useAuthContext();
   const { savedNotes, fetchAllNotes } = useNotes();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllNotes();
-  }, [userId]);
+  }, [userId, isAuthenticated]);
 
   useEffect(() => {
     setAllNotes(savedNotes);
   }, [savedNotes]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gray-900 text-gray-100 md:w-full">
+      <main className="container mx-auto md:w-full px-4 md:px-0 lg:px-8 py-8">
         <div className="flex items-center mb-6">
           <Link
             to="/"
@@ -34,7 +34,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
+        <div className="flex justify-between items-center mb-6 gap-4 sm:gap-0">
           <h2 className="text-2xl sm:text-3xl font-bold">Saved Notes</h2>
           <button
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors flex items-center text-sm sm:text-base"
@@ -44,7 +44,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="relative mb-6 w-full max-w-lg mx-auto">
+        <div className="relative mb-6 w-full max-w-lg mx-auto md:mx-0 ">
           <SearchBar />
         </div>
         {allNotes.length > 0 && <NotesContainer savedNotes={allNotes} setSavedNotes={setAllNotes} />}

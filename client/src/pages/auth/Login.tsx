@@ -53,9 +53,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 relative hidden md:block">
+    <div className="min-h-screen bg-gray-900 flex lg:items-center justify-center p-4">
+      <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row my-8 md:my-16 lg:my-0 h-max md:w-max lg:w-full py-8 md:py-16 lg:py-0 md:px-12 lg:px-0">
+        <div className="w-full md:w-1/2 relative hidden lg:block">
           <img
             src="https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3R1ZHl8ZW58MHx8MHx8fDA%3D"
             alt="Login background"
@@ -69,9 +69,9 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 p-6 md:p-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-4 md:mb-6">Login</h2>
-          <form onSubmit={handleFormSubmit} className="space-y-4 md:space-y-6">
+        <div className="w-full p-6 md:p-0 lg:p-8">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-8 lg:mb-6">Login</h2>
+          <form onSubmit={handleFormSubmit} className="space-y-8 lg:space-y-6">
             {errorMessage && (
               <p className="text-red-500 text-xs md:text-sm select-none">
                 {errorMessage}!
@@ -122,7 +122,7 @@ const Login: React.FC = () => {
               </button>
             </div>
           </form>
-          <p className="mt-4 text-center text-xs md:text-sm text-gray-400">
+          <p className="mt-8 lg:mt-4 text-center text-xs md:text-sm text-gray-400">
             Don't have an account?{" "}
             <Link
               to="/register"

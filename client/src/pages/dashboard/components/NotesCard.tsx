@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteConfirmationModal from "../../../components/modals/DeleteConfirmationModal";
 
 interface NotesType {
   _id: string;
@@ -14,18 +13,6 @@ const NotesCard: React.FC<{
   onEdit: () => void;
   onDelete: () => void;
 }> = ({ notes, onEdit, onDelete }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    onDelete();
-    setIsDeleteModalOpen(false);
-  };
-
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
       <div className="card-top aspect-video">
@@ -55,7 +42,10 @@ const NotesCard: React.FC<{
             <span>Edit</span>
           </button>
           <button
-            onClick={handleDeleteClick}
+            onClick={(e) => {
+              e.preventDefault();
+              onDelete();
+            }}
             className="flex items-center gap-1 text-red-400 hover:text-red-300 transition-colors text-sm"
           >
             <RiDeleteBin6Line />
@@ -63,15 +53,6 @@ const NotesCard: React.FC<{
           </button>
         </div>
       </div>
-      <DeleteConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={(e) => {
-          e.preventDefault();
-          setIsDeleteModalOpen(false);
-        }}
-        onConfirm={handleConfirmDelete}
-        noteTitle={notes.title}
-      />
     </div>
   );
 };

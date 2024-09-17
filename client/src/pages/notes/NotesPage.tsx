@@ -42,9 +42,9 @@ const NotesPage: React.FC<NotesPageTypes> = ({
   if (notesData && !notesData.content) return null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-gray-900 pt-2 pb-8">
+    <div className="w-full max-w-4xl mx-auto bg-gray-900 pt-2 md:pb-4 lg:pb-8">
       {error && <ErrorComponent />}
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-0">
         <NotesHeader
           isSaved={isSaved}
           title={notesData?.title}

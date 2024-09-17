@@ -9,7 +9,7 @@ const VideoContainer: React.FC<VideoContainerProps> = ({ videoId }) => {
   if (!videoId) return null;
   
   return (
-    <div className="aspect-w-16 aspect-h-9 bg-gray-800 mb-4">
+    <div className="w-full aspect-video bg-gray-800 lg:mb-0">
       <iframe
         className="w-full h-full"
         src={YOUTUBE_IFRAME_URL + videoId}

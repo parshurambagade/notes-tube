@@ -5,14 +5,12 @@ interface DeleteConfirmationModalProps {
   isOpen: boolean;
   onClose: (e: React.MouseEvent) => void;
   onConfirm: () => void;
-  noteTitle: string;
 }
 
 export default function DeleteConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
-  noteTitle,
 }: DeleteConfirmationModalProps) {
   if (!isOpen) return null;
 
@@ -30,7 +28,7 @@ export default function DeleteConfirmationModal({
           </button>
         </div>
         <p className="text-sm sm:text-base text-gray-300 mb-6">
-          Are you sure you want to delete the notes "{noteTitle}"?
+          Are you sure you want to delete the notes?
         </p>
         <div className="flex justify-end space-x-3 sm:space-x-4">
           <button
