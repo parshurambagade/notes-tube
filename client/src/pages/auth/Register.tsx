@@ -53,8 +53,8 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex lg:items-center justify-center p-4">
-      <div className="bg-gray-800 h-max rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row md:w-max  py-8 md:py-16 lg:py-6 md:px-12 lg:w-full mt-8 md:mt-16 lg:mt-0">
-        <div className="w-full md:w-1/2 relative hidden lg:block">
+      <div className="bg-gray-800 h-max rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row md:w-max  py-8 md:py-16 lg:p-0 md:px-12 lg:w-full mt-8 md:mt-16 lg:mt-0">
+        <div className="w-full md:w-1/2  lg:w-full relative hidden lg:block">
           <img
             src={LOGIN_BACKGROUND_IMAGE}
             alt="Login background"

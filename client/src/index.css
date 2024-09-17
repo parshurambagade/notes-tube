@@ -235,3 +235,70 @@
   color: #374151 !important;
   /* text-gray-300 */
 }
+
+
+
+@media screen and (max-width: 768px) {
+    .ql-editor {
+        font-size: 0.875rem !important;
+        padding:.8rem .5rem 0;
+    }
+
+    .ql-editor ol, .ql-editor ul {
+        font-size: 0.875rem !important;
+        padding-left: .5rem;
+    }
+    
+    .ql-editor h1{
+        font-size: 1.5rem !important;
+    }
+
+    .ql-editor h2{
+      font-size: 1.25rem !important;
+    }
+
+    .ql-editor h3{
+      font-size: 1rem !important;
+    }
+
+    .ql-editor h4{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor h5{
+      font-size: 0.75rem !important;
+    }
+
+    .ql-editor h6{
+      font-size: 0.625rem !important;
+    }
+
+    .ql-editor p{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor blockquote{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor pre{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor code{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor a{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor li{
+      font-size: 0.875rem !important;
+    }
+
+    .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6, .ql-editor blockquote, .ql-editor pre, .ql-editor code, .ql-editor a, .ql-editor li {
+      margin-bottom: 0.5rem;
+    }
+
+}

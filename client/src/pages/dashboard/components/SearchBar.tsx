@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Notes } from "../../../types";
 import { API_ENDPOINT } from "../../../constants";
-import { Search } from "lucide-react";
+import { MdSearch } from "react-icons/md";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -60,7 +60,7 @@ const SearchBar: React.FC = () => {
           placeholder="Search notes..."
           className="w-full bg-gray-800 text-gray-100 placeholder-gray-400 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent text-sm sm:text-base"
         />
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
       </div>
 
       {suggestions.length > 0 && (

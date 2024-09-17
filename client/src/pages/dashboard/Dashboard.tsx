@@ -23,7 +23,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 md:w-full">
-      <main className="container mx-auto md:w-full px-4 md:px-0 lg:px-8 py-8">
+      <main className="container mx-auto md:w-full px-4 md:px-2 lg:px-8 py-8">
         <div className="flex items-center mb-6">
           <Link
             to="/"

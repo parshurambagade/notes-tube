@@ -55,7 +55,7 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex lg:items-center justify-center p-4">
       <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-4xl w-full flex flex-col md:flex-row my-8 md:my-16 lg:my-0 h-max md:w-max lg:w-full py-8 md:py-16 lg:py-0 md:px-12 lg:px-0">
-        <div className="w-full md:w-1/2 relative hidden lg:block">
+        <div className="w-full relative hidden lg:block">
           <img
             src="https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3R1ZHl8ZW58MHx8MHx8fDA%3D"
             alt="Login background"

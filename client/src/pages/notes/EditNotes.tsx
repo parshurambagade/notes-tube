@@ -35,7 +35,7 @@ const EditNotes: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6 md:p-8 w-full">
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 pb-6 sm:p-6 md:p-8 w-full">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-4 md:mb-6 gap-4">
           <Link

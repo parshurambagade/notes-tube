@@ -1,5 +1,5 @@
 import React from "react";
-import { X } from "lucide-react";
+import { MdClose } from "react-icons/md";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export default function DeleteConfirmationModal({
             onClick={onClose}
             className="text-gray-400 hover:text-gray-200 transition-colors"
           >
-            <X size={20} sm:size={24} />
+            <MdClose className="text-lg md:text-2xl" />
             <span className="sr-only">Close</span>
           </button>
         </div>

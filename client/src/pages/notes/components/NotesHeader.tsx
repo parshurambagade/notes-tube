@@ -80,7 +80,7 @@ const NotesHeader: React.FC<NotesHeaderProps> = ({ isSaved, setAllowEditing, all
   return (
     <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-700 px-4 sm:px-6 py-4 rounded-t-lg`}>
       <div className="w-full sm:w-auto md:my-4 lg:my-2 sm:mb-0">
-        <h1 className="text-xl  sm:text-3xl font-bold text-left">{notes.title}</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-left">{notes.title}</h1>
         {isSaved && (
           <div className="hidden mg:flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-400 mt-2">
             <span>Created: {notes.createdAt && new Date(notes.createdAt).toLocaleString()}</span>

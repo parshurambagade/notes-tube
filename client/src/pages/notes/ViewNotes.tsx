@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoArrowBackSharp } from "react-icons/io5";
-import { FaRegEdit } from "react-icons/fa";
-import { Trash2 } from "lucide-react";
+import { FaRegEdit, FaRegTrashAlt, FaTrash } from "react-icons/fa";
 import NotesPage from "./NotesPage";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
 import useNotes from "../../hooks/useNotes";
@@ -46,7 +45,7 @@ const ViewNotes: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-4   sm:px-6 w-full">
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 pb-6  sm:px-6 w-full">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center my-2 md:my-4 lg:mb-6 md:gap-4">
           <Link
@@ -61,14 +60,14 @@ const ViewNotes: React.FC = () => {
               className="bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-md transition-colors flex items-center gap-2 text-sm sm:text-base"
               onClick={() => navigate(`/notes/edit/${notesId}`)}
             >
-              <FaRegEdit size={16} sm:size={20} />
+              <FaRegEdit className="text-base md:text-lg" />
               <span className="hidden sm:inline">Edit Notes</span>
             </button>
             <button
               className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-md transition-colors flex items-center gap-2 text-sm sm:text-base"
               onClick={handleDeleteClick}
             >
-              <Trash2 size={16} sm:size={20} />
+              <FaRegTrashAlt className="text-base md:text-lg" />
               <span className="hidden sm:inline">Delete Notes</span>
             </button>
           </div>
