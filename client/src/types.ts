@@ -48,7 +48,7 @@ export interface User {
     email: string;
     password: string;
     profilePic: string; // URL to the profile picture
-    notes: string[]; // Array of note IDs as strings
+    notes: Notes[]; // Array of note IDs as strings
     createdAt: Date;
     updatedAt: Date;
     __v: number; // Version key automatically added by Mongoose
@@ -89,17 +89,8 @@ export interface CurrentNotesContextType {
     setIsSaved: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface VideoContextType {
-    videoId: string,
-    updateVideoId: (newValue: string) => void,
-    transcript: TranscriptItem[],
-    updateTranscript: (newValue: TranscriptItem[]) => void,
-    combinedTranscript: string,
-    updateCombinedTranscript: (newValue: string) => void,
-    videoDetails: any,
-    updateVideoDetails: (newValue: any) => void,
-    videoNotes: string | unknown,
-    updateVideoNotes: (newValue: string) => void,
-    videoSummary: string,
-    updateVideoSummary: (newValue: string) => void
+export interface UserContextType {
+    savedNotes: Notes[],
+    setSavedNotes: React.Dispatch<React.SetStateAction<Notes[]>>,
+    fetchAllNotes: () => Promise<Notes[]>,
 }

@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContextType, LoginFormDataType } from "../../types";
 import { useAuthContext } from "../../contexts/authContext";
 import { API_ENDPOINT } from "../../constants";
+import useNotes from "../../hooks/useNotes";
+import { useUserContext } from "../../contexts/userContext";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormDataType>({
@@ -13,12 +15,21 @@ const Login: React.FC = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { setUserId, setUser, isAuthenticated, setIsAuthenticated } =
+  const { setUserId, user, setUser, isAuthenticated, setIsAuthenticated } =
     useAuthContext() as AuthContextType;
+    const {savedNotes, setSavedNotes} = useUserContext();
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    isAuthenticated && navigate("/");
+    if (user) {
+      setSavedNotes(user?.notes || []);
+    }
+  }, [user])
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
   }, [navigate, isAuthenticated]);
 
   const { email, password } = formData;
@@ -65,12 +76,16 @@ const Login: React.FC = () => {
             <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-black text-center">
               Login to NotesTube
             </h1>
-            <p className="text-gray-200 text-sm md:text-base">From watching to understanding!!!</p>
+            <p className="text-gray-200 text-sm md:text-base">
+              From watching to understanding!!!
+            </p>
           </div>
         </div>
 
         <div className="w-full p-6 md:p-0 lg:p-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-8 lg:mb-6">Login</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-8 lg:mb-6">
+            Login
+          </h2>
           <form onSubmit={handleFormSubmit} className="space-y-8 lg:space-y-6">
             {errorMessage && (
               <p className="text-red-500 text-xs md:text-sm select-none">

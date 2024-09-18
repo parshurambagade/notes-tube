@@ -88,7 +88,7 @@ const NotesHeader: React.FC<NotesHeaderProps> = ({ isSaved, setAllowEditing, all
           </div>
         )}
       </div>
-      <div className={` ${isSaved ? " hidden " : "flex items-center mt-2 justify-end w-full lg:justify-normal gap-4 lg:gap-2 text-xl lg:text-2xl"}`}>
+      <div className={` ${isSaved ? " hidden " : "flex items-center mt-2 justify-end w-full md:w-max lg:justify-normal gap-4 lg:gap-2 text-xl lg:text-2xl"}`}>
         {!allowEditing ? (
           <button className="text-blue-400 hover:text-blue-300 mr-2" onClick={handleEdit}>
             <FaRegEdit />

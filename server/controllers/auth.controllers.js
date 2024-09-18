@@ -91,7 +91,10 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if the user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate({
+      path: "notes",
+      model: "Notes",});
+
     if (!user) {
       return res.status(404).json({ message: "Invalid credentials" });
     }
@@ -111,7 +114,7 @@ export const login = async (req, res) => {
     });
     res.json({
       message: "User logged in successfully",
-      user: { email, username: user.username, _id: user.__v },
+      user: { email, username: user.username, _id: user._id, notes: user.notes },
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

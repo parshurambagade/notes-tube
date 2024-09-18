@@ -17,6 +17,7 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   const [userId, setUserId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const { setVideoId, setNotes, setIsSaved } = useCurrentNotesContext();
+
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {

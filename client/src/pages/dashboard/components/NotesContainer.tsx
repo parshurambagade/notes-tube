@@ -4,14 +4,15 @@ import NotesCard from "./NotesCard";
 import useNotes from "../../../hooks/useNotes";
 import { Notes } from "../../../types";
 import DeleteConfirmationModal from "../../../components/modals/DeleteConfirmationModal";
+import { useUserContext } from "../../../contexts/userContext";
 
-const NotesContainer: React.FC<{
-  savedNotes: Notes[];
-  setSavedNotes: React.Dispatch<React.SetStateAction<Notes[]>>;
-}> = ({ savedNotes, setSavedNotes }) => {
+const NotesContainer: React.FC = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [noteToDelete, setNoteToDelete] = useState<Notes | null>(null);
   const { loading, error, deleteNotes } = useNotes();
+
+  const { savedNotes, setSavedNotes } = useUserContext();
+  
   const navigate = useNavigate();
 
   if (loading) {
@@ -38,7 +39,7 @@ const NotesContainer: React.FC<{
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      {savedNotes.length ? (
+      {savedNotes ? (
         savedNotes.map((notes) => (
           <Link to={`/notes/${notes._id}`} key={notes._id} className="block">
             <NotesCard
@@ -58,7 +59,6 @@ const NotesContainer: React.FC<{
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        noteTitle={noteToDelete?.title || ""}
       />
     </div>
   );

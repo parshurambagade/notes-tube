@@ -18,7 +18,7 @@ const ViewNotes: React.FC = () => {
     if (notesId) {
       fetchNotes(notesId);
     }
-  }, [notesId, videoId, fetchNotes]);
+  }, []);
 
   const handleDeleteClick = () => {
     setIsDeleteModalOpen(true);

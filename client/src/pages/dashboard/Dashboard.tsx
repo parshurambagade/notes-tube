@@ -6,20 +6,19 @@ import SearchBar from "./components/SearchBar";
 import { useAuthContext } from "../../contexts/authContext";
 import useNotes from "../../hooks/useNotes";
 import { Notes } from "../../types";
+import { useUserContext } from "../../contexts/userContext";
 
 export default function Dashboard() {
   const [allNotes, setAllNotes] = useState<Notes[]>([]);
-  const { userId, isAuthenticated } = useAuthContext();
-  const { savedNotes, fetchAllNotes } = useNotes();
+  // const { userId, isAuthenticated } = useAuthContext();
+  const {savedNotes, setSavedNotes, fetchAllNotes} = useUserContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAllNotes();
-  }, [userId, isAuthenticated]);
+    if (!savedNotes)
+      fetchAllNotes().then((res) => setSavedNotes(res));
+  }, []);
 
-  useEffect(() => {
-    setAllNotes(savedNotes);
-  }, [savedNotes]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 md:w-full">
@@ -47,7 +46,8 @@ export default function Dashboard() {
         <div className="relative mb-6 w-full max-w-lg mx-auto md:mx-0 ">
           <SearchBar />
         </div>
-        {allNotes.length > 0 && <NotesContainer savedNotes={allNotes} setSavedNotes={setAllNotes} />}
+        {/* {savedNotes?.length > 0 && <NotesContainer savedNotes={savedNotes} setSavedNotes={setSavedNotes} />} */}
+       <NotesContainer />
       </main>
     </div>
   );
