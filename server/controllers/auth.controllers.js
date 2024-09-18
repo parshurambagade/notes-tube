@@ -72,7 +72,7 @@ export const register = async (req, res) => {
       httpOnly: true, // Can't be accessed by JavaScript
       secure: process.env.NODE_ENV === "production", // Secure in production
       sameSite: 'None', // Required for cross-site cookie
-      domain: 'notes-tube-frontend.onrender.com' // Use your actual domain
+      domain: 'notes-tube-backend.onrender.com' // Use your actual domain
     });
 
     // Return user data (without password) and success message
@@ -114,7 +114,7 @@ export const login = async (req, res) => {
       httpOnly: true, // Can't be accessed by JavaScript
       secure: process.env.NODE_ENV === "production", // Secure in production
       sameSite: 'None', // Required for cross-site cookie
-  domain: 'notes-tube-frontend.onrender.com' // Use your actual domain
+  domain: 'notes-tube-backend.onrender.com' // Use your actual domain
     });
     res.json({
       message: "User logged in successfully",
