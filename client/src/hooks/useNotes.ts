@@ -42,6 +42,8 @@ const useNotes = () => {
       const response = await axios.post(`${API_ENDPOINT}/notes/generate`, {
         videoId,
         userId,
+      }, {
+        withCredentials: true
       });
 
       const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
