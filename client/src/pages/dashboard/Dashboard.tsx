@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import NotesContainer from "./components/NotesContainer";
 import SearchBar from "./components/SearchBar";
-import { useAuthContext } from "../../contexts/authContext";
-import useNotes from "../../hooks/useNotes";
-import { Notes } from "../../types";
 import { useUserContext } from "../../contexts/userContext";
 
 export default function Dashboard() {
-  const [allNotes, setAllNotes] = useState<Notes[]>([]);
   // const { userId, isAuthenticated } = useAuthContext();
   const {savedNotes, setSavedNotes, fetchAllNotes} = useUserContext();
   const navigate = useNavigate();

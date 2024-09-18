@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import DOMPurify from "isomorphic-dompurify";
 import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 import { useAuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../constants";
-import { Notes } from "../types";
 
 const useNotes = () => {
   const [loading, setLoading] = useState<boolean>(false);

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface LoginRequiredModalProps {
   isOpen: boolean;
   onClose: () => void;

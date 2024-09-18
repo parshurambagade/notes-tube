@@ -3,9 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/authContext";
 import { AuthContextType } from "../../types";
 import { RxDashboard } from "react-icons/rx";
-import { MdLogout } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
-import { FaRegUserCircle } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const { isAuthenticated, logout } = useAuthContext() as AuthContextType;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoArrowBackSharp } from "react-icons/io5";
-import { FaRegEdit, FaRegTrashAlt, FaTrash } from "react-icons/fa";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import NotesPage from "./NotesPage";
 import { useCurrentNotesContext } from "../../contexts/currentNotesContext";
 import useNotes from "../../hooks/useNotes";
@@ -10,7 +10,7 @@ import DeleteConfirmationModal from "../../components/modals/DeleteConfirmationM
 const ViewNotes: React.FC = () => {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { notes, videoId } = useCurrentNotesContext();
+  const { notes } = useCurrentNotesContext();
   const { notesId } = useParams<{ notesId: string }>();
   const { fetchNotes, deleteNotes } = useNotes();
 

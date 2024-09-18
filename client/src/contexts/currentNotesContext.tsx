@@ -1,9 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { CurrentNotesContextType, Notes } from "../types";
-import { API_ENDPOINT } from "../constants";
-import { useAuthContext } from "./authContext";
-import axios from "axios";
-import useNotes from "../hooks/useNotes";
 
 export const initialNotes = {
   _id: "", // MongoDB ObjectId as a string

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContextType, LoginFormDataType } from "../../types";
 import { useAuthContext } from "../../contexts/authContext";
 import { API_ENDPOINT } from "../../constants";
-import useNotes from "../../hooks/useNotes";
 import { useUserContext } from "../../contexts/userContext";
 
 const Login: React.FC = () => {
@@ -17,7 +16,7 @@ const Login: React.FC = () => {
 
   const { setUserId, user, setUser, isAuthenticated, setIsAuthenticated } =
     useAuthContext() as AuthContextType;
-    const {savedNotes, setSavedNotes} = useUserContext();
+    const { setSavedNotes} = useUserContext();
   const navigate = useNavigate();
 
 
