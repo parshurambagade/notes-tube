@@ -5,8 +5,6 @@ import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 import { useAuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../constants";
-import { YoutubeTranscript } from "youtube-transcript";
-
 
 const useNotes = () => {
   const [loading, setLoading] = useState<boolean>(false);
