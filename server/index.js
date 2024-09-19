@@ -10,19 +10,25 @@ const app = express();
 
 connectDB();
 
-// const allowedOrigins = [
-//   process.env.FRONTEND_URL,
-//   "http://localhost:5173",
-//   "https://notes-tube-frontend.onrender.com",
-// ];
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "https://notes-tube-frontend.onrender.com",
+];
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+origin: (origin, callback) => {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        // Allow if origin is in the allowedOrigins or if origin is undefined (like in Postman)
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    sameSite: "none",
+
   })
 );
 app.use(express.json());
