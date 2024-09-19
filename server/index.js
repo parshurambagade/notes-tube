@@ -21,6 +21,8 @@ app.use(
     origin: process.env.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    sameSite: "none",
   })
 );
 app.use(express.json());
@@ -37,4 +39,5 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
+  console.log("Frontend URL: ", process.env.FRONTEND_URL);
 });
