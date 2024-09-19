@@ -1,18 +1,23 @@
 // controllers/noteController.js
 
 import Notes from "../models/notes.model.js";
-import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { JWT_SECRET, PROMPT_FOR_NOTES_GENERATION } from "../constants.js";
 import User from "../models/user.model.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import { fetchYouTubeTranscript } from "../transcript.helper.js";
+
+
+
 
 // Create Note
 export const generateNotes = async (req, res) => {
   try {
     const { videoId, userId } = req.body;
-
+    if(!videoId) {
+      return res.status(400).json({ error: "Video ID and transcript are required" });
+    }
     if (!videoId) {
       return res.status(400).json({ error: "Video ID is required" });
     }
@@ -40,16 +45,19 @@ export const generateNotes = async (req, res) => {
     );
 
     const videoDetails = response.data.items[0];
+    // const transcript = await fetchYouTubeTranscript(videoId);
+    const transcript = await fetchYouTubeTranscript(videoId)
+    
 
-    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
-    const combinedTranscript = transcript.reduce((acc, cur) => {
-      return acc + cur.text + " ";
-    });
+    // console.log("Transcript: ", transcript);
+    // const combinedTranscript = transcript.reduce((acc, cur) => {
+    //   return acc + cur.text + " ";
+    // });
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const prompt = PROMPT_FOR_NOTES_GENERATION + combinedTranscript;
+    const prompt = PROMPT_FOR_NOTES_GENERATION + transcript;
 
     if (prompt.length > 25000) {
       res.status(400).json({ message: "Video length is too long" });
@@ -60,7 +68,7 @@ export const generateNotes = async (req, res) => {
       res.json({ content: text, videoDetails: videoDetails });
     }
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message});
   }
 };
 

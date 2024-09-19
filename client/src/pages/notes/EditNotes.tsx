@@ -16,7 +16,7 @@ const EditNotes: React.FC = () => {
     if (notesId) {
       fetchNotes(notesId);
     }
-  }, [notesId, fetchNotes]);
+  }, []);
 
   useEffect(() => {
     if (notes.content) {

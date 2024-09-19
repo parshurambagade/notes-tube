@@ -5,6 +5,8 @@ import { useCurrentNotesContext } from "../contexts/currentNotesContext";
 import { useAuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../constants";
+import { YoutubeTranscript } from "youtube-transcript";
+
 
 const useNotes = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,9 +45,9 @@ const useNotes = () => {
         videoId,
         userId,
       }, {
-        withCredentials: true
-      });
-
+        withCredentials: true,
+        }
+      );
       const sanitizedHTML = DOMPurify.sanitize(response?.data?.content);
       setNotes({
         _id: '1', //todo: fix this
@@ -65,6 +67,7 @@ const useNotes = () => {
       console.error("Error generating notes:", err);
       setError("Failed to generate notes. Please try again.");
       alert(err.response?.data?.message || "Failed to generate notes.");
+      console.log(err.response.data.transcript);
     } finally {
       setIsGenerating(false);
     }
